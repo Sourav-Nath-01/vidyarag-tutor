@@ -45,7 +45,7 @@ concurrency:
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 env:
-  IMAGE_NAME: vidyarag-api
+  IMAGE_NAME: vidyarag-tutor
 
 jobs:
   test:
@@ -136,7 +136,7 @@ jobs:
       url: ${{ steps.deploy.outputs.url }}
     env:
       RESOURCE_GROUP: ${{ vars.AZURE_RESOURCE_GROUP || 'rg-vidyarag' }}
-      CONTAINER_APP: ${{ vars.AZURE_CONTAINERAPP_NAME || 'vidyarag-api' }}
+      CONTAINER_APP: ${{ vars.AZURE_CONTAINERAPP_NAME || 'vidyarag-tutor' }}
     steps:
       - uses: actions/checkout@v4
 

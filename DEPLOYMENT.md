@@ -7,10 +7,10 @@ Hugging Face Spaces.
 
 | Surface | Where | What it serves |
 |---|---|---|
-| Search web app (production) | [Azure Container Apps (UAE North)](https://vidyarag-api.yellowwave-9a72b46f.uaenorth.azurecontainerapps.io/) | `/`: search page with inline video playback at the matching timestamp |
-| REST API (production) | [same container](https://vidyarag-api.yellowwave-9a72b46f.uaenorth.azurecontainerapps.io/docs) | FastAPI `/search` with BGE-large + C3 index, OpenAPI docs at `/docs` |
+| Search web app (production) | [Azure Container Apps (UAE North)](https://vidyarag-tutor.yellowwave-9a72b46f.uaenorth.azurecontainerapps.io/) | `/`: search page with inline video playback at the matching timestamp |
+| REST API (production) | [same container](https://vidyarag-tutor.yellowwave-9a72b46f.uaenorth.azurecontainerapps.io/docs) | FastAPI `/search` with BGE-large + C3 index, OpenAPI docs at `/docs` |
 | Streamlit demo | [Hugging Face Space](https://huggingface.co/spaces/SouravNath/vidyarag) | Streamlit UI |
-| Container image | `ghcr.io/sourav-nath-01/vidyarag-api` | Immutable image, one tag per commit |
+| Container image | `ghcr.io/sourav-nath-01/vidyarag-tutor` | Immutable image, one tag per commit |
 
 ---
 
@@ -129,8 +129,8 @@ other sites. All result text is inserted as text nodes, never as HTML.
 
 ```bash
 # Build and run the production image locally (needs ~6 GB free disk)
-docker build -f deploy/Dockerfile -t vidyarag-api .
-docker run --rm -p 8000:7860 --memory 4g vidyarag-api
+docker build -f deploy/Dockerfile -t vidyarag-tutor .
+docker run --rm -p 8000:7860 --memory 4g vidyarag-tutor
 python deploy/smoke_test.py http://localhost:8000      # waits for /ready, runs a search
 
 # Or without Docker, with the small demo index
@@ -141,11 +141,11 @@ EMBEDDING_MODEL=all-MiniLM-L6-v2 DEFAULT_STRATEGY=demo EMBEDDING_DEVICE=cpu \
 ## First-time Azure setup
 
 1. Merge to `main` once, so the pipeline pushes the image to GHCR. Then make
-   the package public: GitHub → your profile → Packages → `vidyarag-api` →
+   the package public: GitHub → your profile → Packages → `vidyarag-tutor` →
    Package settings → Change visibility.
 2. Open [Azure Cloud Shell](https://shell.azure.com) (Bash) and run:
    ```bash
-   curl -fsSL https://raw.githubusercontent.com/Sourav-Nath-01/vidyarag/main/deploy/azure/setup.sh | bash
+   curl -fsSL https://raw.githubusercontent.com/Sourav-Nath-01/vidyarag-tutor/main/deploy/azure/setup.sh | bash
    ```
 3. Run the `gh secret set` / `gh variable set` commands the script prints.
    From then on, every merge to `main` deploys automatically.
@@ -154,11 +154,11 @@ EMBEDDING_MODEL=all-MiniLM-L6-v2 DEFAULT_STRATEGY=demo EMBEDDING_DEVICE=cpu \
 
 | Task | Command |
 |---|---|
-| Live logs | `az containerapp logs show -n vidyarag-api -g rg-vidyarag --follow` |
-| Revisions (history) | `az containerapp revision list -n vidyarag-api -g rg-vidyarag -o table` |
-| Roll back | `az containerapp update -n vidyarag-api -g rg-vidyarag --image ghcr.io/sourav-nath-01/vidyarag-api:<previous-sha>` |
-| Keep warm (e.g. before a demo) | `az containerapp update -n vidyarag-api -g rg-vidyarag --min-replicas 1` (set back to `0` afterwards, since it bills while idle) |
-| Tear everything down | `az group delete -n rg-vidyarag --yes` |
+| Live logs | `az containerapp logs show -n vidyarag-tutor -g rg-vidyarag --follow` |
+| Revisions (history) | `az containerapp revision list -n vidyarag-tutor -g rg-vidyarag -o table` |
+| Roll back | `az containerapp update -n vidyarag-tutor -g rg-vidyarag --image ghcr.io/sourav-nath-01/vidyarag-tutor:<previous-sha>` |
+| Keep warm (e.g. before a demo) | `az containerapp update -n vidyarag-tutor -g rg-vidyarag --min-replicas 1` (set back to `0` afterwards, since it bills while idle) |
+| Remove v2 only | `az containerapp delete -n vidyarag-tutor -g rg-vidyarag --yes` and `az identity delete -n id-vidyarag-tutor-github -g rg-vidyarag` (the resource group and environment are shared with v1) |
 
 **Cost.** With `minReplicas: 0` you pay only while a request is being handled
 (plus a ~5-minute cool-down), and light demo traffic should stay within

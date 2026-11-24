@@ -2,8 +2,8 @@
 # ─────────────────────────────────────────────────────────────────────────────
 # VidyaRAG FastAPI service — production image
 #
-#   Build (from repo root):  docker build -f deploy/Dockerfile -t vidyarag-api .
-#   Run:                     docker run --rm -p 8000:7860 --memory 4g vidyarag-api
+#   Build (from repo root):  docker build -f deploy/Dockerfile -t vidyarag-tutor .
+#   Run:                     docker run --rm -p 8000:7860 --memory 4g vidyarag-tutor
 #   Check:                   python deploy/smoke_test.py http://localhost:8000
 #
 # Design notes
@@ -18,7 +18,7 @@
 # ─────────────────────────────────────────────────────────────────────────────
 FROM python:3.12-slim
 
-LABEL org.opencontainers.image.source="https://github.com/Sourav-Nath-01/vidyarag" \
+LABEL org.opencontainers.image.source="https://github.com/Sourav-Nath-01/vidyarag-tutor" \
       org.opencontainers.image.description="VidyaRAG — hybrid lecture retrieval API (FastAPI)" \
       org.opencontainers.image.licenses="MIT"
 

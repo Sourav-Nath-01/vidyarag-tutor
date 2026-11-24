@@ -1,15 +1,22 @@
-# VidyaRAG — Multimodal Hybrid Lecture Retrieval
+# VidyaRAG Tutor — an AI doubt-solver for NPTEL lectures
 
-> **Multimodal NPTEL Lecture Retrieval with Hybrid RAG** | *BGE-large + BM25 + RRF + Cross-encoder Reranking*
+> **v2 of [VidyaRAG](https://github.com/Sourav-Nath-01/vidyarag)** | *Hybrid multimodal retrieval (BGE-large + BM25 + RRF + cross-encoder) over 231 hours of IIT lectures*
 
-[![GitHub](https://img.shields.io/badge/GitHub-Sourav--Nath--01%2Fvidyarag-181717?logo=github)](https://github.com/Sourav-Nath-01/vidyarag)
+**v1** ([Sourav-Nath-01/vidyarag](https://github.com/Sourav-Nath-01/vidyarag)) is the finished retrieval system: slide-boundary chunking, a 9-experiment ablation and a production deployment. **v2 (this repo)** builds on it to answer students' doubts directly from their professors' lectures:
+
+- [ ] Correct every result's video link (a v1 data audit found 22% of checked lectures linked to the wrong YouTube video)
+- [ ] Grounded answers with clickable video citations, and refusal when the lectures don't cover a question
+- [ ] Bounded agentic loop: plan → search → check evidence → re-search → answer; Hindi/Hinglish questions
+- [ ] Answer-quality evaluation (faithfulness, citation accuracy, refusals) alongside the existing retrieval metrics
+
+[![GitHub](https://img.shields.io/badge/GitHub-Sourav--Nath--01%2Fvidyarag--tutor-181717?logo=github)](https://github.com/Sourav-Nath-01/vidyarag-tutor)
 [![HF Space](https://img.shields.io/badge/%F0%9F%A4%97%20HF%20Space-SouravNath%2Fvidyarag-ffd21e)](https://huggingface.co/spaces/SouravNath/vidyarag)
-[![Tests](https://github.com/Sourav-Nath-01/vidyarag/actions/workflows/tests.yml/badge.svg)](https://github.com/Sourav-Nath-01/vidyarag/actions/workflows/tests.yml)
-[![Build & Deploy](https://github.com/Sourav-Nath-01/vidyarag/actions/workflows/build-and-deploy.yml/badge.svg)](https://github.com/Sourav-Nath-01/vidyarag/actions/workflows/build-and-deploy.yml)
-[![Live on Azure](https://img.shields.io/badge/Live-Azure%20Container%20Apps-0078D4?logo=microsoftazure)](https://vidyarag-api.yellowwave-9a72b46f.uaenorth.azurecontainerapps.io/)
+[![Tests](https://github.com/Sourav-Nath-01/vidyarag-tutor/actions/workflows/tests.yml/badge.svg)](https://github.com/Sourav-Nath-01/vidyarag-tutor/actions/workflows/tests.yml)
+[![Build & Deploy](https://github.com/Sourav-Nath-01/vidyarag-tutor/actions/workflows/build-and-deploy.yml/badge.svg)](https://github.com/Sourav-Nath-01/vidyarag-tutor/actions/workflows/build-and-deploy.yml)
+[![Live on Azure](https://img.shields.io/badge/Live-Azure%20Container%20Apps-0078D4?logo=microsoftazure)](https://vidyarag-tutor.yellowwave-9a72b46f.uaenorth.azurecontainerapps.io/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-**[🚀 Try the live demo](https://vidyarag-api.yellowwave-9a72b46f.uaenorth.azurecontainerapps.io/)** · **[⚡ REST API docs](https://vidyarag-api.yellowwave-9a72b46f.uaenorth.azurecontainerapps.io/docs)** · **[🤗 Streamlit demo on HF Spaces](https://huggingface.co/spaces/SouravNath/vidyarag)** · **[📄 Read the full report](report/vidyarag_report.pdf)**
+**[🚀 Try the live demo](https://vidyarag-tutor.yellowwave-9a72b46f.uaenorth.azurecontainerapps.io/)** · **[⚡ REST API docs](https://vidyarag-tutor.yellowwave-9a72b46f.uaenorth.azurecontainerapps.io/docs)** · **[🤗 Streamlit demo on HF Spaces](https://huggingface.co/spaces/SouravNath/vidyarag)** · **[📄 Read the full report](report/vidyarag_report.pdf)**
 
 > The Azure app scales to zero when idle, so the first search after a quiet period takes a few extra seconds while the container starts.
 
@@ -157,7 +164,7 @@ vidyarag/
 Clone the repository:
 
 ```bash
-git clone https://github.com/Sourav-Nath-01/vidyarag.git
+git clone https://github.com/Sourav-Nath-01/vidyarag-tutor.git
 cd vidyarag
 ```
 
@@ -355,7 +362,7 @@ pytest tests/ -v
 ## Deployment
 
 The search web app and REST API run as one Docker container on **Azure
-Container Apps** ([live](https://vidyarag-api.yellowwave-9a72b46f.uaenorth.azurecontainerapps.io/)).
+Container Apps** ([live](https://vidyarag-tutor.yellowwave-9a72b46f.uaenorth.azurecontainerapps.io/)).
 A GitHub Actions CI/CD pipeline tests, builds, smoke-tests, ships and verifies
 every change. Full write-up: **[DEPLOYMENT.md](DEPLOYMENT.md)**.
 
@@ -370,8 +377,8 @@ PR / push → unit tests → docker build → smoke test (offline, 2 CPU / 4 GB)
 - **Web app**: dependency-free HTML/JS at `/`, inline video playback from the matching timestamp, shareable `?q=` URLs, strict Content Security Policy
 
 ```bash
-docker build -f deploy/Dockerfile -t vidyarag-api .
-docker run --rm -p 8000:7860 --memory 4g vidyarag-api
+docker build -f deploy/Dockerfile -t vidyarag-tutor .
+docker run --rm -p 8000:7860 --memory 4g vidyarag-tutor
 python deploy/smoke_test.py http://localhost:8000
 ```
 

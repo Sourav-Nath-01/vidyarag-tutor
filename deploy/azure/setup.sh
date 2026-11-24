@@ -1,19 +1,23 @@
 #!/usr/bin/env bash
 # ─────────────────────────────────────────────────────────────────────────────
-# deploy/azure/setup.sh — one-time Azure provisioning for the VidyaRAG API
+# deploy/azure/setup.sh — one-time Azure provisioning for VidyaRAG Tutor (v2)
 #
 # Run it in Azure Cloud Shell (Bash) at https://shell.azure.com, AFTER the
 # first GitHub Actions run on main has pushed the image to GHCR:
 #
-#   curl -fsSL https://raw.githubusercontent.com/Sourav-Nath-01/vidyarag/main/deploy/azure/setup.sh | bash
+#   curl -fsSL https://raw.githubusercontent.com/Sourav-Nath-01/vidyarag-tutor/main/deploy/azure/setup.sh | bash
 #
 # Override any default with an env var, e.g.  LOCATION=southeastasia bash setup.sh
 #
-# Everything lives in ONE resource group, so cleanup is a single command:
-#   az group delete --name rg-vidyarag --yes
+# v2 shares the resource group and Container Apps environment with v1
+# (Sourav-Nath-01/vidyarag), but gets its OWN app, identity and credential,
+# so the two projects deploy independently. Remove only v2 with:
+#   az containerapp delete -n vidyarag-tutor -g rg-vidyarag --yes
+#   az identity delete -n id-vidyarag-tutor-github -g rg-vidyarag
+# (Deleting the resource group would remove v1 as well.)
 #
-# What it creates
-#   • Container Apps environment (+ Log Analytics workspace for logs)
+# What it creates (or reuses, if v1 already made it)
+#   • Container Apps environment (+ Log Analytics workspace for logs) — shared
 #   • Container App: 2 vCPU / 4 GiB, scale 0→1, HTTPS ingress, health probes
 #   • User-assigned managed identity + GitHub OIDC federated credential, so the
 #     GitHub Actions pipeline can deploy WITHOUT any stored password or key
@@ -27,10 +31,13 @@ set -euo pipefail
 LOCATION="${LOCATION:-uaenorth}"
 RG="${RG:-rg-vidyarag}"
 ENV_NAME="${ENV_NAME:-cae-vidyarag}"
-APP="${APP:-vidyarag-api}"
-IDENTITY="${IDENTITY:-id-vidyarag-github}"
-GITHUB_REPO="${GITHUB_REPO:-Sourav-Nath-01/vidyarag}"
-IMAGE="${IMAGE:-ghcr.io/sourav-nath-01/vidyarag-api:latest}"
+APP="${APP:-vidyarag-tutor}"
+IDENTITY="${IDENTITY:-id-vidyarag-tutor-github}"
+GITHUB_REPO="${GITHUB_REPO:-Sourav-Nath-01/vidyarag-tutor}"
+IMAGE="${IMAGE:-ghcr.io/sourav-nath-01/vidyarag-tutor:latest}"
+# Unique per repo: the check below skips creation when a credential with this
+# name already exists, so a shared name would silently reuse v1's (wrong) one.
+FED_CRED="${FED_CRED:-github-${GITHUB_REPO##*/}-production}"
 
 say() { printf '\n\033[1;36m▶ %s\033[0m\n' "$*"; }
 
@@ -134,9 +141,9 @@ CLIENT_ID="$(az identity show --name "$IDENTITY" --resource-group "$RG" --query 
 PRINCIPAL_ID="$(az identity show --name "$IDENTITY" --resource-group "$RG" --query principalId -o tsv)"
 
 # Only workflow jobs running in this repo's "production" environment can use it.
-if ! az identity federated-credential show --name github-production \
+if ! az identity federated-credential show --name "$FED_CRED" \
       --identity-name "$IDENTITY" --resource-group "$RG" --output none 2>/dev/null; then
-  az identity federated-credential create --name github-production \
+  az identity federated-credential create --name "$FED_CRED" \
     --identity-name "$IDENTITY" --resource-group "$RG" \
     --issuer "https://token.actions.githubusercontent.com" \
     --subject "repo:${GITHUB_REPO}:environment:production" \
