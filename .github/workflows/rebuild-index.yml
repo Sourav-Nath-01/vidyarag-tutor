@@ -1,0 +1,83 @@
+# Rebuilds the C3 search index whenever the lecture catalogue or the code that
+# turns it into vectors changes, and publishes the files as a GitHub release.
+#
+# The release tag is a hash of the inputs, so a given catalogue always maps to
+# the same immutable release and re-runs are no-ops. The Docker build pins the
+# release and the sha256 of every file in deploy/index.lock.json.
+name: Rebuild search index
+
+on:
+  push:
+    paths:
+      - data/catalog/**
+      - scripts/data_fix/rebuild_c3_index.py
+      - src/retrieval/embedder.py
+      - src/retrieval/bm25_builder.py
+      - .github/workflows/rebuild-index.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write   # create the release that stores the index files
+
+concurrency:
+  group: rebuild-index
+  cancel-in-progress: false
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Release tag from the inputs
+        id: tag
+        run: |
+          h=$(cat data/catalog/lectures.json data/catalog/c3_segment_map.json \
+                  scripts/data_fix/rebuild_c3_index.py \
+                  src/retrieval/embedder.py src/retrieval/bm25_builder.py | sha256sum | cut -c1-12)
+          echo "tag=index-c3-$h" >> "$GITHUB_OUTPUT"
+          if gh release view "index-c3-$h" >/dev/null 2>&1; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "::notice::index-c3-$h is already published — nothing to rebuild"
+          fi
+
+      - uses: actions/setup-python@v5
+        if: steps.tag.outputs.exists != 'true'
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: deploy/requirements/api.txt
+
+      - name: Install dependencies (CPU PyTorch)
+        if: steps.tag.outputs.exists != 'true'
+        run: |
+          pip install --index-url https://download.pytorch.org/whl/cpu "$(grep -E '^torch==' deploy/requirements/api.txt)"
+          pip install -r deploy/requirements/api.txt
+
+      - name: Rebuild index
+        if: steps.tag.outputs.exists != 'true'
+        run: python scripts/data_fix/rebuild_c3_index.py --out-dir build/index
+
+      - name: Publish release
+        if: steps.tag.outputs.exists != 'true'
+        env:
+          TAG: ${{ steps.tag.outputs.tag }}
+        run: |
+          python - <<'EOF' > notes.md
+          import json
+          m = json.load(open("build/index/manifest.json"))
+          print(f"C3 search index built from commit `{m['git_sha'][:7]}` by `rebuild-index.yml`.\n")
+          print(f"- {m['chunks']:,} chunks from {m['lectures']} lectures ({m['hours']} h)")
+          print(f"- {m['reembedded_chunks']:,} chunks re-embedded with `{m['embedding_model']}`; "
+                f"the rest reused after a check (min cosine {m['reuse_check']['min_cosine']})")
+          print(f"- {m['duplicate_chunks_dropped']} duplicate chunks dropped\n")
+          print("| file | sha256 |\n|---|---|")
+          for name, f in m["files"].items():
+              print(f"| `{name}` | `{f['sha256']}` |")
+          EOF
+          gh release create "$TAG" build/index/* --target "$GITHUB_SHA" \
+            --title "Search index $TAG" --notes-file notes.md --latest=false
+          cat notes.md >> "$GITHUB_STEP_SUMMARY"
