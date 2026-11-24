@@ -34,6 +34,10 @@ ENV_NAME="${ENV_NAME:-cae-vidyarag}"
 APP="${APP:-vidyarag-tutor}"
 IDENTITY="${IDENTITY:-id-vidyarag-tutor-github}"
 GITHUB_REPO="${GITHUB_REPO:-Sourav-Nath-01/vidyarag-tutor}"
+# Immutable IDs of that owner and repo (public; `gh api repos/<owner>/<repo>
+# --jq '.owner.id, .id'`). Set both if you point GITHUB_REPO elsewhere.
+GITHUB_OWNER_ID="${GITHUB_OWNER_ID:-177652845}"
+GITHUB_REPO_ID="${GITHUB_REPO_ID:-1470623733}"
 IMAGE="${IMAGE:-ghcr.io/sourav-nath-01/vidyarag-tutor:latest}"
 # Unique per repo: the check below skips creation when a credential with this
 # name already exists, so a shared name would silently reuse v1's (wrong) one.
@@ -141,14 +145,25 @@ CLIENT_ID="$(az identity show --name "$IDENTITY" --resource-group "$RG" --query 
 PRINCIPAL_ID="$(az identity show --name "$IDENTITY" --resource-group "$RG" --query principalId -o tsv)"
 
 # Only workflow jobs running in this repo's "production" environment can use it.
-if ! az identity federated-credential show --name "$FED_CRED" \
-      --identity-name "$IDENTITY" --resource-group "$RG" --output none 2>/dev/null; then
-  az identity federated-credential create --name "$FED_CRED" \
-    --identity-name "$IDENTITY" --resource-group "$RG" \
-    --issuer "https://token.actions.githubusercontent.com" \
-    --subject "repo:${GITHUB_REPO}:environment:production" \
-    --audiences "api://AzureADTokenExchange" --output none
-fi
+# GitHub presents one of two subject formats: the classic name-based one, or —
+# for newer repositories — one that also carries the immutable owner and repo
+# IDs, so a deleted repo re-created under the same name by someone else can't
+# inherit this trust. Register both; each matches only this exact repository.
+OWNER="${GITHUB_REPO%%/*}"; NAME="${GITHUB_REPO##*/}"
+declare -A SUBJECTS=(
+  ["$FED_CRED"]="repo:${GITHUB_REPO}:environment:production"
+  ["${FED_CRED}-ids"]="repo:${OWNER}@${GITHUB_OWNER_ID}/${NAME}@${GITHUB_REPO_ID}:environment:production"
+)
+for cred in "${!SUBJECTS[@]}"; do
+  if ! az identity federated-credential show --name "$cred" \
+        --identity-name "$IDENTITY" --resource-group "$RG" --output none 2>/dev/null; then
+    az identity federated-credential create --name "$cred" \
+      --identity-name "$IDENTITY" --resource-group "$RG" \
+      --issuer "https://token.actions.githubusercontent.com" \
+      --subject "${SUBJECTS[$cred]}" \
+      --audiences "api://AzureADTokenExchange" --output none
+  fi
+done
 
 # Least privilege: Contributor on this resource group only, not the subscription.
 RG_ID="$(az group show --name "$RG" --query id -o tsv)"
