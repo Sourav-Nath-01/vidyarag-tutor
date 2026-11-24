@@ -1,13 +1,14 @@
 # VidyaRAG Tutor — an AI doubt-solver for NPTEL lectures
 
-> **v2 of [VidyaRAG](https://github.com/Sourav-Nath-01/vidyarag)** | *Hybrid multimodal retrieval (BGE-large + BM25 + RRF + cross-encoder) over 231 hours of IIT lectures*
+> **v2 of [VidyaRAG](https://github.com/Sourav-Nath-01/vidyarag)** | *Hybrid multimodal retrieval (BGE-large + BM25 + RRF + cross-encoder) over 228 hours of IIT lectures*
 
 **v1** ([Sourav-Nath-01/vidyarag](https://github.com/Sourav-Nath-01/vidyarag)) is the finished retrieval system: slide-boundary chunking, a 9-experiment ablation and a production deployment. **v2 (this repo)** builds on it to answer students' doubts directly from their professors' lectures:
 
-- [ ] Correct every result's video link (a v1 data audit found 22% of checked lectures linked to the wrong YouTube video)
+- [x] Correct every result's video link: a data audit found 71 of 522 lectures (14%) linked to the wrong YouTube video ([details](#data-integrity-fix))
+- [ ] Lecture-level retrieval benchmark to replace v1's lenient grader ([why](#a-note-on-the-v1-metrics))
 - [ ] Grounded answers with clickable video citations, and refusal when the lectures don't cover a question
 - [ ] Bounded agentic loop: plan → search → check evidence → re-search → answer; Hindi/Hinglish questions
-- [ ] Answer-quality evaluation (faithfulness, citation accuracy, refusals) alongside the existing retrieval metrics
+- [ ] Answer-quality evaluation (faithfulness, citation accuracy, refusals) alongside the retrieval metrics
 
 [![GitHub](https://img.shields.io/badge/GitHub-Sourav--Nath--01%2Fvidyarag--tutor-181717?logo=github)](https://github.com/Sourav-Nath-01/vidyarag-tutor)
 [![HF Space](https://img.shields.io/badge/%F0%9F%A4%97%20HF%20Space-SouravNath%2Fvidyarag-ffd21e)](https://huggingface.co/spaces/SouravNath/vidyarag)
@@ -20,7 +21,7 @@
 
 > The Azure app scales to zero when idle, so the first search after a quiet period takes a few extra seconds while the container starts.
 
-An AI-powered semantic search system over NPTEL lecture transcripts and OCR slide content. Achieves **MRR 0.826 / Recall@10 0.964** across 9 CS courses and 24,000+ indexed segments.
+An AI-powered semantic search system over NPTEL lecture transcripts and OCR slide content: 16,050 indexed chunks from 522 lectures across 9 CS courses.
 
 ---
 
@@ -45,6 +46,26 @@ Evaluated on **84 human-annotated queries** across 9 NPTEL courses (DSA, DAA, De
 <p align="center">
   <img src="img/results_e1_e9.png" alt="System Experiment Results E1–E9" width="900">
 </p>
+
+### A note on the v1 metrics
+
+These are v1's numbers, and v2 found two reasons to treat them as upper bounds rather than final results:
+
+- **The grader doesn't check the lecture.** A result counts as correct if it is from the right *course* and starts within 90 s of the reference timestamp (`_is_correct` in `src/retrieval/evaluator.py`). A chunk from a different lecture of that course, at a similar timestamp, also passes.
+- **Some reference answers don't line up with the data.** Mapped onto the corrected catalogue, 65 of the 84 timestamped queries resolve to exactly one lecture. Of the other 19, 8 point past the end of the named lecture, 4 name a lecture number that doesn't exist, and 7 name a number that covered several merged lectures.
+
+The comparison *between* configurations (C1 vs C2 vs C3, with or without OCR/BM25) still reflects real differences, because every configuration was graded the same way. The absolute values are optimistic. Replacing them with a lecture-level benchmark is next on the roadmap.
+
+---
+
+## Data integrity fix
+
+A v2 audit compared every lecture folder with the real YouTube playlists. **71 of 522 lectures (14%) were linked to the wrong video** (35 of 90 in Computer Vision), so a search result could play "Socket Programming – I" while quoting a transcript from "Socket Programming – II".
+
+- **Root cause:** v1's matcher compared titles by word overlap after dropping every number and every word shorter than three letters, so "– I" vs "– II" and "Part 1" vs "Part 2" looked identical and the first title won. Folders that matched the same video also shared a lecture number, which merged their chunks under one title. The same mistake inflated v1's lecture count to 455 and double-counted 5 lectures that had been downloaded twice.
+- **Fix:** [`lecture_catalog.py`](src/data_collection/lecture_catalog.py) matches on the whole normalised title, numbers included, and treats anything it can't match exactly as an error. All 527 folders matched exactly. The result is committed as a reviewable [catalogue](data/catalog/lectures.json): 522 lectures plus 5 duplicate downloads. Each of the 16,200 v1 chunks was then traced to its real lecture by matching its text and start time against each candidate transcript, with no ambiguous cases. 2,450 chunks changed video and 150 duplicate chunks were dropped.
+- **Rebuild:** the lecture title is part of each chunk's embedding text, so [`rebuild_c3_index.py`](scripts/data_fix/rebuild_c3_index.py) re-embeds the 2,450 changed chunks on GitHub Actions. It reuses the other vectors only after re-embedding a sample of unchanged chunks and confirming they reproduce the stored vectors. The index is published as an immutable release, and the Docker build verifies every file against the sha256 pinned in [`deploy/index.lock.json`](deploy/index.lock.json).
+- **Guard:** [`tests/test_catalog.py`](tests/test_catalog.py) fails CI if a folder's title and its video's title ever disagree, or if two lectures share a video.
 
 ---
 
