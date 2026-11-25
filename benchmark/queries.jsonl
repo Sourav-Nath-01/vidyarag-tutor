@@ -1,0 +1,168 @@
+{"qid": "dsa_001", "query": "what is the definition of an algorithm and its properties", "course": "dsa", "intent": "v1-seed", "type": "conceptual"}
+{"qid": "dsa_002", "query": "explain asymptotic notation Big O Theta Omega", "course": "dsa", "intent": "v1-seed", "type": "theoretical"}
+{"qid": "dsa_003", "query": "how does merge sort work step by step", "course": "dsa", "intent": "v1-seed", "type": "procedural"}
+{"qid": "dsa_005", "query": "binary search tree insertion algorithm", "course": "dsa", "intent": "v1-seed", "type": "procedural"}
+{"qid": "dsa_006", "query": "explain heap data structure and heap property", "course": "dsa", "intent": "v1-seed", "type": "conceptual"}
+{"qid": "dsa_007", "query": "how does heapify work in heap sort", "course": "dsa", "intent": "v1-seed", "type": "procedural"}
+{"qid": "dsa_008", "query": "what is dynamic programming and memoization", "course": "dsa", "intent": "v1-seed", "type": "conceptual"}
+{"qid": "dsa_009", "query": "explain Dijkstra shortest path algorithm", "course": "dsa", "intent": "v1-seed", "type": "procedural"}
+{"qid": "dsa_011", "query": "explain red black tree properties and rotations", "course": "dsa", "intent": "v1-seed", "type": "conceptual"}
+{"qid": "dsa_012", "query": "how does quicksort partition work", "course": "dsa", "intent": "v1-seed", "type": "procedural"}
+{"qid": "dsa_014", "query": "depth first search algorithm on a graph", "course": "dsa", "intent": "v1-seed", "type": "procedural"}
+{"qid": "dsa_015", "query": "explain connected components in undirected graph", "course": "dsa", "intent": "v1-seed", "type": "conceptual"}
+{"qid": "dl_001", "query": "what is backpropagation and how does it compute gradients", "course": "dl", "intent": "v1-seed", "type": "theoretical"}
+{"qid": "dl_002", "query": "explain vanishing gradient problem in deep networks", "course": "dl", "intent": "v1-seed", "type": "theoretical"}
+{"qid": "dl_003", "query": "what is a convolutional neural network and how does it work", "course": "dl", "intent": "v1-seed", "type": "conceptual"}
+{"qid": "dl_004", "query": "how does dropout regularisation prevent overfitting", "course": "dl", "intent": "v1-seed", "type": "conceptual"}
+{"qid": "dl_005", "query": "explain batch normalisation in neural networks", "course": "dl", "intent": "v1-seed", "type": "conceptual"}
+{"qid": "dl_006", "query": "what is an LSTM and how does it solve vanishing gradients", "course": "dl", "intent": "v1-seed", "type": "conceptual"}
+{"qid": "dl_007", "query": "how does stochastic gradient descent work", "course": "dl", "intent": "v1-seed", "type": "procedural"}
+{"qid": "dl_008", "query": "explain attention mechanism in sequence to sequence models", "course": "dl", "intent": "v1-seed", "type": "conceptual"}
+{"qid": "dl_011", "query": "how is max pooling computed in CNN", "course": "dl", "intent": "v1-seed", "type": "procedural"}
+{"qid": "dl_012", "query": "what is word2vec and how are word embeddings trained", "course": "dl", "intent": "v1-seed", "type": "conceptual"}
+{"qid": "os_001", "query": "what is virtual memory and how does paging work", "course": "os", "intent": "v1-seed", "type": "conceptual"}
+{"qid": "os_002", "query": "explain process scheduling algorithms round robin", "course": "os", "intent": "v1-seed", "type": "procedural"}
+{"qid": "os_003", "query": "what is a deadlock and conditions for deadlock", "course": "os", "intent": "v1-seed", "type": "conceptual"}
+{"qid": "os_004", "query": "how does the banker algorithm detect deadlock", "course": "os", "intent": "v1-seed", "type": "procedural"}
+{"qid": "os_005", "query": "explain semaphores and mutex for process synchronisation", "course": "os", "intent": "v1-seed", "type": "conceptual"}
+{"qid": "os_006", "query": "virtual address space of a process stack heap text segment", "course": "os", "intent": "v1-seed", "type": "conceptual"}
+{"qid": "os_008", "query": "explain LRU page replacement algorithm", "course": "os", "intent": "v1-seed", "type": "procedural"}
+{"qid": "os_009", "query": "how does fork system call create a child process", "course": "os", "intent": "v1-seed", "type": "procedural"}
+{"qid": "os_011", "query": "explain segmentation versus paging in memory management", "course": "os", "intent": "v1-seed", "type": "conceptual"}
+{"qid": "os_012", "query": "compile hello world program gcc executable address space", "course": "os", "intent": "v1-seed", "type": "procedural"}
+{"qid": "dbms_001", "query": "what is a data model and levels of abstraction in database", "course": "dbms", "intent": "v1-seed", "type": "conceptual"}
+{"qid": "dbms_002", "query": "explain ER diagram entity relationship modelling", "course": "dbms", "intent": "v1-seed", "type": "procedural"}
+{"qid": "dbms_003", "query": "SQL SELECT FROM WHERE query syntax", "course": "dbms", "intent": "v1-seed", "type": "code"}
+{"qid": "dbms_004", "query": "how does normalisation remove data redundancy first normal form", "course": "dbms", "intent": "v1-seed", "type": "procedural"}
+{"qid": "dbms_005", "query": "what are ACID properties of a database transaction", "course": "dbms", "intent": "v1-seed", "type": "conceptual"}
+{"qid": "dbms_006", "query": "explain join operations in relational algebra", "course": "dbms", "intent": "v1-seed", "type": "procedural"}
+{"qid": "dbms_007", "query": "what is a B+ tree index in databases", "course": "dbms", "intent": "v1-seed", "type": "conceptual"}
+{"qid": "dbms_008", "query": "explain two phase locking for concurrency control", "course": "dbms", "intent": "v1-seed", "type": "procedural"}
+{"qid": "dbms_009", "query": "how does database recovery using write ahead logging work", "course": "dbms", "intent": "v1-seed", "type": "procedural"}
+{"qid": "dbms_010", "query": "SQL GROUP BY HAVING aggregate functions COUNT SUM AVG", "course": "dbms", "intent": "v1-seed", "type": "code"}
+{"qid": "dbms_011", "query": "what is functional dependency and Armstrong axioms", "course": "dbms", "intent": "v1-seed", "type": "theoretical"}
+{"qid": "dbms_012", "query": "how to convert ER diagram to relational schema", "course": "dbms", "intent": "v1-seed", "type": "procedural"}
+{"qid": "ml_001", "query": "explain bias variance tradeoff in machine learning", "course": "ml", "intent": "v1-seed", "type": "theoretical"}
+{"qid": "ml_002", "query": "what is support vector machine and margin maximisation", "course": "ml", "intent": "v1-seed", "type": "theoretical"}
+{"qid": "ml_003", "query": "how does the perceptron learning algorithm converge", "course": "ml", "intent": "v1-seed", "type": "theoretical"}
+{"qid": "ml_004", "query": "explain naive bayes classifier and conditional independence", "course": "ml", "intent": "v1-seed", "type": "theoretical"}
+{"qid": "ml_005", "query": "what is k-nearest neighbour classification", "course": "ml", "intent": "v1-seed", "type": "conceptual"}
+{"qid": "ml_006", "query": "explain decision tree and information gain entropy", "course": "ml", "intent": "v1-seed", "type": "conceptual"}
+{"qid": "ml_007", "query": "what is cross validation and overfitting in machine learning", "course": "ml", "intent": "v1-seed", "type": "conceptual"}
+{"qid": "ml_008", "query": "how does logistic regression use gradient descent", "course": "ml", "intent": "v1-seed", "type": "procedural"}
+{"qid": "ml_009", "query": "explain principal component analysis PCA dimensionality reduction", "course": "ml", "intent": "v1-seed", "type": "procedural"}
+{"qid": "ml_010", "query": "what is the EM algorithm for clustering", "course": "ml", "intent": "v1-seed", "type": "procedural"}
+{"qid": "ml_011", "query": "explain ensemble learning random forest boosting", "course": "ml", "intent": "v1-seed", "type": "conceptual"}
+{"qid": "ml_012", "query": "how does k-means clustering algorithm work", "course": "ml", "intent": "v1-seed", "type": "procedural"}
+{"qid": "cn_001", "query": "what is the OSI model and its seven layers", "course": "cn", "intent": "v1-seed", "type": "conceptual"}
+{"qid": "cn_002", "query": "how does TCP three way handshake work", "course": "cn", "intent": "v1-seed", "type": "procedural"}
+{"qid": "cn_003", "query": "explain IP addressing and subnet masks CIDR", "course": "cn", "intent": "v1-seed", "type": "conceptual"}
+{"qid": "cn_004", "query": "what is congestion control in TCP", "course": "cn", "intent": "v1-seed", "type": "conceptual"}
+{"qid": "cn_005", "query": "explain distance vector routing protocol", "course": "cn", "intent": "v1-seed", "type": "conceptual"}
+{"qid": "cn_006", "query": "how does ARP resolve IP addresses to MAC addresses", "course": "cn", "intent": "v1-seed", "type": "procedural"}
+{"qid": "cn_007", "query": "what is the difference between TCP and UDP protocols", "course": "cn", "intent": "v1-seed", "type": "conceptual"}
+{"qid": "cn_008", "query": "explain wireless LAN 802.11 and CSMA CA", "course": "cn", "intent": "v1-seed", "type": "conceptual"}
+{"qid": "cn_009", "query": "what is NAT network address translation", "course": "cn", "intent": "v1-seed", "type": "conceptual"}
+{"qid": "cn_010", "query": "how does DNS domain name resolution work", "course": "cn", "intent": "v1-seed", "type": "procedural"}
+{"qid": "cn_011", "query": "explain Ethernet frame format and CSMA CD", "course": "cn", "intent": "v1-seed", "type": "conceptual"}
+{"qid": "cn_012", "query": "convert digital data to analog signal modem", "course": "cn", "intent": "v1-seed", "type": "conceptual"}
+{"qid": "coa_001", "query": "explain pipelining in processor execution", "course": "coa", "intent": "v1-seed", "type": "conceptual"}
+{"qid": "coa_002", "query": "what is cache memory and direct mapped cache", "course": "coa", "intent": "v1-seed", "type": "conceptual"}
+{"qid": "coa_003", "query": "explain instruction set architecture RISC versus CISC", "course": "coa", "intent": "v1-seed", "type": "conceptual"}
+{"qid": "coa_004", "query": "what are pipeline hazards data hazard control hazard", "course": "coa", "intent": "v1-seed", "type": "conceptual"}
+{"qid": "coa_005", "query": "explain cache coherence in multiprocessor systems", "course": "coa", "intent": "v1-seed", "type": "conceptual"}
+{"qid": "coa_006", "query": "how does two's complement representation work", "course": "coa", "intent": "v1-seed", "type": "procedural"}
+{"qid": "coa_007", "query": "what is datapath and control unit in CPU", "course": "coa", "intent": "v1-seed", "type": "conceptual"}
+{"qid": "coa_008", "query": "explain memory hierarchy and locality of reference", "course": "coa", "intent": "v1-seed", "type": "conceptual"}
+{"qid": "coa_009", "query": "how does branch prediction work in pipelined processors", "course": "coa", "intent": "v1-seed", "type": "conceptual"}
+{"qid": "cv_001", "query": "explain edge detection Sobel Canny operators", "course": "cv", "intent": "v1-seed", "type": "procedural"}
+{"qid": "cv_002", "query": "what is image convolution and kernel filtering", "course": "cv", "intent": "v1-seed", "type": "conceptual"}
+{"qid": "cv_003", "query": "explain SIFT feature detection and description", "course": "cv", "intent": "v1-seed", "type": "procedural"}
+{"qid": "cv_004", "query": "how does optical flow estimation work", "course": "cv", "intent": "v1-seed", "type": "procedural"}
+{"qid": "cv_005", "query": "what is image segmentation and clustering methods", "course": "cv", "intent": "v1-seed", "type": "conceptual"}
+{"qid": "cv_006", "query": "explain camera calibration and intrinsic parameters", "course": "cv", "intent": "v1-seed", "type": "procedural"}
+{"qid": "cv_007", "query": "how does histogram of oriented gradients HOG work", "course": "cv", "intent": "v1-seed", "type": "procedural"}
+{"qid": "cv_008", "query": "what is stereo vision and depth estimation", "course": "cv", "intent": "v1-seed", "type": "conceptual"}
+{"qid": "daa_001", "query": "how does Kruskal minimum spanning tree algorithm work", "course": "daa", "intent": "v1-seed", "type": "procedural"}
+{"qid": "daa_002", "query": "explain NP completeness and polynomial time reduction", "course": "daa", "intent": "v1-seed", "type": "theoretical"}
+{"qid": "daa_003", "query": "explain Bellman Ford algorithm for negative edges", "course": "daa", "intent": "v1-seed", "type": "procedural"}
+{"qid": "daa_004", "query": "what is a greedy algorithm and exchange argument proof", "course": "daa", "intent": "v1-seed", "type": "theoretical"}
+{"qid": "daa_005", "query": "how does the activity selection problem greedy work", "course": "daa", "intent": "v1-seed", "type": "procedural"}
+{"qid": "daa_006", "query": "explain the knapsack problem dynamic programming solution", "course": "daa", "intent": "v1-seed", "type": "procedural"}
+{"qid": "daa_007", "query": "how does topological sort work on directed acyclic graph", "course": "daa", "intent": "v1-seed", "type": "procedural"}
+{"qid": "daa_008", "query": "what is the travelling salesman problem and approximation", "course": "daa", "intent": "v1-seed", "type": "theoretical"}
+{"qid": "cn_n01", "query": "why does TCP use a three way handshake instead of two", "course": "cn", "intent": "student-doubt", "type": null}
+{"qid": "cn_n02", "query": "difference between CIDR and classful IP addressing", "course": "cn", "intent": "student-doubt", "type": null}
+{"qid": "cn_n03", "query": "how does BGP choose routes between autonomous systems", "course": "cn", "intent": "student-doubt", "type": null}
+{"qid": "cn_n04", "query": "what happens to the TCP congestion window when a packet is lost", "course": "cn", "intent": "student-doubt", "type": null}
+{"qid": "cn_n05", "query": "how does DHCP give an IP address to a new device", "course": "cn", "intent": "student-doubt", "type": null}
+{"qid": "cn_n06", "query": "why does wifi use CSMA/CA instead of CSMA/CD", "course": "cn", "intent": "student-doubt", "type": null}
+{"qid": "cn_n07", "query": "how to write a TCP server with socket bind listen accept", "course": "cn", "intent": "student-doubt", "type": null}
+{"qid": "coa_n01", "query": "what does Amdahl's law say about the speedup from improving one part", "course": "coa", "intent": "student-doubt", "type": null}
+{"qid": "coa_n02", "query": "difference between hardwired and microprogrammed control unit", "course": "coa", "intent": "student-doubt", "type": null}
+{"qid": "coa_n03", "query": "how do data hazards happen in a pipeline and how does forwarding fix them", "course": "coa", "intent": "student-doubt", "type": null}
+{"qid": "coa_n04", "query": "how does DMA move data without involving the CPU", "course": "coa", "intent": "student-doubt", "type": null}
+{"qid": "coa_n05", "query": "direct mapped vs set associative cache", "course": "coa", "intent": "student-doubt", "type": null}
+{"qid": "coa_n06", "query": "how is a floating point number stored in IEEE 754 format", "course": "coa", "intent": "student-doubt", "type": null}
+{"qid": "coa_n07", "query": "how does Booth's algorithm multiply signed numbers", "course": "coa", "intent": "student-doubt", "type": null}
+{"qid": "cv_n01", "query": "why is the Harris corner detector rotation invariant", "course": "cv", "intent": "student-doubt", "type": null}
+{"qid": "cv_n02", "query": "what is the fundamental matrix and the epipolar constraint", "course": "cv", "intent": "student-doubt", "type": null}
+{"qid": "cv_n03", "query": "how does bundle adjustment refine camera poses and 3D points", "course": "cv", "intent": "student-doubt", "type": null}
+{"qid": "cv_n04", "query": "difference between SIFT and SURF descriptors", "course": "cv", "intent": "student-doubt", "type": null}
+{"qid": "cv_n05", "query": "how is the Hough transform used to detect lines", "course": "cv", "intent": "student-doubt", "type": null}
+{"qid": "cv_n06", "query": "what are intrinsic vs extrinsic camera parameters", "course": "cv", "intent": "student-doubt", "type": null}
+{"qid": "cv_n07", "query": "how do region based CNNs like R-CNN detect objects", "course": "cv", "intent": "student-doubt", "type": null}
+{"qid": "daa_n01", "query": "why does Dijkstra's algorithm fail with negative edge weights", "course": "daa", "intent": "student-doubt", "type": null}
+{"qid": "daa_n02", "query": "how does union find with path compression work", "course": "daa", "intent": "student-doubt", "type": null}
+{"qid": "daa_n03", "query": "how to model a production planning problem as a linear program", "course": "daa", "intent": "student-doubt", "type": null}
+{"qid": "daa_n04", "query": "max flow min cut theorem and the Ford Fulkerson method", "course": "daa", "intent": "student-doubt", "type": null}
+{"qid": "daa_n05", "query": "longest common subsequence dynamic programming table", "course": "daa", "intent": "student-doubt", "type": null}
+{"qid": "daa_n06", "query": "why is the greedy choice correct for interval scheduling", "course": "daa", "intent": "student-doubt", "type": null}
+{"qid": "daa_n07", "query": "how does Huffman coding build an optimal prefix code", "course": "daa", "intent": "student-doubt", "type": null}
+{"qid": "dbms_n01", "query": "what is the difference between 2NF 3NF and BCNF", "course": "dbms", "intent": "student-doubt", "type": null}
+{"qid": "dbms_n02", "query": "how does a B+ tree handle insertion and node splits", "course": "dbms", "intent": "student-doubt", "type": null}
+{"qid": "dbms_n03", "query": "what is a correlated subquery in SQL", "course": "dbms", "intent": "student-doubt", "type": null}
+{"qid": "dbms_n04", "query": "undo logging vs redo logging for crash recovery", "course": "dbms", "intent": "student-doubt", "type": null}
+{"qid": "dbms_n05", "query": "when is a schedule conflict serializable", "course": "dbms", "intent": "student-doubt", "type": null}
+{"qid": "dbms_n06", "query": "lossless join decomposition and dependency preservation", "course": "dbms", "intent": "student-doubt", "type": null}
+{"qid": "dbms_n07", "query": "how does the query optimizer choose a join order", "course": "dbms", "intent": "student-doubt", "type": null}
+{"qid": "dl_n01", "query": "why does momentum help gradient descent converge faster", "course": "dl", "intent": "student-doubt", "type": null}
+{"qid": "dl_n02", "query": "how does backpropagation compute gradients layer by layer", "course": "dl", "intent": "student-doubt", "type": null}
+{"qid": "dl_n03", "query": "what is the link between PCA and autoencoders", "course": "dl", "intent": "student-doubt", "type": null}
+{"qid": "dl_n04", "query": "skip-gram vs continuous bag of words in word2vec", "course": "dl", "intent": "student-doubt", "type": null}
+{"qid": "dl_n05", "query": "how does hierarchical softmax reduce computation", "course": "dl", "intent": "student-doubt", "type": null}
+{"qid": "dl_n06", "query": "why use unsupervised pre-training before training a deep network", "course": "dl", "intent": "student-doubt", "type": null}
+{"qid": "dl_n07", "query": "guided backpropagation to visualise what a CNN has learned", "course": "dl", "intent": "student-doubt", "type": null}
+{"qid": "dl_n08", "query": "how does early stopping act as a regulariser", "course": "dl", "intent": "student-doubt", "type": null}
+{"qid": "dsa_n01", "query": "how to find the maximum sum subarray efficiently", "course": "dsa", "intent": "student-doubt", "type": null}
+{"qid": "dsa_n02", "query": "how to check whether a graph is bipartite using BFS", "course": "dsa", "intent": "student-doubt", "type": null}
+{"qid": "dsa_n03", "query": "what is an articulation point in a graph and how to find it", "course": "dsa", "intent": "student-doubt", "type": null}
+{"qid": "dsa_n04", "query": "how does a red black tree stay balanced", "course": "dsa", "intent": "student-doubt", "type": null}
+{"qid": "dsa_n05", "query": "how to build a heap in linear time", "course": "dsa", "intent": "student-doubt", "type": null}
+{"qid": "dsa_n06", "query": "how to find the k-th smallest element without sorting", "course": "dsa", "intent": "student-doubt", "type": null}
+{"qid": "ml_n01", "query": "what is inductive bias in machine learning", "course": "ml", "intent": "student-doubt", "type": null}
+{"qid": "ml_n02", "query": "how does collaborative filtering recommend items", "course": "ml", "intent": "student-doubt", "type": null}
+{"qid": "ml_n03", "query": "what is the kernel trick in SVM", "course": "ml", "intent": "student-doubt", "type": null}
+{"qid": "ml_n04", "query": "soft margin SVM with slack variables", "course": "ml", "intent": "student-doubt", "type": null}
+{"qid": "ml_n05", "query": "how does bagging reduce variance in an ensemble", "course": "ml", "intent": "student-doubt", "type": null}
+{"qid": "ml_n06", "query": "single vs complete linkage in hierarchical clustering", "course": "ml", "intent": "student-doubt", "type": null}
+{"qid": "ml_n07", "query": "sample complexity for a finite hypothesis space", "course": "ml", "intent": "student-doubt", "type": null}
+{"qid": "os_n01", "query": "what happens during a context switch in xv6", "course": "os", "intent": "student-doubt", "type": null}
+{"qid": "os_n02", "query": "how does the MMU translate a virtual address to a physical address", "course": "os", "intent": "student-doubt", "type": null}
+{"qid": "os_n03", "query": "how does the Linux CFS scheduler pick the next process", "course": "os", "intent": "student-doubt", "type": null}
+{"qid": "os_n04", "query": "Peterson's solution to the critical section problem", "course": "os", "intent": "student-doubt", "type": null}
+{"qid": "os_n05", "query": "how does a test and set spinlock work", "course": "os", "intent": "student-doubt", "type": null}
+{"qid": "os_n06", "query": "how does a buffer overflow attack overwrite the return address", "course": "os", "intent": "student-doubt", "type": null}
+{"qid": "os_n07", "query": "difference between a process and a thread", "course": "os", "intent": "student-doubt", "type": null}
+{"qid": "oos_01", "query": "how does bitcoin proof of work reach consensus", "course": null, "intent": "out-of-scope", "type": null}
+{"qid": "oos_02", "query": "explain the Raft consensus algorithm leader election", "course": null, "intent": "out-of-scope", "type": null}
+{"qid": "oos_03", "query": "what is the CAP theorem for distributed databases", "course": null, "intent": "out-of-scope", "type": null}
+{"qid": "oos_04", "query": "how does garbage collection work in the Java virtual machine", "course": null, "intent": "out-of-scope", "type": null}
+{"qid": "oos_05", "query": "how does the React virtual DOM diffing work", "course": null, "intent": "out-of-scope", "type": null}
+{"qid": "oos_06", "query": "how is RLHF used to fine tune large language models", "course": null, "intent": "out-of-scope", "type": null}
+{"qid": "oos_07", "query": "explain Shor's algorithm for factoring with a quantum computer", "course": null, "intent": "out-of-scope", "type": null}
+{"qid": "oos_08", "query": "what is a Kubernetes pod and how is it scheduled", "course": null, "intent": "out-of-scope", "type": null}
+{"qid": "oos_09", "query": "how does git rebase differ from git merge", "course": null, "intent": "out-of-scope", "type": null}
+{"qid": "oos_10", "query": "how do compilers do register allocation by graph colouring", "course": null, "intent": "out-of-scope", "type": null}
+{"qid": "oos_11", "query": "how does GPS work out a receiver's position", "course": null, "intent": "out-of-scope", "type": null}
+{"qid": "oos_12", "query": "what is the difference between OAuth and OpenID Connect", "course": null, "intent": "out-of-scope", "type": null}

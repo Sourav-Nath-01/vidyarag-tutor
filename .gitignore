@@ -65,3 +65,5 @@ report/*.synctex.gz
 
 # Kaggle notebooks output
 *.csv.gz
+# Benchmark run outputs (CI artifacts)
+benchmark/runs/
