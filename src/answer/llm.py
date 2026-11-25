@@ -70,7 +70,11 @@ class LLMClient:
                 raise RateLimited("LLM rate limit reached", _retry_after(resp.headers))
             if resp.status_code >= 400:
                 raise LLMError(f"LLM provider returned HTTP {resp.status_code}: {resp.text[:200]}")
-            for line in resp.iter_lines(decode_unicode=True):
+            # Decode the bytes ourselves. requests falls back to ISO-8859-1 for a
+            # text/event-stream response without a charset, which turns UTF-8
+            # punctuation into mojibake ("receiver’s" -> "receiverâ€™s").
+            for raw in resp.iter_lines():
+                line = raw.decode("utf-8", errors="replace")
                 if not line or not line.startswith("data:"):
                     continue
                 data = line[5:].strip()

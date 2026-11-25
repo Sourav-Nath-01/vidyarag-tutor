@@ -112,6 +112,37 @@ def test_short_reply_on_hold_is_still_streamed():
     assert ("token", {"t": "No [1]."}) in events
 
 
+# ── llm.py ───────────────────────────────────────────────────────────────────
+class _FakeStreamResponse:
+    """Mimics requests: decode_unicode=True decodes with .encoding, which
+    requests sets to ISO-8859-1 for a text/* response without a charset."""
+    status_code, headers, encoding = 200, {}, "ISO-8859-1"
+
+    def __init__(self, body: bytes):
+        self.body = body
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *exc):
+        return False
+
+    def iter_lines(self, decode_unicode=False):
+        for line in self.body.split(b"\n"):
+            yield line.decode(self.encoding) if decode_unicode else line
+
+
+def test_stream_decodes_utf8_even_without_a_charset(monkeypatch):
+    from answer.llm import LLMClient
+    chunk = {"choices": [{"delta": {"content": "the receiver’s window — रिसीवर"}}]}
+    body = f"data: {json.dumps(chunk, ensure_ascii=False)}\n\ndata: [DONE]\n".encode()
+    fake = types.ModuleType("requests")
+    fake.RequestException = Exception
+    fake.post = lambda *a, **kw: _FakeStreamResponse(body)
+    monkeypatch.setitem(sys.modules, "requests", fake)
+    assert list(LLMClient(api_key="k").stream([])) == ["the receiver’s window — रिसीवर"]
+
+
 # ── POST /ask ────────────────────────────────────────────────────────────────
 
 def _fake_retriever(index_dir: Path, scores: list[float]) -> types.ModuleType:
