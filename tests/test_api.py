@@ -149,6 +149,16 @@ def test_page_only_references_assets_that_exist(client):
         assert client.get(path).status_code == 200, path
 
 
+def test_stylesheet_only_references_assets_that_exist(client):
+    # The self-hosted fonts are referenced from app.css with relative url()s.
+    import re
+    css = client.get("/static/app.css").text
+    urls = re.findall(r'url\("([^"]+)"\)', css)
+    assert any(u.endswith(".woff2") for u in urls)
+    for rel in urls:
+        assert client.get(f"/static/{rel}").status_code == 200, rel
+
+
 # ── search ─────────────────────────────────────────────────────────────────────
 
 def test_search_happy_path(client, api):

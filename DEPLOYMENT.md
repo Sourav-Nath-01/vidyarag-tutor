@@ -7,7 +7,7 @@ Hugging Face Spaces.
 
 | Surface | Where | What it serves |
 |---|---|---|
-| Search web app (production) | [Azure Container Apps (UAE North)](https://vidyarag-tutor.yellowwave-9a72b46f.uaenorth.azurecontainerapps.io/) | `/`: search page with inline video playback at the matching timestamp |
+| Tutor web app (production) | [Azure Container Apps (UAE North)](https://vidyarag-tutor.yellowwave-9a72b46f.uaenorth.azurecontainerapps.io/) | `/`: ask a question, get a cited answer, and play each cited moment at its timestamp |
 | REST API (production) | [same container](https://vidyarag-tutor.yellowwave-9a72b46f.uaenorth.azurecontainerapps.io/docs) | FastAPI `/search` with BGE-large + C3 index, OpenAPI docs at `/docs` |
 | Streamlit demo | [Hugging Face Space](https://huggingface.co/spaces/SouravNath/vidyarag) | Streamlit UI |
 | Container image | `ghcr.io/sourav-nath-01/vidyarag-tutor` | Immutable image, one tag per commit |
@@ -125,8 +125,11 @@ the old revision is still up.
 FastAPI at `/`. It calls `POST /search` on the same origin, so there's no CORS
 setup, no second service to deploy or pay for, and the page and the API always
 deploy together at the same version. Searches are shareable as URLs
-(`/?q=backpropagation`), and results play inline from the matching timestamp
-through YouTube's privacy-enhanced embed.
+(`/?q=backpropagation`). One player beside the answer plays any result or
+cited moment from its timestamp through YouTube's privacy-enhanced embed, and
+shows that moment's transcript and slide (OCR) text. The fonts (Geist,
+Geist Mono, Newsreader; SIL OFL) are self-hosted in `api/static/fonts/`, so
+the page loads nothing from a font CDN.
 
 **Security basics.** The container runs as non-root uid 1000. There are no
 secrets in the image, and the Dockerfile `HEALTHCHECK` works under plain

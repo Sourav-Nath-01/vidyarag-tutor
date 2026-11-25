@@ -4,91 +4,227 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>VidyaRAG Tutor</title>
-  <meta name="description" content="Ask a doubt about NPTEL computer-science lectures. Get an answer drawn from the lectures, with every point linked to the exact moment in the video.">
+  <meta name="description" content="Ask a doubt about NPTEL computer-science lectures. Get a short answer written only from the lectures, with every point linked to the exact second it was taught.">
   <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#fafaf8" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0e0e0d" media="(prefers-color-scheme: dark)">
   <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="/static/fonts/geist-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/static/fonts/newsreader-latin-opsz-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/static/app.css">
   <script src="/static/app.js" defer></script>
 </head>
-<body>
+<body data-view="landing">
   <a class="skip" href="#q">Skip to search</a>
 
-  <header class="wrap hero">
-    <div class="brand"><span class="logo" aria-hidden="true">V</span><span>VidyaRAG Tutor</span></div>
-    <h1>Ask a doubt. Get an answer from the lectures, with the exact moments to watch.</h1>
-    <p class="lede">Answers are written only from what IIT professors say in 9 NPTEL computer-science courses, and every point cites the lecture moment it comes from.</p>
-    <ul class="stats" aria-label="What is searched">
-      <li><strong>522</strong> lectures</li>
-      <li><strong>228</strong> hours of video</li>
-      <li><strong>16,050</strong> slide-aligned passages</li>
-      <li><strong>9</strong> courses</li>
-    </ul>
+  <header class="topbar">
+    <div class="container topbar-in">
+      <a class="brand" href="/" aria-label="VidyaRAG Tutor, home">
+        <svg class="mark" viewBox="0 0 32 32" aria-hidden="true">
+          <rect class="mark-bg" width="32" height="32" rx="8"/>
+          <path class="mark-fg" d="M12 9.5v13L22 16z"/>
+          <circle class="mark-dot" cx="24.5" cy="7.5" r="2.5"/>
+        </svg>
+        <span class="brand-name">VidyaRAG</span>
+        <span class="brand-tag">Tutor</span>
+      </a>
+      <nav class="nav" aria-label="Site">
+        <a class="nav-link hide-sm" href="/#how">How it works</a>
+        <a class="nav-link hide-sm" href="/docs">API</a>
+        <a class="nav-link nav-gh" href="https://github.com/Sourav-Nath-01/vidyarag-tutor">
+          <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+          <span>GitHub</span>
+        </a>
+      </nav>
+    </div>
   </header>
 
-  <main class="wrap">
+  <main id="main" class="container">
+    <section class="hero" aria-labelledby="hero-h">
+      <p class="kicker"><span class="kicker-mark" aria-hidden="true"></span>For NPTEL computer-science students</p>
+      <h1 id="hero-h" class="display">Answers from NPTEL lectures, <span class="dim">cited to the exact second.</span></h1>
+      <p class="lede">Ask a doubt in plain English. VidyaRAG finds where a professor explains it, writes a short answer using only those moments, and plays each one when you click its citation.</p>
+    </section>
+
     <form id="search-form" class="search" role="search" action="/" method="get">
-      <label for="q" class="sr-only">Search the lectures</label>
+      <label for="q" class="sr-only">Ask a question about the lectures</label>
       <div class="searchbox">
-        <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-        <input id="q" name="q" type="search" placeholder="e.g. why does TCP need a three-way handshake?"
-               minlength="2" maxlength="512" autocomplete="off" spellcheck="false" required>
-        <kbd class="hint" aria-hidden="true" title="Press / to search">/</kbd>
-        <button id="search-btn" class="btn" type="submit">Ask</button>
+        <svg class="search-ico" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="q" name="q" type="search" placeholder="Why does TCP need a three-way handshake?"
+               minlength="2" maxlength="512" autocomplete="off" spellcheck="false" enterkeyhint="search" required>
+        <kbd class="kbd hint" aria-hidden="true" title="Press / to search">/</kbd>
+        <button id="search-btn" class="btn btn-primary" type="submit">
+          <span>Ask</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
       </div>
 
-      <div class="examples">
-        <span class="examples-label">Try</span>
-        <button type="button" class="example">what is backpropagation</button>
-        <button type="button" class="example">necessary conditions for deadlock</button>
-        <button type="button" class="example">TCP three-way handshake</button>
-        <button type="button" class="example">third normal form in databases</button>
-        <button type="button" class="example">worst case of quicksort</button>
-      </div>
-
-      <details class="options">
-        <summary>Pipeline options</summary>
-        <div class="options-grid">
-          <label>Results
-            <select id="topk">
-              <option>3</option>
-              <option selected>5</option>
-              <option>10</option>
-            </select>
-          </label>
-          <label class="toggle"><input type="checkbox" id="opt-bm25" checked> BM25 hybrid retrieval</label>
-          <label class="toggle"><input type="checkbox" id="opt-rerank" checked> Cross-encoder reranking</label>
+      <div class="search-under">
+        <div class="examples">
+          <span class="examples-label">Try</span>
+          <button type="button" class="example">Conditions for deadlock</button>
+          <button type="button" class="example">What is backpropagation?</button>
+          <button type="button" class="example">Quicksort worst case</button>
+          <button type="button" class="example">Third normal form</button>
         </div>
-        <p class="hint-text">Switch a stage off to see how much it contributes to the ranking.</p>
-      </details>
+
+        <details id="settings" class="settings">
+          <summary>
+            <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></svg>
+            Retrieval settings
+          </summary>
+          <div class="settings-panel">
+            <label class="field">
+              <span>Moments to show</span>
+              <select id="topk">
+                <option>3</option>
+                <option selected>5</option>
+                <option>10</option>
+              </select>
+            </label>
+            <label class="switch">
+              <span>BM25 hybrid retrieval</span>
+              <input type="checkbox" id="opt-bm25" checked>
+              <span class="switch-ui" aria-hidden="true"></span>
+            </label>
+            <label class="switch">
+              <span>Cross-encoder reranking</span>
+              <input type="checkbox" id="opt-rerank" checked>
+              <span class="switch-ui" aria-hidden="true"></span>
+            </label>
+            <p class="settings-note">Turn a stage off to see what it adds to the ranking. Changes re-run the current question.</p>
+          </div>
+        </details>
+      </div>
     </form>
 
-    <p id="status" class="status" role="status" aria-live="polite"></p>
+    <!-- ── landing ─────────────────────────────────────────────────────── -->
+    <div class="landing">
+      <dl class="stats">
+        <div><dt>Lectures indexed</dt><dd>522</dd></div>
+        <div><dt>Hours of video</dt><dd>228</dd></div>
+        <div><dt>Slide-aligned passages</dt><dd>16,050</dd></div>
+        <div><dt>Courses</dt><dd>9</dd></div>
+      </dl>
 
-    <section id="answer" class="answer" aria-labelledby="answer-h" hidden>
-      <h2 id="answer-h" class="answer-h"><span class="spark" aria-hidden="true">✦</span> Answer from the lectures</h2>
-      <div id="answer-body" class="answer-body" aria-live="polite"></div>
-      <p id="answer-foot" class="answer-foot"></p>
-    </section>
+      <section id="how" class="how" aria-labelledby="how-h">
+        <div class="how-intro">
+          <p class="kicker">How an answer is made</p>
+          <h2 id="how-h" class="h2">Search first. The model only writes from what it was shown.</h2>
+          <p>Every lecture was transcribed with Whisper and its slides read with Tesseract OCR, then split wherever the slide changes. Each passage is one slide's worth of explanation, with its own timestamp.</p>
+        </div>
+        <ol class="steps">
+          <li>
+            <span class="step-n">01</span>
+            <div><h3>Retrieve</h3><p>Your question is matched against 16,050 passages two ways: BGE-large embeddings in FAISS for meaning, and BM25 for exact terms.</p></div>
+          </li>
+          <li>
+            <span class="step-n">02</span>
+            <div><h3>Rerank</h3><p>Reciprocal Rank Fusion merges both lists. A cross-encoder then reads each candidate against your question and keeps the best moment from each lecture.</p></div>
+          </li>
+          <li>
+            <span class="step-n">03</span>
+            <div><h3>Gate</h3><p>If even the best passage is a weak match, the tutor says the lectures don't cover it. The language model is never called, so it has nothing to guess from.</p></div>
+          </li>
+          <li>
+            <span class="step-n">04</span>
+            <div><h3>Answer</h3><p>gpt-oss-20b writes from the top five moments only, and has to cite every factual sentence with the moment it came from.</p></div>
+          </li>
+          <li>
+            <span class="step-n">05</span>
+            <div><h3>Verify</h3><p>The server checks that each citation points to a real source and reports how much of the answer is cited. Click a citation to watch that moment.</p></div>
+          </li>
+        </ol>
+      </section>
 
-    <section id="intro" class="intro" aria-labelledby="how">
-      <h2 id="how">How it works</h2>
-      <ol class="pipeline">
-        <li><strong>Your question</strong><span>plain English</span></li>
-        <li><strong>Dense + sparse</strong><span>BGE-large vectors (FAISS) and BM25 keywords</span></li>
-        <li><strong>Fusion</strong><span>Reciprocal Rank Fusion</span></li>
-        <li><strong>Rerank</strong><span>MiniLM cross-encoder</span></li>
-        <li><strong>The moment</strong><span>best passage per lecture, with timestamp</span></li>
-        <li><strong>The answer</strong><span>an LLM writes only from those passages and cites them; the server checks every citation</span></li>
-      </ol>
-      <p>Lectures were transcribed with Whisper and slides read with Tesseract OCR. Passages follow slide changes detected from OCR similarity. If the lectures don't cover a question, the tutor says so instead of guessing.</p>
-    </section>
+      <section class="courses" aria-labelledby="courses-h">
+        <p class="kicker">Coverage</p>
+        <h2 id="courses-h" class="h2">Nine NPTEL courses in computer science</h2>
+        <ul class="course-grid">
+          <li><span class="c-name">Deep Learning</span><span class="c-n">97 lectures</span></li>
+          <li><span class="c-name">Computer Vision</span><span class="c-n">89 lectures</span></li>
+          <li><span class="c-name">Computer Architecture and Organization</span><span class="c-n">62 lectures</span></li>
+          <li><span class="c-name">Computer Networks</span><span class="c-n">59 lectures</span></li>
+          <li><span class="c-name">Design and Analysis of Algorithms</span><span class="c-n">53 lectures</span></li>
+          <li><span class="c-name">Machine Learning</span><span class="c-n">42 lectures</span></li>
+          <li><span class="c-name">Database Management Systems</span><span class="c-n">41 lectures</span></li>
+          <li><span class="c-name">Introduction to Algorithms and Analysis</span><span class="c-n">40 lectures</span></li>
+          <li><span class="c-name">Operating Systems</span><span class="c-n">39 lectures</span></li>
+        </ul>
+      </section>
+    </div>
 
-    <section id="results" class="results" aria-label="Search results"></section>
+    <!-- ── question view ───────────────────────────────────────────────── -->
+    <div id="session" class="session">
+      <div class="session-bar">
+        <p id="status" class="status" role="status" aria-live="polite"></p>
+        <div id="session-actions" class="session-actions">
+          <button id="share-btn" class="btn btn-quiet btn-sm" type="button">
+            <svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.66 0l3-3a4 4 0 0 0-5.66-5.66l-1 1"/><path d="M14 10a4 4 0 0 0-5.66 0l-3 3a4 4 0 0 0 5.66 5.66l1-1"/></svg>
+            <span class="btn-label">Copy link</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="session-grid">
+        <section id="answer" class="answer" aria-labelledby="answer-h">
+          <header class="answer-head">
+            <h2 id="answer-h" class="label">Answer</h2>
+            <span id="answer-state" class="state"></span>
+          </header>
+          <div id="answer-body" class="prose"></div>
+          <footer class="answer-foot">
+            <p id="answer-meta" class="answer-meta"></p>
+            <button id="copy-btn" class="btn btn-quiet btn-sm" type="button" hidden>
+              <svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h8"/></svg>
+              <span class="btn-label">Copy answer</span>
+            </button>
+          </footer>
+        </section>
+
+        <aside class="side" aria-label="Video player">
+          <div id="player" class="player">
+            <div id="player-frame" class="player-frame"></div>
+            <div class="player-info">
+              <p id="np-kicker" class="np-kicker"></p>
+              <h3 id="np-title" class="np-title"></h3>
+              <p id="np-sub" class="np-sub"></p>
+              <div class="tabs" role="tablist" aria-label="Moment text">
+                <button id="tab-transcript" class="tab" type="button" role="tab" aria-selected="true" aria-controls="panel-transcript">Transcript</button>
+                <button id="tab-slide" class="tab" type="button" role="tab" aria-selected="false" aria-controls="panel-slide">On the slide</button>
+                <a id="np-yt" class="np-yt" target="_blank" rel="noopener noreferrer">
+                  YouTube
+                  <svg width="13" height="13" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>
+                </a>
+              </div>
+              <div id="panel-transcript" class="np-text" role="tabpanel" aria-labelledby="tab-transcript" tabindex="0"></div>
+              <div id="panel-slide" class="np-text np-slide" role="tabpanel" aria-labelledby="tab-slide" tabindex="0" hidden></div>
+            </div>
+          </div>
+        </aside>
+
+        <section class="moments" aria-labelledby="moments-h">
+          <header class="moments-head">
+            <h2 id="moments-h" class="label">Lecture moments</h2>
+            <span id="moments-count" class="count"></span>
+          </header>
+          <ol id="results" class="moment-list"></ol>
+        </section>
+      </div>
+    </div>
   </main>
 
-  <footer class="wrap footer">
-    <p>Served from <strong>Azure Container Apps</strong> — 2 vCPU, scales to zero when idle, so the first search after a quiet spell can take a few seconds. Build <code id="build">…</code></p>
-    <p><a href="/docs">REST API docs</a> · <a href="https://github.com/Sourav-Nath-01/vidyarag-tutor">Source on GitHub</a> · <a href="https://github.com/Sourav-Nath-01/vidyarag-tutor/blob/main/report/vidyarag_report.pdf">Technical report</a></p>
+  <footer class="footer">
+    <div class="container footer-in">
+      <p class="footer-note">
+        Build <code id="build">dev</code> · Runs on Azure Container Apps and scales to zero, so the first question after a quiet spell takes a few extra seconds.
+      </p>
+      <nav class="footer-links" aria-label="Project">
+        <a href="/docs">API docs</a>
+        <a href="https://github.com/Sourav-Nath-01/vidyarag-tutor">Source</a>
+        <a href="https://github.com/Sourav-Nath-01/vidyarag-tutor/blob/main/report/vidyarag_report.pdf">Technical report</a>
+      </nav>
+    </div>
   </footer>
 </body>
 </html>

@@ -145,7 +145,7 @@ vidyarag/
 │
 ├── api/
 │   ├── app.py                  # FastAPI REST server (+ serves the web app at /)
-│   └── static/                 # Search web app: index.html, app.js, app.css
+│   └── static/                 # Tutor web app: index.html, app.js, app.css, fonts/
 │
 ├── scripts/                    # Developer tooling & offline pipeline
 │   ├── build_indexes.py        # Build FAISS + BM25 indexes
