@@ -5,8 +5,8 @@
 **v1** ([Sourav-Nath-01/vidyarag](https://github.com/Sourav-Nath-01/vidyarag)) is the finished retrieval system: slide-boundary chunking, a 9-experiment ablation and a production deployment. **v2 (this repo)** builds on it to answer students' doubts directly from their professors' lectures:
 
 - [x] Correct every result's video link: a data audit found 71 of 522 lectures (14%) linked to the wrong YouTube video ([details](#data-integrity-fix))
-- [ ] Lecture-level retrieval benchmark to replace v1's lenient grader ([why](#a-note-on-the-v1-metrics))
-- [ ] Grounded answers with clickable video citations, and refusal when the lectures don't cover a question
+- [ ] Lecture-level retrieval benchmark to replace v1's lenient grader ([why](#a-note-on-the-v1-metrics)): tooling done, labels in progress ([benchmark/](benchmark/))
+- [x] Grounded answers with clickable video citations, and refusal when the lectures don't cover a question ([how](#grounded-answers))
 - [ ] Bounded agentic loop: plan → search → check evidence → re-search → answer; Hindi/Hinglish questions
 - [ ] Answer-quality evaluation (faithfulness, citation accuracy, refusals) alongside the retrieval metrics
 
@@ -22,6 +22,24 @@
 > The Azure app scales to zero when idle, so the first search after a quiet period takes a few extra seconds while the container starts.
 
 An AI-powered semantic search system over NPTEL lecture transcripts and OCR slide content: 16,050 indexed chunks from 522 lectures across 9 CS courses.
+
+---
+
+## Grounded answers
+
+Ask a doubt and the tutor answers **only from what the professors say**, citing the moments it used. Each **[n]** in the answer is a button that plays result *n* from the cited timestamp.
+
+```
+question ─► hybrid search ─► top-5 lecture passages ─► relevance gate ─► LLM (streamed) ─► citation check ─► answer
+                                  (+ next passage                │                                │
+                                   for context)            "not covered"                 grounded? which [n]?
+                                                          (no LLM call)               % of statements cited
+```
+
+- **Relevance gate.** The cross-encoder scores the passages before any LLM call. On the benchmark queries, every out-of-scope question's best passage scored at most −3.4, while 155 of the 156 real questions scored above that. The exception is the HOG question, which this CV course may not teach. Below −4.0 the tutor answers "not covered" without spending LLM quota. The threshold will be re-calibrated on the benchmark labels.
+- **Grounding rules in the prompt, checks in code.** The model may use only the numbered passages, must cite them, and must reply `NOT_COVERED` when they don't answer the question. That sentinel is never shown to users. The server checks every citation against the passages it sent, and reports `grounded`, `cited` and `citation_coverage` with each answer.
+- **Built for a free LLM tier.** Groq `openai/gpt-oss-20b` streams over Server-Sent Events, so the first words show in about a second. Repeated questions are served from a cache. A rate limit degrades to "search results still work" instead of an error page. The key lives only in an Azure Container Apps secret.
+- **API.** `POST /ask` streams `sources` → `token`… → `done` (or `error`). Pass the `segment_ids` from a `/search` to answer from exactly those results, or omit them to search first.
 
 ---
 

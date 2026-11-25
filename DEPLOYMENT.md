@@ -162,6 +162,29 @@ EMBEDDING_MODEL=all-MiniLM-L6-v2 DEFAULT_STRATEGY=demo EMBEDDING_DEVICE=cpu \
 3. Run the `gh secret set` / `gh variable set` commands the script prints.
    From then on, every merge to `main` deploys automatically.
 
+## Enabling AI answers (`POST /ask`)
+
+Answers need an OpenAI-compatible API key (Groq's free tier works, no card).
+The key is stored as a **Container Apps secret** and reaches the app only as
+an environment variable. It is never in the image, the repo or CI logs. In
+Azure Cloud Shell:
+
+```bash
+read -rsp "Groq API key: " KEY; echo           # typed key isn't shown or saved in history
+az containerapp secret set -n vidyarag-tutor -g rg-vidyarag --secrets llm-api-key="$KEY"
+az containerapp update -n vidyarag-tutor -g rg-vidyarag \
+  --set-env-vars LLM_API_KEY=secretref:llm-api-key
+unset KEY
+```
+
+Without the key, `/info` reports `answers_enabled: false`, `/ask` returns 503
+and the page shows search results only. The deploy smoke test checks both
+cases: a clean 503 in CI, and a real streamed, citation-checked answer after a
+production deploy. A free-tier rate limit counts as a warning, not a failed
+deploy. Optional settings: `ANSWER_MODEL` (default `openai/gpt-oss-20b`),
+`LLM_BASE_URL`, `ANSWER_MIN_RELEVANCE` (default −4.0) and
+`MAX_CONCURRENT_ANSWERS` (default 2).
+
 ## Operations
 
 | Task | Command |
