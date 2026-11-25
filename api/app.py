@@ -34,6 +34,8 @@ Environment variables (all optional):
     OLLAMA_MODEL             — ollama model name (default: llama3.2:3b)
     LLM_API_KEY              — OpenAI-compatible API key (e.g. Groq); /ask is disabled without it
     ANSWER_MODEL             — model for /ask (default: openai/gpt-oss-20b)
+    REWRITE_MODEL            — small model that turns follow-ups into standalone
+                               questions for /rewrite (default: llama-3.1-8b-instant)
     LLM_BASE_URL             — provider endpoint (default: https://api.groq.com/openai/v1)
     ANSWER_MIN_RELEVANCE     — cross-encoder score below which /ask says "not covered"
                                without calling the LLM (default: -4.0)
@@ -47,6 +49,7 @@ Example request:
 
 from __future__ import annotations
 
+import dataclasses
 import json
 import logging
 import os
@@ -139,6 +142,7 @@ _bootstrap_indexes()
 
 import retriever as _ret  # noqa: E402  (must come after the bootstrap)
 from answer.grounded import answer_events, build_sources, rerank_passage  # noqa: E402
+from answer.followup import Turn, rewrite_question, same_question  # noqa: E402
 from answer.llm import LLMClient, LLMError, RateLimited  # noqa: E402
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -168,6 +172,13 @@ _ANSWER_CACHE_SIZE     = 256   # free-tier LLM quota is small; repeat questions 
 _answer_cache: "OrderedDict[tuple, list]" = OrderedDict()
 _answer_cache_lock     = threading.Lock()
 _segment_index: dict[str, dict[str, int]] = {}   # strategy → segment_id → row
+
+# Follow-ups (POST /rewrite) use a small, fast model with its own free-tier
+# quota, deterministic, and short replies: it only rewrites a question.
+REWRITE_MODEL = os.getenv("REWRITE_MODEL") or "llama-3.1-8b-instant"
+_rewriter = (dataclasses.replace(_llm, model=REWRITE_MODEL, max_tokens=200, temperature=0.0, timeout_sec=20)
+             if _llm else None)
+_rewrite_slots = threading.BoundedSemaphore(4)
 
 
 def _available_strategies() -> list[str]:
@@ -374,6 +385,8 @@ class InfoResponse(BaseModel):
     reranker_model: str
     answers_enabled: bool = False
     answer_model: Optional[str] = None
+    followups_enabled: bool = False
+    rewrite_model: Optional[str] = None
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -413,6 +426,8 @@ def info():
         reranker_model=_ret.RERANKER_MODEL,
         answers_enabled=_llm is not None,
         answer_model=_llm.model if _llm else None,
+        followups_enabled=_rewriter is not None,
+        rewrite_model=_rewriter.model if _rewriter else None,
     )
 
 
@@ -640,6 +655,69 @@ def ask(request: AskRequest):
 
     return StreamingResponse(stream(), media_type="text/event-stream",
                              headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"})
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Follow-up questions
+# ─────────────────────────────────────────────────────────────────────────────
+
+class TurnIn(BaseModel):
+    question: str = Field(..., min_length=1, max_length=300,
+                          description="What was asked; send its standalone form if it was rewritten.")
+    answer: str = Field(default="", max_length=4000, description="The answer given (may be empty).")
+
+
+class RewriteRequest(BaseModel):
+    question: str = Field(..., min_length=2, max_length=300, examples=["what is its worst case?"])
+    history: List[TurnIn] = Field(default_factory=list, max_length=8,
+                                  description="Earlier turns, oldest first. Only the last 3 are used.")
+
+
+class RewriteResponse(BaseModel):
+    question: str
+    standalone: str = Field(description="Search for this, and ask /ask this.")
+    rewritten: bool
+    model: Optional[str] = None
+    ms: int
+    fallback: Optional[str] = Field(
+        default=None, description="Why the question is returned as typed: busy, rate_limited or llm_error.")
+
+
+@app.post("/rewrite", response_model=RewriteResponse, tags=["Answers"])
+def rewrite(request: RewriteRequest):
+    """
+    Turn a follow-up ("what is its worst case?") into a standalone question
+    ("what is the worst case of quicksort?") using the recent conversation.
+
+    The server keeps no conversation state; send the earlier turns in
+    `history`. The conversation only resolves references, it is never used as
+    evidence: search and /ask then work on `standalone` alone. If the model
+    is unavailable, the question comes back unchanged with `fallback` set, so
+    a client can always carry on.
+    """
+    if _rewriter is None:
+        raise HTTPException(status_code=503, detail="Follow-ups need AI answers, which are not enabled on this instance.")
+    t0 = time.time()
+    question = " ".join(request.question.split())
+    history = [Turn(t.question, t.answer) for t in request.history]
+    standalone, model, fallback = question, None, None
+    if history:
+        if not _rewrite_slots.acquire(timeout=SEARCH_QUEUE_TIMEOUT_SEC):
+            fallback = "busy"
+        else:
+            try:
+                standalone, model = rewrite_question(question, history, _rewriter), _rewriter.model
+            except RateLimited as e:
+                log.warning("rewrite rate-limited (retry_after=%s)", e.retry_after)
+                fallback = "rate_limited"
+            except LLMError as e:
+                log.error("rewrite failed: %s", e)
+                fallback = "llm_error"
+            finally:
+                _rewrite_slots.release()
+    return RewriteResponse(question=question, standalone=standalone,
+                           rewritten=not same_question(standalone, question), model=model,
+                           ms=round((time.time() - t0) * 1000), fallback=fallback)
 
 
 # ─────────────────────────────────────────────────────────────────────────────

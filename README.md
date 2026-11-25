@@ -7,6 +7,7 @@
 - [x] Correct every result's video link: a data audit found 71 of 522 lectures (14%) linked to the wrong YouTube video ([details](#data-integrity-fix))
 - [ ] Lecture-level retrieval benchmark to replace v1's lenient grader ([why](#a-note-on-the-v1-metrics)): tooling done, labels in progress ([benchmark/](benchmark/))
 - [x] Grounded answers with clickable video citations, and refusal when the lectures don't cover a question ([how](#grounded-answers))
+- [x] Follow-up questions: "what is its worst case?" is rewritten into a standalone question before retrieval ([how](#follow-up-questions))
 - [ ] Bounded agentic loop: plan → search → check evidence → re-search → answer; Hindi/Hinglish questions
 - [ ] Answer-quality evaluation (faithfulness, citation accuracy, refusals) alongside the retrieval metrics
 
@@ -40,6 +41,19 @@ question ─► hybrid search ─► top-5 lecture passages ─► relevance gat
 - **Grounding rules in the prompt, checks in code.** The model may use only the numbered passages, must cite them, and must reply `NOT_COVERED` when they don't answer the question. That sentinel is never shown to users. The server checks every citation against the passages it sent, and reports `grounded`, `cited` and `citation_coverage` with each answer.
 - **Built for a free LLM tier.** Groq `openai/gpt-oss-20b` streams over Server-Sent Events, so the first words show in about a second. Repeated questions are served from a cache. A rate limit degrades to "search results still work" instead of an error page. The key lives only in an Azure Container Apps secret.
 - **API.** `POST /ask` streams `sources` → `token`… → `done` (or `error`). Pass the `segment_ids` from a `/search` to answer from exactly those results, or omit them to search first.
+
+### Follow-up questions
+
+After *"What is quicksort?"*, a student asks *"What is its worst case?"*. Searching for that text finds nothing useful, because the retriever doesn't know what "its" means. So before retrieval, a small model rewrites the follow-up into a standalone question using the last three turns:
+
+```
+"What is its worst case?" + recent turns ─► POST /rewrite (llama-3.1-8b-instant) ─► "What is the worst case of quicksort?" ─► search ─► /ask
+```
+
+- **The conversation resolves references; it is never evidence.** The answer is written only from the passages retrieved for the rewritten question, so its citations always point at those passages. The page shows what was searched (*Searched for "…"*), so a bad rewrite is visible rather than silent.
+- **Stateless server.** The page keeps the conversation and sends the recent turns with each follow-up. Nothing is stored server-side, so any replica, including a fresh one after scaling to zero, can serve it.
+- **Cheap and safe to fail.** The rewrite uses a small, fast model at temperature 0 with its own free-tier quota, separate from the answer model's. If it's rate-limited or fails, the question is searched as typed (`fallback` says why), so a follow-up never errors out.
+- **Shareable.** The address bar holds the standalone question, so a copied link to a follow-up still makes sense on its own.
 
 ---
 

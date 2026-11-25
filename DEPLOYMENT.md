@@ -184,7 +184,10 @@ Without the key, `/info` reports `answers_enabled: false`, `/ask` returns 503
 and the page shows search results only. The deploy smoke test checks both
 cases: a clean 503 in CI, and a real streamed, citation-checked answer after a
 production deploy. A free-tier rate limit counts as a warning, not a failed
-deploy. Optional settings: `ANSWER_MODEL` (default `openai/gpt-oss-20b`),
+deploy. The same key enables follow-up questions (`POST /rewrite`), which use
+a separate small model with its own free-tier quota. Optional settings:
+`ANSWER_MODEL` (default `openai/gpt-oss-20b`), `REWRITE_MODEL` (default
+`llama-3.1-8b-instant`),
 `LLM_BASE_URL`, `ANSWER_MIN_RELEVANCE` (default −4.0) and
 `MAX_CONCURRENT_ANSWERS` (default 2).
 

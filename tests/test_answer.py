@@ -277,3 +277,87 @@ def test_not_covered_reply(client, llm):
     events = _events(client.post("/ask", json={"question": "explain quantum tunnelling",
                                                "segment_ids": ["cn-lec026-c3-001"]}))
     assert "token" not in [e for e, _ in events] and events[-1][1]["not_covered"]
+
+
+# ── follow-ups ───────────────────────────────────────────────────────────────
+from answer.followup import (  # noqa: E402
+    MAX_TURNS, Turn, build_rewrite_messages, clean_rewrite, rewrite_question)
+
+QUICKSORT = [Turn("What is quicksort?",
+                  "Quicksort picks a **pivot** and partitions the array around it [1]. "
+                  "It then sorts both parts recursively [1, 2].")]
+
+
+def test_rewrite_prompt_uses_recent_turns_without_citations():
+    history = [Turn(f"question {i}", f"answer {i} [1]") for i in range(5)] + QUICKSORT
+    prompt = build_rewrite_messages("what is its worst case?", history)[1]["content"]
+    assert "question 2" not in prompt and "question 3" in prompt   # last MAX_TURNS only
+    assert MAX_TURNS == 3
+    assert "[1]" not in prompt and "**" not in prompt
+    assert prompt.rstrip().endswith("Follow-up: what is its worst case?\n\nStandalone question:")
+
+
+@pytest.mark.parametrize("reply, expected", [
+    ("What is the worst case of quicksort?", "What is the worst case of quicksort?"),
+    ('Standalone question: "What is the worst case of quicksort?"', "What is the worst case of quicksort?"),
+    ("Standalone question:\nWhy is quicksort O(n^2) in the worst case?\nExtra line",
+     "Why is quicksort O(n^2) in the worst case?"),
+    ("   ", None),
+    ("NOT_COVERED", None),
+    ("x" * 400, None),
+])
+def test_clean_rewrite(reply, expected):
+    assert clean_rewrite(reply) == expected
+
+
+def test_rewrite_resolves_a_follow_up():
+    llm = FakeLLM(tokens=["What is the worst case ", "of quicksort?"])
+    assert rewrite_question("what is its  worst case?", QUICKSORT, llm) == "What is the worst case of quicksort?"
+
+
+def test_rewrite_without_history_or_usable_reply_keeps_the_question():
+    llm = FakeLLM(tokens=[""])
+    assert rewrite_question("what is a socket?", [], llm) == "what is a socket?"
+    assert llm.calls == []                                          # nothing to resolve, no LLM call
+    assert rewrite_question("what about its cost?", QUICKSORT, llm) == "what about its cost?"
+
+
+@pytest.fixture
+def rewriter(api, monkeypatch):
+    fake = FakeLLM(tokens=["What is the worst case of quicksort?"])
+    monkeypatch.setattr(api, "_rewriter", fake)
+    return fake
+
+
+def _turns(history):
+    return [{"question": t.question, "answer": t.answer} for t in history]
+
+
+def test_rewrite_endpoint_is_disabled_without_a_key(client):
+    assert client.get("/info").json()["followups_enabled"] is False
+    assert client.post("/rewrite", json={"question": "and its worst case?"}).status_code == 503
+
+
+def test_rewrite_endpoint_returns_a_standalone_question(client, rewriter):
+    r = client.post("/rewrite", json={"question": "what is its worst case?", "history": _turns(QUICKSORT)})
+    body = r.json()
+    assert r.status_code == 200 and body["rewritten"] is True and body["fallback"] is None
+    assert body["standalone"] == "What is the worst case of quicksort?" and body["model"] == "fake-model"
+    assert "Quicksort picks a pivot" in rewriter.calls[0][1]["content"]
+
+
+def test_first_question_is_not_rewritten(client, rewriter):
+    body = client.post("/rewrite", json={"question": "What is quicksort?"}).json()
+    assert body["standalone"] == "What is quicksort?" and body["rewritten"] is False and rewriter.calls == []
+
+
+def test_rewrite_falls_back_to_the_question_when_rate_limited(client, rewriter):
+    rewriter.error = RateLimited("429", retry_after=20)
+    body = client.post("/rewrite", json={"question": "what is its worst case?", "history": _turns(QUICKSORT)}).json()
+    assert body["standalone"] == "what is its worst case?" and body["rewritten"] is False
+    assert body["fallback"] == "rate_limited"
+
+
+def test_rewrite_rejects_oversized_history(client, rewriter):
+    history = [{"question": "q", "answer": "a"}] * 9
+    assert client.post("/rewrite", json={"question": "and then?", "history": history}).status_code == 422

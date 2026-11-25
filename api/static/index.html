@@ -154,7 +154,7 @@
       </section>
     </div>
 
-    <!-- ── question view ───────────────────────────────────────────────── -->
+    <!-- ── question view (a thread of turns) ───────────────────────────── -->
     <div id="session" class="session">
       <div class="session-bar">
         <p id="status" class="status" role="status" aria-live="polite"></p>
@@ -167,26 +167,31 @@
       </div>
 
       <div class="session-grid">
-        <section id="answer" class="answer" aria-labelledby="answer-h">
-          <header class="answer-head">
-            <h2 id="answer-h" class="label">Answer</h2>
-            <span id="answer-state" class="state"></span>
-          </header>
-          <div id="answer-body" class="prose"></div>
-          <footer class="answer-foot">
-            <p id="answer-meta" class="answer-meta"></p>
-            <button id="copy-btn" class="btn btn-quiet btn-sm" type="button" hidden>
-              <svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h8"/></svg>
-              <span class="btn-label">Copy answer</span>
+        <div class="main-col">
+          <div id="thread" class="thread"></div>
+
+          <form id="followup-form" class="composer" hidden>
+            <label for="fq" class="sr-only">Ask a follow-up question</label>
+            <svg class="composer-ico" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5v6a4 4 0 0 0 4 4h12"/><path d="m15 10 5 5-5 5"/></svg>
+            <input id="fq" type="text" placeholder="Ask a follow-up, like “what is its time complexity?”"
+                   minlength="2" maxlength="300" autocomplete="off" enterkeyhint="send" required>
+            <button id="fq-btn" class="btn btn-primary btn-md" type="submit">
+              <span>Ask</span>
+              <svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
             </button>
-          </footer>
-        </section>
+          </form>
+        </div>
 
         <aside class="side" aria-label="Video player">
           <div id="player" class="player">
             <div id="player-frame" class="player-frame"></div>
             <div class="player-info">
-              <p id="np-kicker" class="np-kicker"></p>
+              <div class="np-head">
+                <p id="np-kicker" class="np-kicker"></p>
+                <button id="player-close" class="player-close" type="button" aria-label="Close the player">
+                  <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+                </button>
+              </div>
               <h3 id="np-title" class="np-title"></h3>
               <p id="np-sub" class="np-sub"></p>
               <div class="tabs" role="tablist" aria-label="Moment text">
@@ -202,14 +207,6 @@
             </div>
           </div>
         </aside>
-
-        <section class="moments" aria-labelledby="moments-h">
-          <header class="moments-head">
-            <h2 id="moments-h" class="label">Lecture moments</h2>
-            <span id="moments-count" class="count"></span>
-          </header>
-          <ol id="results" class="moment-list"></ol>
-        </section>
       </div>
     </div>
   </main>

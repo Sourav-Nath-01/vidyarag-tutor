@@ -131,6 +131,25 @@ def main() -> int:
                   f"cited={done['cited']} not_covered={done['not_covered']} "
                   f"first token {done.get('first_token_ms')} ms · {done.get('model')}")
 
+    # 6) Follow-ups: a question that only makes sense after the previous one
+    history = [{"question": "What is quicksort?",
+                "answer": "Quicksort picks a pivot, partitions the array around it and sorts both parts recursively."}]
+    status, body, _ = call("POST", f"{base}/rewrite", {"question": "What is its worst case?", "history": history})
+    if not info.get("followups_enabled"):
+        if status != 503:
+            print(f"✗ /rewrite should be 503 when follow-ups are disabled, got {status}")
+            return 1
+        print("✓ POST /rewrite → 503 (follow-ups disabled: no LLM key on this instance)")
+    elif status != 200 or not body.get("standalone"):
+        print(f"✗ /rewrite failed: HTTP {status} {body}")
+        return 1
+    elif body.get("fallback"):
+        print(f"⚠ POST /rewrite → used the question as typed ({body['fallback']}); not a deploy failure")
+    else:
+        resolved = "quicksort" in body["standalone"].lower()
+        print(f"{'✓' if resolved else '⚠'} POST /rewrite → “{body['standalone']}” "
+              f"in {body['ms']} ms · {body.get('model')}")
+
     print("SMOKE TEST PASSED")
     return 0
 
