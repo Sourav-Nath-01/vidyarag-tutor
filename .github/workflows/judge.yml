@@ -3,7 +3,8 @@
 #
 # The API key lives only in the JUDGE_API_KEY repository secret. judge.py is
 # resumable: when the provider's free daily limit is hit it stops cleanly, and
-# the next run (e.g. the following day) continues where it left off.
+# the next run continues where it left off; the daily schedule does that
+# unattended until the pool is fully labelled.
 name: Judge relevance
 
 on:
@@ -12,6 +13,8 @@ on:
       max_requests:
         description: "Stop after this many API requests"
         default: "1000"
+  schedule:
+    - cron: "30 1 * * *"   # daily; a no-op once every pooled passage is labelled
 
 permissions:
   contents: write   # commit benchmark/qrels.jsonl back to the branch
@@ -37,7 +40,7 @@ jobs:
           JUDGE_BASE_URL: ${{ vars.JUDGE_BASE_URL }}
           JUDGE_MODEL: ${{ vars.JUDGE_MODEL }}
         run: |
-          python benchmark/judge.py --max-requests "${{ inputs.max_requests }}" | tee judge.log
+          python benchmark/judge.py --max-requests "${{ inputs.max_requests || '1000' }}" | tee judge.log
           tail -n 1 judge.log >> "$GITHUB_STEP_SUMMARY"
 
       - name: Commit new labels
