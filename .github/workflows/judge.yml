@@ -51,4 +51,19 @@ jobs:
           if git diff --cached --quiet; then echo "no new labels"; exit 0; fi
           n=$(wc -l < benchmark/qrels.jsonl)
           git commit -m "benchmark: relevance labels ($n judged)"
-          git push
+          # The branch may have moved during the run (a judge run takes ~30 min):
+          # replay this commit on top before pushing. qrels.jsonl is only ever
+          # appended to by this workflow, so the rebase is conflict-free.
+          for attempt in 1 2 3; do
+            git pull --rebase origin "$GITHUB_REF_NAME" && git push && exit 0
+            sleep 10
+          done
+          exit 1
+
+      - name: Keep the labels even if the push failed
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: qrels-${{ github.run_id }}
+          path: benchmark/qrels.jsonl
+          retention-days: 30
