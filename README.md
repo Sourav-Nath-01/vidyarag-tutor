@@ -44,15 +44,15 @@ question ─► hybrid search ─► top-5 lecture passages ─► relevance gat
 
 ### Follow-up questions
 
-After *"What is quicksort?"*, a student asks *"What is its worst case?"*. Searching for that text finds nothing useful, because the retriever doesn't know what "its" means. So before retrieval, a small model rewrites the follow-up into a standalone question using the last three turns:
+After *"What is quicksort?"*, a student asks *"What is its worst case?"*. Searching for that text finds nothing useful, because the retriever doesn't know what "its" means. So before retrieval, an LLM rewrites the follow-up into a standalone question using the last three turns:
 
 ```
-"What is its worst case?" + recent turns ─► POST /rewrite (llama-3.1-8b-instant) ─► "What is the worst case of quicksort?" ─► search ─► /ask
+"What is its worst case?" + recent turns ─► POST /rewrite (gpt-oss-20b) ─► "What is the worst case of quicksort?" ─► search ─► /ask
 ```
 
 - **The conversation resolves references; it is never evidence.** The answer is written only from the passages retrieved for the rewritten question, so its citations always point at those passages. The page shows what was searched (*Searched for "…"*), so a bad rewrite is visible rather than silent.
 - **Stateless server.** The page keeps the conversation and sends the recent turns with each follow-up. Nothing is stored server-side, so any replica, including a fresh one after scaling to zero, can serve it.
-- **Cheap and safe to fail.** The rewrite uses a small, fast model at temperature 0 with its own free-tier quota, separate from the answer model's. If it's rate-limited or fails, the question is searched as typed (`fallback` says why), so a follow-up never errors out.
+- **Cheap and safe to fail.** The rewrite is one short, deterministic call (temperature 0, low reasoning effort), typically well under a second. If it's rate-limited or fails, the question is searched as typed (`fallback` says why), so a follow-up never errors out. The first question of a conversation skips it entirely.
 - **Shareable.** The address bar holds the standalone question, so a copied link to a follow-up still makes sense on its own.
 
 ---
