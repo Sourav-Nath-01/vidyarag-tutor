@@ -1,0 +1,12 @@
+{
+  "about": "C3 index the Docker build downloads; built by .github/workflows/rebuild-index.yml. fetch_artifacts.py rejects any file whose sha256 differs.",
+  "release": "https://github.com/Sourav-Nath-01/vidyarag-tutor/releases/download/index-c3-42bd07a6084d",
+  "chunks": 16050,
+  "lectures": 522,
+  "built_from_commit": "2f958129fede0576b19fc79bb4ef5839dc74cf5d",
+  "files": {
+    "bm25_c3.pkl": "1f553f77c08a76eb17aa074468145f0ce861bb9ab54aaeb29850d253bb2c0b04",
+    "faiss_c3.index": "da32b51d742a805baabde32becada5d9ca6bfe63b1c347e1400d66c13431a054",
+    "metadata_c3.json": "ce2254ac9a96de1c0b44155ba6971e9736a0ad82dc20743ccf56e157f51bf176"
+  }
+}

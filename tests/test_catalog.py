@@ -69,6 +69,25 @@ def test_duplicates_point_at_a_real_lecture_with_the_same_video():
             assert r["video_id"] == by_folder[r["duplicate_of"]]["video_id"]
 
 
+def test_deployed_index_is_built_from_this_catalogue():
+    """deploy/index.lock.json must pin the release built from the current inputs.
+
+    rebuild-index.yml tags each release with a hash of these files, so editing
+    the catalogue without rebuilding and re-pinning fails here, not in prod.
+    """
+    import hashlib
+
+    inputs = ["data/catalog/lectures.json", "data/catalog/c3_segment_map.json",
+              "scripts/data_fix/rebuild_c3_index.py",
+              "src/retrieval/embedder.py", "src/retrieval/bm25_builder.py"]
+    digest = hashlib.sha256(b"".join((ROOT / p).read_bytes() for p in inputs)).hexdigest()[:12]
+    lock = json.loads((ROOT / "deploy" / "index.lock.json").read_text())
+    assert lock["release"].endswith(f"/index-c3-{digest}"), (
+        f"index.lock.json is stale: inputs hash to index-c3-{digest}; "
+        "push to run rebuild-index.yml, then pin its release")
+    assert set(lock["files"]) == {"faiss_c3.index", "metadata_c3.json", "bm25_c3.pkl"}
+
+
 # ── the matcher ──────────────────────────────────────────────────────────────
 
 def _pl(*titles):
