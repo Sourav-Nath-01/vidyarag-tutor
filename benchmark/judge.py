@@ -81,8 +81,9 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--pool", type=Path, default=ROOT / "benchmark" / "pool.jsonl")
     ap.add_argument("--qrels", type=Path, default=ROOT / "benchmark" / "qrels.jsonl")
-    ap.add_argument("--base-url", default=os.getenv("JUDGE_BASE_URL", "https://api.groq.com/openai/v1"))
-    ap.add_argument("--model", default=os.getenv("JUDGE_MODEL", "openai/gpt-oss-120b"))
+    # `or`: CI passes unset repository variables as empty strings
+    ap.add_argument("--base-url", default=os.getenv("JUDGE_BASE_URL") or "https://api.groq.com/openai/v1")
+    ap.add_argument("--model", default=os.getenv("JUDGE_MODEL") or "openai/gpt-oss-120b")
     ap.add_argument("--batch", type=int, default=10, help="passages per request")
     ap.add_argument("--max-requests", type=int, default=10_000)
     args = ap.parse_args()

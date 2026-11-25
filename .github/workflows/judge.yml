@@ -1,0 +1,51 @@
+# Labels the benchmark pool with the LLM relevance judge (benchmark/judge.py)
+# and commits the new labels to the branch it ran on.
+#
+# The API key lives only in the JUDGE_API_KEY repository secret. judge.py is
+# resumable: when the provider's free daily limit is hit it stops cleanly, and
+# the next run (e.g. the following day) continues where it left off.
+name: Judge relevance
+
+on:
+  workflow_dispatch:
+    inputs:
+      max_requests:
+        description: "Stop after this many API requests"
+        default: "1000"
+
+permissions:
+  contents: write   # commit benchmark/qrels.jsonl back to the branch
+
+concurrency:
+  group: judge-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  judge:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Judge pooled passages (stdlib only, resumable)
+        env:
+          JUDGE_API_KEY: ${{ secrets.JUDGE_API_KEY }}
+          JUDGE_BASE_URL: ${{ vars.JUDGE_BASE_URL }}
+          JUDGE_MODEL: ${{ vars.JUDGE_MODEL }}
+        run: |
+          python benchmark/judge.py --max-requests "${{ inputs.max_requests }}" | tee judge.log
+          tail -n 1 judge.log >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Commit new labels
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add benchmark/qrels.jsonl
+          if git diff --cached --quiet; then echo "no new labels"; exit 0; fi
+          n=$(wc -l < benchmark/qrels.jsonl)
+          git commit -m "benchmark: relevance labels ($n judged)"
+          git push
