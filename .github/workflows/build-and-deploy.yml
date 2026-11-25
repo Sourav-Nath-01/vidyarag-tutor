@@ -17,6 +17,7 @@ on:
     paths:
       - "api/**"
       - "src/retrieval/**"
+      - "src/answer/**"
       - "scripts/fetch_artifacts.py"
       - "deploy/Dockerfile"
       - "deploy/requirements/api.txt"
@@ -29,6 +30,7 @@ on:
     paths:
       - "api/**"
       - "src/retrieval/**"
+      - "src/answer/**"
       - "scripts/fetch_artifacts.py"
       - "deploy/Dockerfile"
       - "deploy/requirements/api.txt"

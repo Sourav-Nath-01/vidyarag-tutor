@@ -6,6 +6,8 @@
 !api/**
 !src/retrieval/
 !src/retrieval/**
+!src/answer/
+!src/answer/**
 !scripts/fetch_artifacts.py
 !deploy/requirements/api.txt
 !deploy/index.lock.json
