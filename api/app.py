@@ -10,6 +10,7 @@ Endpoints
   GET  /health      → liveness probe  (process is up)
   GET  /ready       → readiness probe (models + default index loaded)
   POST /search      → run the full retrieval pipeline
+  POST /ask         → grounded, cited answer (Server-Sent Events); needs LLM_API_KEY
   GET  /strategies  → list chunking strategies and which are deployed
 
 Running
@@ -31,6 +32,12 @@ Environment variables (all optional):
     SEARCH_QUEUE_TIMEOUT_SEC — how long a request waits for a free slot before 503 (default: 30)
     APP_VERSION              — build identifier shown on / (the Docker build sets the git SHA)
     OLLAMA_MODEL             — ollama model name (default: llama3.2:3b)
+    LLM_API_KEY              — OpenAI-compatible API key (e.g. Groq); /ask is disabled without it
+    ANSWER_MODEL             — model for /ask (default: openai/gpt-oss-20b)
+    LLM_BASE_URL             — provider endpoint (default: https://api.groq.com/openai/v1)
+    ANSWER_MIN_RELEVANCE     — cross-encoder score below which /ask says "not covered"
+                               without calling the LLM (default: -4.0)
+    MAX_CONCURRENT_ANSWERS   — LLM calls allowed at once (default: 2)
 
 Example request:
     curl -X POST http://localhost:8000/search \\
@@ -46,6 +53,7 @@ import os
 import sys
 import threading
 import time
+from collections import OrderedDict
 from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import List, Optional
@@ -57,6 +65,7 @@ for _candidate in [_root / "src" / "retrieval", _root / "src"]:
     if (_candidate / "retriever.py").exists():
         sys.path.insert(0, str(_candidate))
         break
+sys.path.insert(0, str(_root / "src"))   # for the `answer` package
 
 # ── load .env ──────────────────────────────────────────────────────────────────
 try:
@@ -83,7 +92,7 @@ log = logging.getLogger("vidyarag.api")
 try:
     from fastapi import FastAPI, HTTPException, Request
     from fastapi.middleware.cors import CORSMiddleware
-    from fastapi.responses import FileResponse, JSONResponse
+    from fastapi.responses import FileResponse, JSONResponse, StreamingResponse
     from fastapi.staticfiles import StaticFiles
     from pydantic import BaseModel, Field
 except ImportError as e:
@@ -129,6 +138,8 @@ def _bootstrap_indexes() -> None:
 _bootstrap_indexes()
 
 import retriever as _ret  # noqa: E402  (must come after the bootstrap)
+from answer.grounded import answer_events, build_sources, rerank_passage  # noqa: E402
+from answer.llm import LLMClient, LLMError, RateLimited  # noqa: E402
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Runtime configuration & state
@@ -147,6 +158,16 @@ _search_slots = threading.BoundedSemaphore(MAX_CONCURRENT_SEARCHES)
 _index_lock   = threading.Lock()   # load each strategy's index only once
 
 _state: dict = {"ready": False, "error": None, "startup_sec": None}
+
+# Grounded answers (POST /ask). Disabled unless LLM_API_KEY is set, which on
+# Azure comes from a Container Apps secret, never from the image or the repo.
+_llm = LLMClient.from_env()
+ANSWER_MIN_RELEVANCE   = float(os.getenv("ANSWER_MIN_RELEVANCE", "-4.0"))
+_answer_slots          = threading.BoundedSemaphore(int(os.getenv("MAX_CONCURRENT_ANSWERS", "2")))
+_ANSWER_CACHE_SIZE     = 256   # free-tier LLM quota is small; repeat questions cost nothing
+_answer_cache: "OrderedDict[tuple, list]" = OrderedDict()
+_answer_cache_lock     = threading.Lock()
+_segment_index: dict[str, dict[str, int]] = {}   # strategy → segment_id → row
 
 
 def _available_strategies() -> list[str]:
@@ -222,7 +243,8 @@ app = FastAPI(
     description=(
         "Multimodal hybrid retrieval over NPTEL lecture transcripts and OCR slide text. "
         "Pipeline: BGE-large dense (FAISS) + BM25 sparse, fused via Reciprocal Rank Fusion, "
-        "reranked with cross-encoder/ms-marco-MiniLM. Achieves MRR 0.826 / Recall@10 0.964."
+        "reranked with cross-encoder/ms-marco-MiniLM. POST /ask turns the top passages into a "
+        "grounded, cited answer."
     ),
     version=APP_VERSION,
     docs_url="/docs",
@@ -350,6 +372,8 @@ class InfoResponse(BaseModel):
     available_strategies: List[str]
     embedding_model: str
     reranker_model: str
+    answers_enabled: bool = False
+    answer_model: Optional[str] = None
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -387,6 +411,8 @@ def info():
         available_strategies=_available_strategies(),
         embedding_model=_ret.EMBEDDING_MODEL,
         reranker_model=_ret.RERANKER_MODEL,
+        answers_enabled=_llm is not None,
+        answer_model=_llm.model if _llm else None,
     )
 
 
@@ -424,6 +450,7 @@ def list_strategies():
         "available": _available_strategies(),
         "recommended": "c3",
         "best_metrics": {
+            "note": "v1 grader: course + timestamp only, not the lecture; upper bounds (see README)",
             "MRR": 0.8259,
             "Recall@5": 0.9524,
             "Recall@10": 0.9643,
@@ -497,6 +524,122 @@ def search(request: SearchRequest):
         n_results   = len(results),
         results     = [SearchResultItem(**r) for r in results],
     )
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Grounded answers
+# ─────────────────────────────────────────────────────────────────────────────
+
+class AskRequest(BaseModel):
+    question: str = Field(..., min_length=3, max_length=300,
+                          examples=["why does TCP use a three way handshake"])
+    segment_ids: Optional[List[str]] = Field(
+        default=None, max_length=8,
+        description="Answer from these chunks, e.g. the top results of a /search "
+                    "(then citation [n] = result n). Omit to search first.")
+    top_k: int = Field(default=5, ge=1, le=8, description="How many passages the answer may use.")
+
+
+def _sse(event: str, data: dict) -> str:
+    return f"event: {event}\ndata: {json.dumps(data, ensure_ascii=False)}\n\n"
+
+
+def _index_of(strategy: str) -> dict[str, int]:
+    if strategy not in _segment_index:
+        metadata = _ret._index_cache[strategy]["metadata"]
+        _segment_index[strategy] = {s["segment_id"]: i for i, s in enumerate(metadata)}
+    return _segment_index[strategy]
+
+
+@app.post("/ask", tags=["Answers"])
+def ask(request: AskRequest):
+    """
+    Answer a question from the lectures, citing the moments it draws on.
+
+    Streams Server-Sent Events: `sources` (numbered passages with playable
+    timestamps), `token` (answer text), then `done` (citation check:
+    `grounded`, `cited`, `citation_coverage`, `not_covered`) or `error`.
+    If no passage is relevant enough, the answer is "not covered" and the
+    LLM isn't called.
+    """
+    if _llm is None:
+        raise HTTPException(status_code=503, detail="AI answers are not enabled on this instance.")
+    if not _state["ready"]:
+        raise HTTPException(status_code=503, detail="Service is warming up.", headers={"Retry-After": "10"})
+
+    t0 = time.time()
+    question = " ".join(request.question.split())
+    strategy = DEFAULT_STRATEGY
+    index_of = _index_of(strategy)
+    metadata = _ret._index_cache[strategy]["metadata"]
+
+    if request.segment_ids:
+        unknown = [s for s in request.segment_ids if s not in index_of]
+        if unknown:
+            raise HTTPException(status_code=422, detail=f"Unknown segment_ids: {unknown[:3]}")
+        segment_ids = request.segment_ids[:request.top_k]
+    else:
+        if not _search_slots.acquire(timeout=SEARCH_QUEUE_TIMEOUT_SEC):
+            raise HTTPException(status_code=503, detail="Server busy. Please retry shortly.",
+                                headers={"Retry-After": "5"})
+        try:
+            results = _ret.search(query=question, strategy=strategy, top_k=request.top_k, verbose=False)
+        finally:
+            _search_slots.release()
+        segment_ids = [r["segment_id"] for r in results]
+
+    sources = build_sources(segment_ids, metadata, index_of)
+    # Relevance gate: score the passages exactly as search's reranker does.
+    relevance = None
+    if sources:
+        pairs = [[question, rerank_passage(metadata[index_of[s.segment_id]])] for s in sources]
+        relevance = round(float(max(_ret._get_rerank_model().predict(pairs))), 3)
+    retrieval_ms = round((time.time() - t0) * 1000)
+
+    key = (question.lower(), tuple(s.segment_id for s in sources))
+    with _answer_cache_lock:
+        cached = _answer_cache.get(key)
+        if cached is not None:
+            _answer_cache.move_to_end(key)
+
+    def stream():
+        meta = {"model": _llm.model, "retrieval_ms": retrieval_ms}
+        if cached is not None:
+            for event, data in cached:
+                yield _sse(event, {**data, **meta, "cached": True} if event == "done" else data)
+            return
+        if not _answer_slots.acquire(timeout=SEARCH_QUEUE_TIMEOUT_SEC):
+            yield _sse("error", {"code": "busy", "message": "Too many answers in progress. Try again shortly."})
+            return
+        events, first_token_ms = [], None
+        try:
+            for event, data in answer_events(question, sources, _llm, relevance=relevance,
+                                             min_relevance=ANSWER_MIN_RELEVANCE):
+                if event == "token" and first_token_ms is None:
+                    first_token_ms = round((time.time() - t0) * 1000)
+                if event == "done":
+                    data = {**data, **meta, "first_token_ms": first_token_ms,
+                            "total_ms": round((time.time() - t0) * 1000), "cached": False}
+                events.append((event, data))
+                yield _sse(event, data)
+        except RateLimited as e:
+            log.warning("answer rate-limited (retry_after=%s)", e.retry_after)
+            yield _sse("error", {"code": "rate_limited", "retry_after": e.retry_after,
+                                 "message": "The free AI quota is used up for now. Search results still work."})
+            return
+        except LLMError as e:
+            log.error("answer failed: %s", e)
+            yield _sse("error", {"code": "llm_error", "message": "The AI answer failed. Search results still work."})
+            return
+        finally:
+            _answer_slots.release()
+        with _answer_cache_lock:
+            _answer_cache[key] = events
+            while len(_answer_cache) > _ANSWER_CACHE_SIZE:
+                _answer_cache.popitem(last=False)
+
+    return StreamingResponse(stream(), media_type="text/event-stream",
+                             headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"})
 
 
 # ─────────────────────────────────────────────────────────────────────────────

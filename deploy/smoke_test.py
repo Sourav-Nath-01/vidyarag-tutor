@@ -37,6 +37,20 @@ def call(method: str, url: str, body: dict | None = None, timeout: float = 120):
         return e.code, payload, e.headers
 
 
+def ask_events(url: str, body: dict, timeout: float = 120) -> list[tuple[str, dict]]:
+    """POST to an SSE endpoint and return its (event, data) pairs."""
+    req = urllib.request.Request(url, data=json.dumps(body).encode(), method="POST",
+                                 headers={"Content-Type": "application/json"})
+    with urllib.request.urlopen(req, timeout=timeout) as resp:
+        text = resp.read().decode()
+    events = []
+    for block in filter(None, text.split("\n\n")):
+        fields = dict(line.split(": ", 1) for line in block.splitlines() if ": " in line)
+        if "event" in fields and "data" in fields:
+            events.append((fields["event"], json.loads(fields["data"])))
+    return events
+
+
 def main() -> int:
     p = argparse.ArgumentParser()
     p.add_argument("base_url", help="e.g. http://127.0.0.1:7860 or https://<app>.azurecontainerapps.io")
@@ -93,6 +107,29 @@ def main() -> int:
         print(f"✗ expected 422 for a too-short query, got {status}")
         return 1
     print("✓ invalid input rejected with 422")
+
+    # 5) Grounded answers: disabled without an LLM key (CI), real call in production
+    if not info.get("answers_enabled"):
+        status, _, _ = call("POST", f"{base}/ask", {"question": args.query})
+        if status != 503:
+            print(f"✗ /ask should be 503 when answers are disabled, got {status}")
+            return 1
+        print("✓ POST /ask → 503 (answers disabled: no LLM key on this instance)")
+    else:
+        ids = [r["segment_id"] for r in res["results"] if r.get("segment_id")]
+        events = ask_events(f"{base}/ask", {"question": args.query, "segment_ids": ids})
+        kinds = [e for e, _ in events]
+        done = next((d for e, d in events if e == "done"), None)
+        error = next((d for e, d in events if e == "error"), None)
+        if error and error.get("code") == "rate_limited":
+            print("⚠ POST /ask → rate-limited by the LLM provider's free tier (not a deploy failure)")
+        elif kinds[:1] != ["sources"] or done is None:
+            print(f"✗ /ask stream malformed or failed: events={kinds} error={error}")
+            return 1
+        else:
+            print(f"✓ POST /ask → {kinds.count('token')} tokens, grounded={done['grounded']} "
+                  f"cited={done['cited']} not_covered={done['not_covered']} "
+                  f"first token {done.get('first_token_ms')} ms · {done.get('model')}")
 
     print("SMOKE TEST PASSED")
     return 0

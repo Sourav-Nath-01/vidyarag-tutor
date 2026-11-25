@@ -50,4 +50,4 @@ def test_only_top_10_counts():
 def test_bootstrap_ci_brackets_the_mean():
     lo, hi = score.bootstrap_ci([0.0, 1.0] * 50)
     assert lo < 0.5 < hi and 0.35 < lo and hi < 0.65
-    assert score.bootstrap_ci([0.7] * 20) == (0.7, 0.7)
+    assert score.bootstrap_ci([0.7] * 20) == pytest.approx((0.7, 0.7))

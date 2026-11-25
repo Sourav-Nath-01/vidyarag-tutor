@@ -66,6 +66,7 @@ RUN python scripts/fetch_artifacts.py --strategies "${INDEX_STRATEGIES}" --index
 
 # ── 3) Application code (small, changes most often → last) ───────────────────
 COPY --chown=app:app src/retrieval/ src/retrieval/
+COPY --chown=app:app src/answer/ src/answer/
 COPY --chown=app:app api/ api/
 
 # Everything the app needs is in the image now — forbid runtime Hub calls.
