@@ -54,6 +54,7 @@ After *"What is quicksort?"*, a student asks *"What is its worst case?"*. Search
 - **Stateless server.** The page keeps the conversation and sends the recent turns with each follow-up. Nothing is stored server-side, so any replica, including a fresh one after scaling to zero, can serve it.
 - **Cheap and safe to fail.** The rewrite is one short, deterministic call (temperature 0, low reasoning effort), typically well under a second. If it's rate-limited or fails, the question is searched as typed (`fallback` says why), so a follow-up never errors out. The first question of a conversation skips it entirely.
 - **Shareable.** The address bar holds the standalone question, so a copied link to a follow-up still makes sense on its own.
+- **One input.** In a conversation, everything is typed into one box under the answers, and every question goes through the rewrite. A change of topic ("what is backpropagation?") comes back unchanged, so there's no separate "new question" mode to get wrong. **New conversation** starts fresh.
 
 ---
 

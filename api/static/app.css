@@ -301,11 +301,14 @@ svg { flex: none; }
 [data-view="session"] .examples { display: none; }
 [data-view="session"] .session { display: block; }
 [data-view="session"] .search { margin-top: 28px; max-width: none; }
+/* With answers on, a conversation has one input: the box under the thread. */
+[data-view="session"][data-answers="on"] .search { display: none; }
+[data-view="session"][data-answers="on"] .session-bar { margin-top: 24px; }
 [data-view="session"] .search-under { display: none; }
 
 /* ── question view ────────────────────────────────────────────────────────── */
 .session-bar { position: relative; z-index: 20; display: flex; align-items: center; justify-content: space-between; gap: 8px 16px; min-height: 30px; margin: 14px 0 20px; flex-wrap: wrap; }
-.session-actions { display: flex; align-items: center; gap: 6px; margin-left: auto; }
+.session-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: 6px; margin-left: auto; }
 .session-actions .settings-panel { left: auto; right: 0; }
 .settings-panel { max-width: calc(100vw - 32px); }
 .status { margin: 0; font: 400 12.5px/1.5 var(--mono); color: var(--muted); }
@@ -621,7 +624,7 @@ mark {
     width: auto; max-width: 520px; margin-inline: auto; display: none;
   }
   .session.player-open .side { display: block; animation: dock .22s ease-out; }
-  .session.player-open { padding-bottom: min(calc((100vw - 20px) * .5625 + 96px), 400px); }
+  .session.player-open { padding-bottom: calc(var(--dock-h, 280px) + 24px); }
   .player { position: static; box-shadow: var(--shadow-lg); }
   .player .tabs, .player .np-text, .player .np-sub { display: none; }
   .player-info { padding: 10px 12px 12px; }
@@ -630,7 +633,14 @@ mark {
     display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical;
   }
   .player-close { display: inline-grid; }
-  .composer { position: static; }
+  .composer { bottom: 10px; margin-top: 28px; }
+  .session.player-open .composer { bottom: calc(var(--dock-h, 280px) + 20px); }
+  .session-actions .btn-label { font-size: 12.5px; }
+  /* phones: icon-only settings and share, so the toolbar fits on one row */
+  .session-actions .settings-label, #share-btn .btn-label { display: none; }
+  .session-actions .settings summary, #share-btn { width: 32px; padding: 0; justify-content: center; }
+  .session-actions { position: relative; }
+  .session-actions .settings { position: static; }   /* menu anchors to the toolbar's right edge */
   .how { grid-template-columns: minmax(0, 1fr); }
   .course-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
