@@ -22,14 +22,15 @@ flowchart LR
 
     subgraph gha[GitHub Actions — build-and-deploy.yml]
         direction LR
-        t[Unit tests<br/>51 tests, ~1 s] --> b[docker build<br/>CPU torch + models + C3 index]
+        t[Unit tests<br/>69 tests, ~1 s] --> b[docker build<br/>CPU torch + models + C3 index]
         b --> s[Smoke test<br/>--network none · 2 CPU · 4 GB]
         s --> p[Push to GHCR<br/>:sha and :latest]
         p --> d[az containerapp update<br/>OIDC login, no secrets]
         d --> v[Verify live revision<br/>/ready reports this SHA → real search]
     end
 
-    hf[(HF dataset<br/>vidyarag-indexes)] -. build time .-> b
+    rel[(GitHub release<br/>C3 index, sha256-pinned)] -. build time .-> b
+    hf[(Hugging Face Hub<br/>model weights)] -. build time .-> b
     p --> ghcr[(GHCR)]
     ghcr -- image pull --> aca
 
@@ -64,6 +65,13 @@ downloads the embedding model, the reranker and the C3 indexes during
 out. Each image tag therefore pins an exact model and index set, cold starts
 don't depend on a third-party download, and CI proves this by running the
 smoke test with `--network none`.
+
+**The index is a versioned, verified build artifact.** The C3 index is built
+by `.github/workflows/rebuild-index.yml` from the committed lecture catalogue
+(see the README's *Data integrity fix*) and published as a GitHub release
+whose tag is a hash of its inputs, so a release never changes after it is
+published. `deploy/index.lock.json` pins that release and the sha256 of each
+file; the Docker build refuses any file that doesn't match.
 
 **Only the C3 strategy in production.** C3 is the best configuration (MRR
 0.826). The other strategies exist for the ablation study, and shipping only

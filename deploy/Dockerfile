@@ -54,10 +54,15 @@ ENV HOME=/home/app \
 # ── 2) Model weights + search indexes (~1.6 GB) ───────────────────────────────
 # Only C3 (the best strategy) by default — it keeps peak memory well inside a
 # 4 GiB container. Build with --build-arg INDEX_STRATEGIES=c1,c2,c3 for all.
+# The C3 files come from the release pinned in deploy/index.lock.json (built by
+# .github/workflows/rebuild-index.yml with corrected lecture links); the build
+# fails if any file's sha256 differs from the lock.
 ARG INDEX_STRATEGIES=c3
 ARG INDEX_REPO_ID=SouravNath/vidyarag-indexes
 COPY --chown=app:app scripts/fetch_artifacts.py scripts/fetch_artifacts.py
-RUN python scripts/fetch_artifacts.py --strategies "${INDEX_STRATEGIES}" --index-repo "${INDEX_REPO_ID}"
+COPY --chown=app:app deploy/index.lock.json deploy/index.lock.json
+RUN python scripts/fetch_artifacts.py --strategies "${INDEX_STRATEGIES}" --index-repo "${INDEX_REPO_ID}" \
+      --index-lock deploy/index.lock.json
 
 # ── 3) Application code (small, changes most often → last) ───────────────────
 COPY --chown=app:app src/retrieval/ src/retrieval/
