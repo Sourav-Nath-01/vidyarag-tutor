@@ -45,6 +45,9 @@ plain language, using short paragraphs or a short list. Stay under 220 words.
 
 _CITE = re.compile(r"\[(\d{1,2}(?:\s*,\s*\d{1,2})*)\]")
 _SENTENCE_END = re.compile(r"(?<=[.!?])\s+|\n+")
+# Citations written after the full stop ("…the heap. [1]") belong to the
+# sentence before them; move them inside it before splitting into sentences.
+_CITE_AFTER_STOP = re.compile(r"([.!?])((?:\s*\[\d{1,2}(?:\s*,\s*\d{1,2})*\])+)")
 
 
 class ChatModel(Protocol):
@@ -151,7 +154,8 @@ def check_answer(text: str, n_sources: int) -> AnswerCheck:
             n = int(part)
             (cited if 1 <= n <= n_sources else invalid).add(n)
     # Count sentences that state something (skip headings / very short fragments).
-    sentences = [s for s in _SENTENCE_END.split(stripped) if len(s.split()) >= 5]
+    attached = _CITE_AFTER_STOP.sub(lambda m: f"{m.group(2)}{m.group(1)}", stripped)
+    sentences = [s for s in _SENTENCE_END.split(attached) if len(s.split()) >= 5]
     return AnswerCheck(False, sorted(cited), sorted(invalid), len(sentences),
                        sum(1 for s in sentences if _CITE.search(s)))
 
