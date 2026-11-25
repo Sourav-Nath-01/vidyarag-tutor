@@ -142,7 +142,7 @@
   }
 
   function plainAnswer(text) {
-    return text.replace(/\s*\[\d{1,2}(?:\s*,\s*\d{1,2})*\]/g, "").replace(/\*\*/g, "").trim();
+    return text.replace(/\s*\[\d{1,2}(?:\s*,\s*\d{1,2})*\]/g, "").replace(/\*+/g, "").trim();
   }
 
   function setStatus(message, kind = "") {
@@ -439,15 +439,18 @@
   }
 
   // Minimal, safe rendering of the model's plain text: paragraphs, bullet or
-  // numbered lists, **bold**, and [n] / [n, m] citations as play buttons.
+  // numbered lists, **bold**, *italic*, and [n] / [n, m] citations as play buttons.
   function renderAnswer(turn, text) {
     const frag = document.createDocumentFragment();
     const inline = (node, line) => {
       let last = 0;
-      for (const m of line.matchAll(/\*\*([^*]+)\*\*|\[(\d{1,2}(?:\s*,\s*\d{1,2})*)\]/g)) {
+      // **bold**, *italic* (not "a * b"), and [n] / [n, m] citations.
+      const re = /\*\*([^*]+)\*\*|\*(?!\s)([^*\n]+?)(?<!\s)\*|\[(\d{1,2}(?:\s*,\s*\d{1,2})*)\]/g;
+      for (const m of line.matchAll(re)) {
         if (m.index > last) node.append(line.slice(last, m.index));
         if (m[1] !== undefined) node.append(el("strong", { text: m[1] }));
-        else for (const part of m[2].split(",")) node.append(citeButton(turn, Number(part)));
+        else if (m[2] !== undefined) node.append(el("em", { text: m[2] }));
+        else for (const part of m[3].split(",")) node.append(citeButton(turn, Number(part)));
         last = m.index + m[0].length;
       }
       node.append(line.slice(last));
