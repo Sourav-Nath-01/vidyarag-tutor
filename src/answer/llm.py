@@ -38,6 +38,7 @@ class LLMClient:
     base_url: str = DEFAULT_BASE_URL
     timeout_sec: float = 60.0
     max_tokens: int = 900
+    temperature: float = 0.2
 
     @classmethod
     def from_env(cls) -> "LLMClient | None":
@@ -53,7 +54,7 @@ class LLMClient:
         import requests  # imported here so the API (and its tests) load without it
 
         body = {"model": self.model, "messages": messages, "stream": True,
-                "temperature": 0.2, "max_tokens": self.max_tokens}
+                "temperature": self.temperature, "max_tokens": self.max_tokens}
         if "gpt-oss" in self.model:
             # Keep the model's hidden reasoning short and out of the answer stream.
             body.update(reasoning_effort="low", include_reasoning=False)
