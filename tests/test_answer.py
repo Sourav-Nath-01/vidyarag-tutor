@@ -85,6 +85,18 @@ def test_check_answer_coverage_and_grounding():
     assert c.as_dict()["citation_coverage"] == 0.5
 
 
+def test_citation_after_the_full_stop_counts_for_that_sentence():
+    # The model often cites after the punctuation ("…memory space. [1]"); seen
+    # live as "0% of sentences cited" on a fully cited list.
+    text = ("A process owns its code, heap and stack. [1]\n"
+            "1. **Memory** – A thread shares the heap of its process. [1, 2]  \n"
+            "2. **Lifetime** – Threads end when their process ends. [2] Each thread has its own stack. [1]\n"
+            "These points cover the main differences between them.")
+    c = check_answer(text, 2)
+    assert (c.sentences, c.cited_sentences) == (5, 4)
+    assert c.cited == [1, 2] and c.grounded
+
+
 def test_answer_without_citations_is_not_grounded():
     assert not check_answer("Sockets are endpoints for communication between two programs.", 3).grounded
 
