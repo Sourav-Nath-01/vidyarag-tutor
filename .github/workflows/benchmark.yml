@@ -1,0 +1,61 @@
+# Runs the retrieval benchmark against the index pinned in deploy/index.lock.json
+# with the same pinned dependencies as the production image.
+#
+#   run      every query through 4 retrieval configs → benchmark/runs/*.jsonl
+#   pool     every distinct passage any config returned → benchmark/pool.jsonl
+#            (the set the relevance judge labels)
+#
+# Outputs are uploaded as a workflow artifact.
+name: Benchmark
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - benchmark/queries.jsonl
+      - benchmark/run.py
+      - deploy/index.lock.json
+      - src/retrieval/**
+      - .github/workflows/benchmark.yml
+
+permissions:
+  contents: read
+
+concurrency:
+  group: benchmark-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  retrieval:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: deploy/requirements/api.txt
+
+      - name: Install dependencies (CPU PyTorch)
+        run: |
+          pip install --index-url https://download.pytorch.org/whl/cpu "$(grep -E '^torch==' deploy/requirements/api.txt)"
+          pip install -r deploy/requirements/api.txt
+
+      - name: Fetch models + pinned index (sha256-verified)
+        run: python scripts/fetch_artifacts.py --index-lock deploy/index.lock.json
+
+      - name: Run all configs and pool passages
+        env:
+          EMBEDDING_DEVICE: cpu
+          HF_HUB_OFFLINE: "1"
+        run: python benchmark/run.py --pool
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: benchmark-runs
+          path: |
+            benchmark/runs/
+            benchmark/pool.jsonl
+          retention-days: 30
