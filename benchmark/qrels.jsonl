@@ -1,0 +1,26 @@
+{"qid": "dsa_001", "segment_id": "dsa-lec001-c3-035", "video_id": "SFcKedpnqwg", "grade": 2, "why": "gives definition as sequence of instructions", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dsa_001", "segment_id": "daa-lec054-c3-003", "video_id": "btytfRFySg0", "grade": 0, "why": "about checking algorithms", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dsa_001", "segment_id": "dsa-lec009-c3-028", "video_id": "KUwAOa0xT60", "grade": 0, "why": "mentions invariants, not definition", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dsa_001", "segment_id": "dsa-lec002-c3-055", "video_id": "5Toj_aTmjLE", "grade": 0, "why": "distinguishes algorithms from data structures", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dsa_001", "segment_id": "daa-lec055-c3-001", "video_id": "iBX_3wLreWc", "grade": 0, "why": "covers P vs NP", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dsa_001", "segment_id": "daa-lec029-c3-012", "video_id": "-M6IzZMpm1Y", "grade": 0, "why": "describes Prim's execution", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dsa_001", "segment_id": "daa-lec001-c3-005", "video_id": "gY0MwGLq9W8", "grade": 0, "why": "course outline, no definition", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dsa_001", "segment_id": "dsa-lec020-c3-019", "video_id": "WMCiRiZtXKk", "grade": 0, "why": "discusses algorithmic bounds", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dsa_001", "segment_id": "daa-lec030-c3-013", "video_id": "b2-vAkasvD0", "grade": 0, "why": "union‑find operations", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dsa_001", "segment_id": "daa-lec053-c3-007", "video_id": "AhIzCq83c7Q", "grade": 0, "why": "explains reductions", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dsa_001", "segment_id": "dl-lec016-c3-003", "video_id": "vAOI9kTDVoo", "grade": 0, "why": "No algorithm definition", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dsa_001", "segment_id": "dbms-lec003-c3-020", "video_id": "Co12LqzGpTA", "grade": 0, "why": "Irrelevant DB content", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dsa_001", "segment_id": "dsa-lec036-c3-033", "video_id": "H2Oao3WPZRQ", "grade": 0, "why": "About MST, not algorithms definition", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dsa_001", "segment_id": "daa-lec026-c3-006", "video_id": "YbbGemzQ5ok", "grade": 0, "why": "Bellman-Ford, not definition", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dsa_001", "segment_id": "dsa-lec027-c3-048", "video_id": "Qh8ykMXMZdk", "grade": 0, "why": "Articulation points, not definition", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dsa_001", "segment_id": "daa-lec055-c3-017", "video_id": "iBX_3wLreWc", "grade": 0, "why": "NP-completeness, not definition", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dsa_001", "segment_id": "dsa-lec001-c3-038", "video_id": "SFcKedpnqwg", "grade": 1, "why": "Mentions algorithm concept", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dsa_001", "segment_id": "dsa-lec002-c3-060", "video_id": "5Toj_aTmjLE", "grade": 0, "why": "Invariant discussion, not definition", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dsa_001", "segment_id": "dsa-lec033-c3-004", "video_id": "YERPkd8msNU", "grade": 0, "why": "Union‑find, not definition", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dsa_001", "segment_id": "dsa-lec011-c3-047", "video_id": "tVZIB0dEs9w", "grade": 0, "why": "Data structures query speed, not definition", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dsa_001", "segment_id": "dsa-lec009-c3-024", "video_id": "KUwAOa0xT60", "grade": 0, "why": "no definition or properties", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dsa_001", "segment_id": "daa-lec005-c3-003", "video_id": "JzjkWMTPkdA", "grade": 0, "why": "focuses on runtime, not definition", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dsa_001", "segment_id": "daa-lec055-c3-004", "video_id": "iBX_3wLreWc", "grade": 0, "why": "discusses P vs NP, not algorithm definition", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dsa_001", "segment_id": "dsa-lec026-c3-026", "video_id": "VLbJb7U-2-I", "grade": 0, "why": "irrelevant graph traversal content", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dsa_001", "segment_id": "daa-lec007-c3-018", "video_id": "msj_2TEzRP0", "grade": 0, "why": "covers complexity bounds only", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dsa_001", "segment_id": "daa-lec012-c3-001", "video_id": "_EV6xAXf5FA", "grade": 0, "why": "describes insertion sort, not definition", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
