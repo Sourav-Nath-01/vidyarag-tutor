@@ -47,6 +47,21 @@ class DailyLimit(Exception):
     pass
 
 
+_limits_shown = False
+
+
+def _show_limits(headers) -> None:
+    """Print the account's real quota once (providers send it as headers)."""
+    global _limits_shown
+    if not _limits_shown:
+        keys = ("x-ratelimit-limit-requests", "x-ratelimit-limit-tokens",
+                "x-ratelimit-remaining-requests", "x-ratelimit-remaining-tokens")
+        found = {k: headers.get(k) for k in keys if headers.get(k)}
+        if found:
+            print("provider limits:", found, flush=True)
+        _limits_shown = True
+
+
 def chat(base_url: str, key: str, model: str, messages: list, max_retries: int = 6) -> str:
     body = {"model": model, "messages": messages, "temperature": 0,
             "response_format": {"type": "json_object"}}
@@ -59,6 +74,7 @@ def chat(base_url: str, key: str, model: str, messages: list, max_retries: int =
     for attempt in range(max_retries):
         try:
             with urllib.request.urlopen(req, timeout=120) as resp:
+                _show_limits(resp.headers)
                 return json.load(resp)["choices"][0]["message"]["content"]
         except urllib.error.HTTPError as e:
             detail = e.read().decode(errors="replace")[:300]
