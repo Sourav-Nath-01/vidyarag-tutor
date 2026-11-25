@@ -101,7 +101,11 @@ check, FAISS fails with a bare `AssertionError`.
 **Keyless deploys.** GitHub Actions authenticates to Azure with OpenID Connect.
 A user-assigned managed identity trusts tokens issued only for this repo's
 `production` environment, and holds `Contributor` on this resource group only.
-No Azure password or key is stored in GitHub.
+No Azure password or key is stored in GitHub. The trust is pinned to the
+repository's immutable owner and repo IDs as well as its name
+(`repo:Sourav-Nath-01@177652845/vidyarag-tutor@1470623733:environment:production`),
+so if the repo were deleted and someone re-created it under the same name,
+their workflows still couldn't deploy here.
 
 **Verifying the right revision.** After `az containerapp update`, the pipeline
 polls `/ready` until it reports the commit SHA just deployed, then runs a real
