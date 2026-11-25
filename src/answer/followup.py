@@ -2,7 +2,7 @@
 Follow-up questions.
 
 A follow-up such as "what is its worst case?" can't be searched on its own:
-"its" means nothing to the retriever. Before retrieval, a small LLM rewrites it
+"its" means nothing to the retriever. Before retrieval, an LLM rewrites it
 into a standalone question ("what is the worst case of quicksort?") using the
 last few turns of the conversation.
 

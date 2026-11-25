@@ -143,6 +143,10 @@ def main() -> int:
     elif status != 200 or not body.get("standalone"):
         print(f"✗ /rewrite failed: HTTP {status} {body}")
         return 1
+    elif body.get("fallback") == "llm_error":
+        # Not a quota blip: the provider rejected the call (e.g. a retired model ID).
+        print("✗ /rewrite → the LLM call failed (llm_error); check REWRITE_MODEL and the app logs")
+        return 1
     elif body.get("fallback"):
         print(f"⚠ POST /rewrite → used the question as typed ({body['fallback']}); not a deploy failure")
     else:

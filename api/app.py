@@ -34,8 +34,8 @@ Environment variables (all optional):
     OLLAMA_MODEL             — ollama model name (default: llama3.2:3b)
     LLM_API_KEY              — OpenAI-compatible API key (e.g. Groq); /ask is disabled without it
     ANSWER_MODEL             — model for /ask (default: openai/gpt-oss-20b)
-    REWRITE_MODEL            — small model that turns follow-ups into standalone
-                               questions for /rewrite (default: llama-3.1-8b-instant)
+    REWRITE_MODEL            — model that turns follow-ups into standalone questions
+                               for /rewrite (default: the answer model)
     LLM_BASE_URL             — provider endpoint (default: https://api.groq.com/openai/v1)
     ANSWER_MIN_RELEVANCE     — cross-encoder score below which /ask says "not covered"
                                without calling the LLM (default: -4.0)
@@ -173,10 +173,12 @@ _answer_cache: "OrderedDict[tuple, list]" = OrderedDict()
 _answer_cache_lock     = threading.Lock()
 _segment_index: dict[str, dict[str, int]] = {}   # strategy → segment_id → row
 
-# Follow-ups (POST /rewrite) use a small, fast model with its own free-tier
-# quota, deterministic, and short replies: it only rewrites a question.
-REWRITE_MODEL = os.getenv("REWRITE_MODEL") or "llama-3.1-8b-instant"
-_rewriter = (dataclasses.replace(_llm, model=REWRITE_MODEL, max_tokens=200, temperature=0.0, timeout_sec=20)
+# Follow-ups (POST /rewrite): the answer model by default, deterministic, with
+# a short reply budget. Groq retired its small Llama models for free accounts
+# (Aug 2026); gpt-oss-20b is fast enough at low reasoning effort. max_tokens
+# leaves room for its hidden reasoning, which counts toward the limit.
+REWRITE_MODEL = os.getenv("REWRITE_MODEL") or (_llm.model if _llm else "")
+_rewriter = (dataclasses.replace(_llm, model=REWRITE_MODEL, max_tokens=500, temperature=0.0, timeout_sec=20)
              if _llm else None)
 _rewrite_slots = threading.BoundedSemaphore(4)
 
