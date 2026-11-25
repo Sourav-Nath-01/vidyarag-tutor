@@ -23,6 +23,8 @@
   const session = $("#session");
   const statusEl = $("#status");
   const shareBtn = $("#share-btn");
+  const newBtn = $("#new-btn");
+  const sideEl = $(".side");
   const threadEl = $("#thread");
   const followForm = $("#followup-form");
   const followInput = $("#fq");
@@ -54,7 +56,12 @@
   let inflight = null;     // AbortController of the turn in progress
   let busy = false;
   let answersEnabled = false;
-  infoReady.then((info) => { answersEnabled = !!(info && info.followups_enabled); updateComposer(); });
+  infoReady.then((info) => {
+    answersEnabled = !!(info && info.followups_enabled);
+    // Without answers there is nothing to follow up on: keep the top search box.
+    document.body.dataset.answers = answersEnabled ? "on" : "off";
+    updateComposer();
+  });
 
   // ── helpers ──────────────────────────────────────────────────────────────
   function el(tag, attrs = {}, ...children) {
@@ -303,13 +310,14 @@
       turn.listEl);
 
     turn.el = el("article", { class: "turn" });
+    const head = el("header", { class: "turn-head" },
+      el("p", { class: "turn-tag", text: n === 1 ? "Question" : "Follow-up" }),
+      el("h2", { class: "turn-q", text: question }));
     if (n > 1) {
       turn.note = el("p", { class: "turn-note is-busy", text: "Reading the conversation…" });
-      turn.el.append(el("header", { class: "turn-head" },
-        el("p", { class: "turn-tag", text: "Follow-up" }),
-        el("h2", { class: "turn-q", text: question }),
-        turn.note));
+      head.append(turn.note);
     }
+    turn.el.append(head);
     turn.el.append(turn.answerEl, turn.momentsEl);
     for (const t of thread) t.momentsEl.open = false;   // keep earlier turns compact
     thread.push(turn);
@@ -764,6 +772,24 @@
   tabSlide.addEventListener("click", () => showTab("slide"));
   playerClose.addEventListener("click", closePlayer);
   shareBtn.addEventListener("click", () => copyText(window.location.href, shareBtn, "Link copied"));
+  newBtn.addEventListener("click", () => {
+    history.pushState({}, "", "/");
+    runFromUrl();
+    window.scrollTo({ top: 0, behavior: "auto" });
+    input.focus();
+  });
+
+  // On small screens the player docks to the bottom; keep the follow-up box
+  // just above it by publishing the dock's height as a CSS variable.
+  // Shorter placeholder where the input is narrow.
+  const phone = window.matchMedia("(max-width: 640px)");
+  const setPlaceholder = () => { followInput.placeholder = phone.matches ? "Ask a follow-up…" : "Ask a follow-up or a new question"; };
+  phone.addEventListener("change", setPlaceholder);
+  setPlaceholder();
+
+  if ("ResizeObserver" in window) {
+    new ResizeObserver(() => session.style.setProperty("--dock-h", `${sideEl.offsetHeight}px`)).observe(sideEl);
+  }
 
   // Close the settings menu on an outside click or Escape.
   document.addEventListener("click", (event) => {
@@ -778,8 +804,9 @@
     const typing = /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName);
     if (event.key === "/" && !typing) {
       event.preventDefault();
-      input.focus();
-      input.select();
+      const target = document.body.dataset.view === "session" && !followForm.hidden ? followInput : input;
+      target.focus();
+      target.select();
     }
   });
 
@@ -792,7 +819,11 @@
     } else {
       if (inflight) inflight.abort();
       thread = [];
+      active = null;
+      playing = null;
       threadEl.replaceChildren();
+      frameEl.replaceChildren();          // a hidden iframe would keep playing audio
+      session.classList.remove("player-open");
       input.value = "";
       setView("landing");
       document.title = "VidyaRAG Tutor";

@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="/static/app.css">
   <script src="/static/app.js" defer></script>
 </head>
-<body data-view="landing">
+<body data-view="landing" data-answers="on">
   <a class="skip" href="#q">Skip to search</a>
 
   <header class="topbar">
@@ -71,7 +71,7 @@
         <details id="settings" class="settings">
           <summary>
             <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></svg>
-            Retrieval settings
+            <span class="settings-label">Retrieval settings</span>
           </summary>
           <div class="settings-panel">
             <label class="field">
@@ -159,7 +159,11 @@
       <div class="session-bar">
         <p id="status" class="status" role="status" aria-live="polite"></p>
         <div id="session-actions" class="session-actions">
-          <button id="share-btn" class="btn btn-quiet btn-sm" type="button">
+          <button id="new-btn" class="btn btn-quiet btn-sm" type="button">
+            <svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+            <span class="btn-label">New conversation</span>
+          </button>
+          <button id="share-btn" class="btn btn-quiet btn-sm" type="button" aria-label="Copy link">
             <svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.66 0l3-3a4 4 0 0 0-5.66-5.66l-1 1"/><path d="M14 10a4 4 0 0 0-5.66 0l-3 3a4 4 0 0 0 5.66 5.66l1-1"/></svg>
             <span class="btn-label">Copy link</span>
           </button>
@@ -171,9 +175,9 @@
           <div id="thread" class="thread"></div>
 
           <form id="followup-form" class="composer" hidden>
-            <label for="fq" class="sr-only">Ask a follow-up question</label>
+            <label for="fq" class="sr-only">Ask a follow-up or a new question</label>
             <svg class="composer-ico" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5v6a4 4 0 0 0 4 4h12"/><path d="m15 10 5 5-5 5"/></svg>
-            <input id="fq" type="text" placeholder="Ask a follow-up, like “what is its time complexity?”"
+            <input id="fq" type="text" placeholder="Ask a follow-up or a new question"
                    minlength="2" maxlength="300" autocomplete="off" enterkeyhint="send" required>
             <button id="fq-btn" class="btn btn-primary btn-md" type="submit">
               <span>Ask</span>
