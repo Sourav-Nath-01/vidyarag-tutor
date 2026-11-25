@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>VidyaRAG — Lecture Search</title>
-  <meta name="description" content="Semantic search over NPTEL computer-science lectures. Ask a question and jump to the exact moment in the lecture video that answers it.">
+  <title>VidyaRAG Tutor</title>
+  <meta name="description" content="Ask a doubt about NPTEL computer-science lectures. Get an answer drawn from the lectures, with every point linked to the exact moment in the video.">
   <meta name="color-scheme" content="light dark">
   <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/static/app.css">
@@ -14,13 +14,13 @@
   <a class="skip" href="#q">Skip to search</a>
 
   <header class="wrap hero">
-    <div class="brand"><span class="logo" aria-hidden="true">V</span><span>VidyaRAG</span></div>
-    <h1>Ask a question. Jump to the moment in the lecture that answers it.</h1>
-    <p class="lede">Semantic search across 16,200 slide-aligned segments from 9 NPTEL computer-science courses — transcripts and slide text together.</p>
-    <ul class="stats" aria-label="Evaluation results">
-      <li><strong>0.826</strong> MRR</li>
-      <li><strong>0.964</strong> Recall@10</li>
-      <li><strong>84</strong> human-annotated test queries</li>
+    <div class="brand"><span class="logo" aria-hidden="true">V</span><span>VidyaRAG Tutor</span></div>
+    <h1>Ask a doubt. Get an answer from the lectures, with the exact moments to watch.</h1>
+    <p class="lede">Answers are written only from what IIT professors say in 9 NPTEL computer-science courses, and every point cites the lecture moment it comes from.</p>
+    <ul class="stats" aria-label="What is searched">
+      <li><strong>522</strong> lectures</li>
+      <li><strong>228</strong> hours of video</li>
+      <li><strong>16,050</strong> slide-aligned passages</li>
       <li><strong>9</strong> courses</li>
     </ul>
   </header>
@@ -30,10 +30,10 @@
       <label for="q" class="sr-only">Search the lectures</label>
       <div class="searchbox">
         <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-        <input id="q" name="q" type="search" placeholder="e.g. how does binary search tree insertion work"
+        <input id="q" name="q" type="search" placeholder="e.g. why does TCP need a three-way handshake?"
                minlength="2" maxlength="512" autocomplete="off" spellcheck="false" required>
         <kbd class="hint" aria-hidden="true" title="Press / to search">/</kbd>
-        <button id="search-btn" class="btn" type="submit">Search</button>
+        <button id="search-btn" class="btn" type="submit">Ask</button>
       </div>
 
       <div class="examples">
@@ -64,6 +64,12 @@
 
     <p id="status" class="status" role="status" aria-live="polite"></p>
 
+    <section id="answer" class="answer" aria-labelledby="answer-h" hidden>
+      <h2 id="answer-h" class="answer-h"><span class="spark" aria-hidden="true">✦</span> Answer from the lectures</h2>
+      <div id="answer-body" class="answer-body" aria-live="polite"></div>
+      <p id="answer-foot" class="answer-foot"></p>
+    </section>
+
     <section id="intro" class="intro" aria-labelledby="how">
       <h2 id="how">How it works</h2>
       <ol class="pipeline">
@@ -71,9 +77,10 @@
         <li><strong>Dense + sparse</strong><span>BGE-large vectors (FAISS) and BM25 keywords</span></li>
         <li><strong>Fusion</strong><span>Reciprocal Rank Fusion</span></li>
         <li><strong>Rerank</strong><span>MiniLM cross-encoder</span></li>
-        <li><strong>The moment</strong><span>best segment per lecture, with timestamp</span></li>
+        <li><strong>The moment</strong><span>best passage per lecture, with timestamp</span></li>
+        <li><strong>The answer</strong><span>an LLM writes only from those passages and cites them; the server checks every citation</span></li>
       </ol>
-      <p>Lectures were transcribed with Whisper and slides read with Tesseract OCR. Segments follow slide changes detected from OCR similarity, and the full system reaches MRR 0.826 against 0.448 for a transcript-only, fixed-window baseline.</p>
+      <p>Lectures were transcribed with Whisper and slides read with Tesseract OCR. Passages follow slide changes detected from OCR similarity. If the lectures don't cover a question, the tutor says so instead of guessing.</p>
     </section>
 
     <section id="results" class="results" aria-label="Search results"></section>
