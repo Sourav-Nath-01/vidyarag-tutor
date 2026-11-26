@@ -63,9 +63,15 @@ class Source:
     lecture: str
     start_sec: float
     deep_link: str
-    text: str
+    text: str                       # what the model reads (chunk + start of the next one)
+    end_sec: float = 0.0
+    instructor: str = ""
+    transcript: str = ""            # the chunk alone, for display
+    ocr_text: str = ""
+    score: float | None = None      # set when chosen by looking deeper
 
     def public(self) -> dict:
+        """Everything a client needs to show and play the source, minus the prompt text."""
         d = asdict(self)
         d.pop("text")
         d["timestamp"] = format_timestamp(self.start_sec)
@@ -86,12 +92,15 @@ def rerank_passage(seg: dict) -> str:
     return (f"{ocr} {transcript}" if ocr else transcript)[:512]
 
 
-def build_sources(segment_ids: list[str], metadata: list[dict], index_of: dict[str, int]) -> list[Source]:
+def build_sources(segment_ids: list[str], metadata: list[dict], index_of: dict[str, int],
+                  *, exclude_next: set[str] | None = None) -> list[Source]:
     """Turn retrieved chunk IDs into numbered sources with a little following context.
 
     Chunks are cut at slide changes, so an explanation often continues into the
-    next chunk; the start of that chunk is included when it's the same lecture.
+    next chunk; the start of that chunk is included when it's the same lecture,
+    unless it is in `exclude_next` (already a source of its own).
     """
+    exclude_next = exclude_next or set()
     sources = []
     for sid in segment_ids:
         i = index_of.get(sid)
@@ -100,7 +109,8 @@ def build_sources(segment_ids: list[str], metadata: list[dict], index_of: dict[s
         seg = metadata[i]
         vid = seg.get("video_id") or seg.get("youtube_url", "").split("v=")[-1][:11]
         text = seg.get("transcript", "")
-        if i + 1 < len(metadata) and metadata[i + 1].get("youtube_url") == seg.get("youtube_url"):
+        if (i + 1 < len(metadata) and metadata[i + 1].get("youtube_url") == seg.get("youtube_url")
+                and metadata[i + 1].get("segment_id") not in exclude_next):
             text += " " + metadata[i + 1].get("transcript", "")
         ocr = seg.get("ocr_text", "") if not seg.get("ocr_failed", True) else ""
         body = " ".join(text.split()[:PASSAGE_WORDS])
@@ -110,7 +120,8 @@ def build_sources(segment_ids: list[str], metadata: list[dict], index_of: dict[s
             n=len(sources) + 1, segment_id=sid, video_id=vid,
             course=seg.get("course_name", ""), lecture=seg.get("lecture_title", ""),
             start_sec=float(seg.get("start_sec", 0)), deep_link=seg.get("youtube_deep_link", ""),
-            text=body))
+            text=body, end_sec=float(seg.get("end_sec", 0) or 0), instructor=seg.get("instructor", ""),
+            transcript=" ".join(seg.get("transcript", "").split()), ocr_text=ocr.strip()))
     return sources
 
 

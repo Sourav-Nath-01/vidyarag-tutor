@@ -431,6 +431,10 @@ svg { flex: none; }
 @keyframes tip { from { opacity: 0; transform: translate(-50%, 4px); } }
 .cite.bad { color: var(--danger); background: var(--bg-sunken); border-color: var(--line); cursor: help; }
 
+.answer-trace {
+  margin: -4px 0 14px; padding-left: 12px; border-left: 2px solid var(--accent-line);
+  font: 400 12.5px/1.55 var(--mono); color: var(--muted); overflow-wrap: anywhere;
+}
 .notice {
   display: grid; gap: 4px; padding: 14px 16px; border-radius: 10px;
   background: var(--bg-sunken); border: 1px solid var(--line); font: 400 14.5px/1.55 var(--sans); color: var(--ink-2);

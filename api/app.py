@@ -141,7 +141,8 @@ def _bootstrap_indexes() -> None:
 _bootstrap_indexes()
 
 import retriever as _ret  # noqa: E402  (must come after the bootstrap)
-from answer.grounded import answer_events, build_sources, rerank_passage  # noqa: E402
+from answer.agent import Deeper, tutor_events  # noqa: E402
+from answer.grounded import build_sources, rerank_passage  # noqa: E402
 from answer.followup import Turn, rewrite_question, same_question  # noqa: E402
 from answer.llm import LLMClient, LLMError, RateLimited  # noqa: E402
 
@@ -172,6 +173,13 @@ _ANSWER_CACHE_SIZE     = 256   # free-tier LLM quota is small; repeat questions 
 _answer_cache: "OrderedDict[tuple, list]" = OrderedDict()
 _answer_cache_lock     = threading.Lock()
 _segment_index: dict[str, dict[str, int]] = {}   # strategy → segment_id → row
+_lecture_chunks: dict[str, dict[str, list[int]]] = {}   # strategy → lecture → rows, in time order
+
+# Looking deeper (when the first answer is "not covered" although on-topic):
+# re-rank every chunk of the top lectures and answer from the best few of each.
+DEEPER_LECTURES    = 2
+DEEPER_PER_LECTURE = 3
+DEEPER_MAX_CHUNKS  = 80    # per lecture; bounds the cross-encoder work (~1 s on 2 vCPU)
 
 # Follow-ups (POST /rewrite): the answer model by default, deterministic, with
 # a short reply budget. Groq retired its small Llama models for free accounts
@@ -578,6 +586,10 @@ def ask(request: AskRequest):
     `grounded`, `cited`, `citation_coverage`, `not_covered`) or `error`.
     If no passage is relevant enough, the answer is "not covered" and the
     LLM isn't called.
+
+    If the model finds the passages on-topic but not answering, the tutor
+    looks deeper once: `step` events report it, a second `sources` event
+    replaces the first (citations refer to it), and `done` lists the `steps`.
     """
     if _llm is None:
         raise HTTPException(status_code=503, detail="AI answers are not enabled on this instance.")
@@ -607,10 +619,11 @@ def ask(request: AskRequest):
 
     sources = build_sources(segment_ids, metadata, index_of)
     # Relevance gate: score the passages exactly as search's reranker does.
-    relevance = None
+    relevance, source_scores = None, []
     if sources:
         pairs = [[question, rerank_passage(metadata[index_of[s.segment_id]])] for s in sources]
-        relevance = round(float(max(_ret._get_rerank_model().predict(pairs))), 3)
+        source_scores = [float(x) for x in _ret._get_rerank_model().predict(pairs)]
+        relevance = round(max(source_scores), 3)
     retrieval_ms = round((time.time() - t0) * 1000)
 
     key = (question.lower(), tuple(s.segment_id for s in sources))
@@ -630,8 +643,11 @@ def ask(request: AskRequest):
             return
         events, first_token_ms = [], None
         try:
-            for event, data in answer_events(question, sources, _llm, relevance=relevance,
-                                             min_relevance=ANSWER_MIN_RELEVANCE):
+            for event, data in tutor_events(
+                    question, sources, _llm, relevance=relevance, min_relevance=ANSWER_MIN_RELEVANCE,
+                    dig=lambda hints: _look_deeper(question, hints, sources, source_scores, strategy),
+                    hint_llm=_rewriter,
+                    on_hint_error=lambda e: log.warning("hint terms failed: %s", e)):
                 if event == "token" and first_token_ms is None:
                     first_token_ms = round((time.time() - t0) * 1000)
                 if event == "done":
@@ -657,6 +673,64 @@ def ask(request: AskRequest):
 
     return StreamingResponse(stream(), media_type="text/event-stream",
                              headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"})
+
+
+def _lecture_key(seg: dict) -> str:
+    return seg.get("youtube_url") or seg.get("lecture_title", "")
+
+
+def _chunks_by_lecture(strategy: str) -> dict[str, list[int]]:
+    if strategy not in _lecture_chunks:
+        groups: dict[str, list[int]] = {}
+        for i, seg in enumerate(_ret._index_cache[strategy]["metadata"]):
+            groups.setdefault(_lecture_key(seg), []).append(i)
+        for rows in groups.values():
+            rows.sort(key=lambda i: _ret._index_cache[strategy]["metadata"][i].get("start_sec", 0))
+        _lecture_chunks[strategy] = groups
+    return _lecture_chunks[strategy]
+
+
+def _look_deeper(question: str, hints: str, sources, scores: list[float], strategy: str) -> Deeper | None:
+    """
+    Re-rank every chunk of the top on-topic lectures for the question plus hint
+    terms, and return the best DEEPER_PER_LECTURE chunks of each as new sources.
+    None when there's no on-topic lecture, nothing new, or the server is busy.
+    """
+    metadata = _ret._index_cache[strategy]["metadata"]
+    index_of = _index_of(strategy)
+    lectures: list[tuple[str, str]] = []                  # (key, title), best first
+    for src, score in sorted(zip(sources, scores), key=lambda p: -p[1]):
+        if score < ANSWER_MIN_RELEVANCE:
+            break
+        key = _lecture_key(metadata[index_of[src.segment_id]])
+        if key not in (k for k, _ in lectures):
+            lectures.append((key, src.lecture))
+        if len(lectures) == DEEPER_LECTURES:
+            break
+    if not lectures:
+        return None
+    by_lecture = _chunks_by_lecture(strategy)
+    candidates = [i for key, _ in lectures for i in by_lecture.get(key, [])[:DEEPER_MAX_CHUNKS]]
+    query = f"{question} {hints}".strip()
+    if not _search_slots.acquire(timeout=SEARCH_QUEUE_TIMEOUT_SEC):
+        return None
+    try:
+        scored = _ret._get_rerank_model().predict([[query, rerank_passage(metadata[i])] for i in candidates])
+    finally:
+        _search_slots.release()
+    picked: list[tuple[float, int]] = []
+    for key, _ in lectures:
+        mine = sorted(((float(s), i) for s, i in zip(scored, candidates) if _lecture_key(metadata[i]) == key),
+                      reverse=True)
+        picked += mine[:DEEPER_PER_LECTURE]
+    picked.sort(reverse=True)
+    ids = [metadata[i]["segment_id"] for _, i in picked]
+    if set(ids) <= {s.segment_id for s in sources}:
+        return None                                       # nothing the first answer didn't already see
+    new_sources = build_sources(ids, metadata, index_of, exclude_next=set(ids))
+    for src, (score, _) in zip(new_sources, picked):
+        src.score = round(score, 3)
+    return Deeper(sources=new_sources, lectures=[title for _, title in lectures], chunks_scored=len(candidates))
 
 
 # ─────────────────────────────────────────────────────────────────────────────
