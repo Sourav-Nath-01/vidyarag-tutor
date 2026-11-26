@@ -295,12 +295,14 @@
     };
     turn.state = el("span", { class: "state" });
     turn.body = el("div", { class: "prose" });
+    turn.trace = el("p", { class: "answer-trace", hidden: true });
     turn.meta = el("p", { class: "answer-meta" });
     turn.copyBtn = el("button", { class: "btn btn-quiet btn-sm", type: "button", hidden: true },
       icon(COPY_ICON), el("span", { class: "btn-label", text: "Copy answer" }));
     turn.copyBtn.addEventListener("click", () => copyText(answerAsText(turn), turn.copyBtn));
     turn.answerEl = el("section", { class: "answer", "aria-labelledby": `answer-h-${n}` },
       el("header", { class: "answer-head" }, el("h3", { id: `answer-h-${n}`, class: "label", text: "Answer" }), turn.state),
+      turn.trace,
       turn.body,
       el("footer", { class: "answer-foot" }, turn.meta, turn.copyBtn));
     turn.countEl = el("span", { class: "count" });
@@ -389,7 +391,9 @@
         el("span", { text: `${fmtTime(r.start_sec)}–${fmtTime(r.end_sec)}` }),
         number ? el("span", { text: number }) : null,
         r.content_type ? el("span", { class: `m-type m-type-${r.content_type}`, text: r.content_type }) : null,
-        el("span", { class: "m-score", title: "Cross-encoder relevance score", text: `score ${Number(r.retrieval_score).toFixed(2)}` }),
+        Number.isFinite(r.retrieval_score)
+          ? el("span", { class: "m-score", title: "Cross-encoder relevance score", text: `score ${Number(r.retrieval_score).toFixed(2)}` })
+          : null,
       ),
     ));
     return row;
@@ -494,6 +498,52 @@
     return `Q: ${turn.standalone}\n\n${turn.answer.trim()}${lines.length ? `\n\nSources\n${lines.join("\n")}` : ""}`;
   }
 
+  // ── looking deeper ──────────────────────────────────────────────────────
+  // When the first moments don't answer the question, the server re-ranks
+  // every moment of the closest lectures and answers again. Its new sources
+  // replace the moment list, so citation [n] is always row n.
+  function sourceAsResult(s) {
+    return {
+      rank: s.n, segment_id: s.segment_id, course_name: s.course, instructor: s.instructor,
+      lecture_title: s.lecture, youtube_url: s.video_id ? `https://www.youtube.com/watch?v=${s.video_id}` : "",
+      youtube_deep_link: s.deep_link, start_sec: s.start_sec, end_sec: s.end_sec,
+      transcript: s.transcript, ocr_text: s.ocr_text, retrieval_score: s.score, content_type: null,
+    };
+  }
+
+  function useDeeperSources(turn, sources) {
+    if (active && active.turn === turn) active = null;
+    if (playing && playing.turn === turn) playing = null;
+    turn.results = sources.map(sourceAsResult);
+    turn.rows = turn.results.map((r, i) => renderRow(turn, r, i));
+    turn.listEl.replaceChildren(...turn.rows);
+    turn.countEl.textContent = `${turn.results.length} found by looking deeper`;
+    if (!playing) select(turn, 0);
+  }
+
+  const quoted = (titles) => titles.map((t) => `“${cleanTitle(t)}”`).join(" and ");
+
+  function showStep(turn, step, firstCount) {
+    if (step.stage === "start") {
+      setState(turn, "busy", "Looking deeper");
+      turn.trace.hidden = false;
+      turn.trace.textContent = `The first ${firstCount} moments didn't answer this, so the tutor is reading more of the closest lectures…`;
+    } else if (step.stage === "found") {
+      turn.trace.textContent = `Re-ranked ${step.chunks_scored} moments in ${quoted(step.lectures || [])}…`;
+    }
+  }
+
+  function showTrace(turn, steps = []) {
+    const deeper = steps.find((s) => s.action === "look_deeper");
+    if (!deeper) return;
+    turn.trace.hidden = false;
+    turn.trace.textContent = deeper.lectures
+      ? `Looked deeper: the first ${steps[0].sources} moments didn't answer this, so the tutor re-ranked ` +
+        `${deeper.chunks_scored} moments in ${quoted(deeper.lectures)}` +
+        (deeper.hints ? ` for “${deeper.hints}”.` : ".")
+      : `Looked deeper, but found nothing new in the closest lectures.`;
+  }
+
   async function ask(turn, signal) {
     const segmentIds = turn.results.slice(0, 5).map((r) => r.segment_id).filter(Boolean);
     if (!segmentIds.length) return;
@@ -519,7 +569,10 @@
       }
       for await (const { event, data } of sseEvents(response)) {
         if (event === "sources") {
+          if (turn.sources.size) useDeeperSources(turn, data.sources);   // looking deeper replaced them
           turn.sources = new Map(data.sources.map((s) => [s.n, s]));
+        } else if (event === "step") {
+          showStep(turn, data, segmentIds.length);
         } else if (event === "token") {
           if (!text) setState(turn, "writing", "Writing");
           text += data.t;
@@ -527,10 +580,12 @@
         } else if (event === "done") {
           if (frame) cancelAnimationFrame(frame);
           if (data.not_covered) {
-            turn.body.replaceChildren(notice("Not covered in these lectures",
-              "The tutor only answers from the lectures, and none of the closest moments explains this. They're listed below in case they still help."));
+            turn.body.replaceChildren(notice("Not covered in these lectures", data.looked_deeper
+              ? "The tutor only answers from the lectures. It also read more of the closest lectures, and none of it explains this."
+              : "The tutor only answers from the lectures, and none of the closest moments explains this. They're listed below in case they still help."));
             setState(turn, "muted", "No answer");
             turn.meta.textContent = data.gated ? "Relevance gate: the language model was not called" : "";
+            if (data.looked_deeper) showTrace(turn, data.steps);
           } else {
             text = text || data.answer || "";
             turn.answer = text;
@@ -543,8 +598,10 @@
             const parts = [data.model ? String(data.model).replace(/^openai\//, "") : null];
             if (data.citation_coverage != null) parts.push(`${Math.round(data.citation_coverage * 100)}% of sentences cited`);
             if (data.total_ms != null) parts.push(`${(data.total_ms / 1000).toFixed(1)} s`);
+            if (data.looked_deeper) parts.push("looked deeper");
             if (data.cached) parts.push("cached");
             turn.meta.textContent = parts.filter(Boolean).join(" · ");
+            if (data.looked_deeper) showTrace(turn, data.steps);
             if (!data.grounded) {
               turn.body.append(notice("Some citations couldn't be checked",
                 "Verify these points against the lecture moments before relying on them.", "is-warn"));

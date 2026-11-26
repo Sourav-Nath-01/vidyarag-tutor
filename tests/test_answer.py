@@ -361,3 +361,113 @@ def test_rewrite_falls_back_to_the_question_when_rate_limited(client, rewriter):
 def test_rewrite_rejects_oversized_history(client, rewriter):
     history = [{"question": "q", "answer": "a"}] * 9
     assert client.post("/rewrite", json={"question": "and then?", "history": history}).status_code == 422
+
+
+# ── looking deeper (bounded agent loop) ─────────────────────────────────────
+from answer.agent import Deeper, hint_terms, tutor_events  # noqa: E402
+
+
+class ScriptedLLM:
+    """Replies with the next scripted answer on each call (an Exception is raised)."""
+    model = "scripted-model"
+
+    def __init__(self, *replies):
+        self.replies, self.calls = list(replies), []
+
+    def stream(self, messages):
+        self.calls.append(messages)
+        reply = self.replies.pop(0)
+        if isinstance(reply, Exception):
+            raise reply
+        yield from [reply[:7], reply[7:]]
+
+
+def _dig_returning(deeper):
+    calls = []
+
+    def dig(hints):
+        calls.append(hints)
+        return deeper
+    dig.calls = calls
+    return dig
+
+
+DEEPER = Deeper(sources=build_sources(["cn-lec026-c3-002"], METADATA, INDEX_OF),
+                lectures=["Socket Programming – II"], chunks_scored=2)
+
+
+def test_grounded_first_answer_does_not_look_deeper():
+    llm, dig = ScriptedLLM("A server binds to a port first [1]."), _dig_returning(DEEPER)
+    events = list(tutor_events("how does a server start", build_sources(["cn-lec026-c3-001"], METADATA, INDEX_OF),
+                               llm, relevance=2.0, min_relevance=-4, dig=dig))
+    done = events[-1][1]
+    assert done["grounded"] and done["looked_deeper"] is False and len(done["steps"]) == 1
+    assert dig.calls == [] and len(llm.calls) == 1
+
+
+def test_not_covered_but_on_topic_looks_deeper_once():
+    llm = ScriptedLLM("NOT_COVERED", "accept, new socket, listen", "Accept returns a new connected socket [1].")
+    dig = _dig_returning(DEEPER)
+    events = list(tutor_events("what does accept return", build_sources(["cn-lec026-c3-001"], METADATA, INDEX_OF),
+                               llm, relevance=1.5, min_relevance=-4, dig=dig))
+    kinds = [e for e, _ in events]
+    assert kinds[:3] == ["sources", "step", "step"] and kinds.count("sources") == 2 and kinds[-1] == "done"
+    assert "NOT_COVERED" not in "".join(d["t"] for e, d in events if e == "token")      # the refusal never shows
+    second = events[kinds.index("sources", 1)][1]["sources"]
+    assert [s["segment_id"] for s in second] == ["cn-lec026-c3-002"] and second[0]["transcript"]
+    done = events[-1][1]
+    assert done["grounded"] and done["looked_deeper"] and done["relevance"] == 1.5
+    assert [s["result"] for s in done["steps"]] == ["not_covered", "1 passages", "grounded"]
+    assert dig.calls == ["accept, new socket, listen"] and len(llm.calls) == 3
+
+
+def test_gated_question_never_looks_deeper():
+    llm, dig = ScriptedLLM(), _dig_returning(DEEPER)
+    done = list(tutor_events("how is bitcoin mined", build_sources(["cn-lec026-c3-001"], METADATA, INDEX_OF),
+                             llm, relevance=-9.0, min_relevance=-4, dig=dig))[-1][1]
+    assert done["gated"] and dig.calls == [] and llm.calls == []
+
+
+def test_hint_failure_still_looks_deeper_with_the_question():
+    errors = []
+    llm = ScriptedLLM("NOT_COVERED", RateLimited("429"), "Accept returns a new socket [1].")
+    dig = _dig_returning(DEEPER)
+    done = list(tutor_events("what does accept return", build_sources(["cn-lec026-c3-001"], METADATA, INDEX_OF),
+                             llm, relevance=1.0, min_relevance=-4, dig=dig, on_hint_error=errors.append))[-1][1]
+    assert dig.calls == [""] and len(errors) == 1 and done["grounded"]
+
+
+def test_nothing_deeper_keeps_the_not_covered_answer():
+    llm, dig = ScriptedLLM("NOT_COVERED", "terms"), _dig_returning(None)
+    done = list(tutor_events("what does accept return", build_sources(["cn-lec026-c3-001"], METADATA, INDEX_OF),
+                             llm, relevance=1.0, min_relevance=-4, dig=dig))[-1][1]
+    assert done["not_covered"] and done["looked_deeper"] and done["steps"][-1]["result"] == "nothing_found"
+
+
+@pytest.mark.parametrize("reply, expected", [
+    ("worst case, n log n, recurrence\n", "worst case, n log n, recurrence"),
+    ("NOT_COVERED", ""),
+    ("", ""),
+])
+def test_hint_terms_cleanup(reply, expected):
+    assert hint_terms("q", ScriptedLLM(reply)) == expected
+
+
+def test_ask_looks_deeper_and_resends_sources(client, api, monkeypatch):
+    # The fake reranker scores [3.0, 1.0, -2.0]: both first-pass sources are on-topic,
+    # so both lectures are re-ranked; the unseen chunk lec026-002 makes it worth a retry.
+    llm = ScriptedLLM("NOT_COVERED", "accept, listen", "Accept returns a new connected socket [2].")
+    monkeypatch.setattr(api, "_llm", llm)
+    api._answer_cache.clear()
+    events = _events(client.post("/ask", json={"question": "what does accept return",
+                                               "segment_ids": ["cn-lec026-c3-001", "cn-lec049-c3-001"]}))
+    kinds = [e for e, _ in events]
+    assert "step" in kinds and kinds.count("sources") == 2
+    second = [d for e, d in events if e == "sources"][1]["sources"]
+    assert [s["segment_id"] for s in second] == ["cn-lec026-c3-001", "cn-lec026-c3-002", "cn-lec049-c3-001"]
+    assert second[0]["score"] == 3.0 and second[0]["instructor"] == "" and "timestamp" in second[0]
+    prompt = llm.calls[2][1]["content"]
+    assert prompt.count("Then accept returns a new connected socket.") == 1     # no duplicated context
+    done = events[-1][1]
+    assert done["grounded"] and done["looked_deeper"] and done["steps"][1]["lectures"] == [
+        "Socket Programming – II", "Ethernet (Contd.)"]

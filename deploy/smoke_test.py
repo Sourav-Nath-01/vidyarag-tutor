@@ -129,7 +129,8 @@ def main() -> int:
         else:
             print(f"✓ POST /ask → {kinds.count('token')} tokens, grounded={done['grounded']} "
                   f"cited={done['cited']} not_covered={done['not_covered']} "
-                  f"first token {done.get('first_token_ms')} ms · {done.get('model')}")
+                  f"first token {done.get('first_token_ms')} ms · {done.get('model')}"
+                  f"{' · looked deeper' if done.get('looked_deeper') else ''}")
 
     # 6) Follow-ups: a question that only makes sense after the previous one
     history = [{"question": "What is quicksort?",

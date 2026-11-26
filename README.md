@@ -8,7 +8,8 @@
 - [ ] Lecture-level retrieval benchmark to replace v1's lenient grader ([why](#a-note-on-the-v1-metrics)): tooling done, labels in progress ([benchmark/](benchmark/))
 - [x] Grounded answers with clickable video citations, and refusal when the lectures don't cover a question ([how](#grounded-answers))
 - [x] Follow-up questions: "what is its worst case?" is rewritten into a standalone question before retrieval ([how](#follow-up-questions))
-- [ ] Bounded agentic loop: plan → search → check evidence → re-search → answer; Hindi/Hinglish questions
+- [x] Bounded agent loop: when the model finds the top moments on-topic but not answering, the tutor looks deeper in those lectures and answers again ([how](#looking-deeper))
+- [ ] Hindi/Hinglish questions
 - [ ] Answer-quality evaluation (faithfulness, citation accuracy, refusals) alongside the retrieval metrics
 
 [![GitHub](https://img.shields.io/badge/GitHub-Sourav--Nath--01%2Fvidyarag--tutor-181717?logo=github)](https://github.com/Sourav-Nath-01/vidyarag-tutor)
@@ -41,6 +42,24 @@ question ─► hybrid search ─► top-5 lecture passages ─► relevance gat
 - **Grounding rules in the prompt, checks in code.** The model may use only the numbered passages, must cite them, and must reply `NOT_COVERED` when they don't answer the question. That sentinel is never shown to users. The server checks every citation against the passages it sent, and reports `grounded`, `cited` and `citation_coverage` with each answer.
 - **Built for a free LLM tier.** Groq `openai/gpt-oss-20b` streams over Server-Sent Events, so the first words show in about a second. Repeated questions are served from a cache. A rate limit degrades to "search results still work" instead of an error page. The key lives only in an Azure Container Apps secret.
 - **API.** `POST /ask` streams `sources` → `token`… → `done` (or `error`). Pass the `segment_ids` from a `/search` to answer from exactly those results, or omit them to search first.
+
+### Looking deeper
+
+Search keeps the best moment from each lecture, and the cross-encoder favours moments that *name* the topic over moments that *explain* it. For *"What is the complexity of quicksort?"*, it found the right lecture, "Quicksort - analysis", but picked its 0:00 introduction ("we have seen quicksort…", score −2.1) over the moment that answers it ("…the average case is n log n", score −8.9, which never says "quicksort"). The model correctly replied "not covered".
+
+So the tutor runs a small, bounded agent loop:
+
+```
+answer(top 5 moments) ── grounded, or gated as off-topic ──► done
+      │ "not covered", although the relevance gate found the lectures on-topic
+      ▼
+hint terms (LLM) ─► re-rank every moment of the top 2 lectures ─► answer(best 3 of each) ─► done
+```
+
+- **The model is the evidence check.** Its `NOT_COVERED` reply, combined with a passing relevance gate, means the right lecture but the wrong moment. Then the tutor takes a different retrieval action instead of giving up.
+- **Hint terms steer ranking, never the answer.** The model lists terms a lecture answer would contain (*"worst case, n log n, recurrence"*). The cross-encoder re-ranks every moment of the top lectures for the question plus those terms. In the quicksort lecture, the top 3 become the three moments that state the complexity, and the intro drops to fifth. The second answer must still cite the passages and is checked the same way.
+- **Bounded.** One retry at most: three LLM calls and about 1 s of re-ranking, and only on this path. Off-topic questions are still refused by the relevance gate without calling the model.
+- **Visible.** `step` events stream progress, a second `sources` event replaces the first (so citation [n] is always moment n), and `done.steps` records what was tried. The page shows it: *"Looked deeper: the first 5 moments didn't answer this, so the tutor re-ranked 26 moments in "Quicksort - analysis"…"*.
 
 ### Follow-up questions
 
