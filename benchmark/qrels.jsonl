@@ -777,3 +777,428 @@
 {"qid": "dbms_007", "segment_id": "dbms-lec030-c3-007", "video_id": "F0vZhxIR3Jw", "grade": 1, "why": "Mentions index structures, relevant context", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
 {"qid": "dbms_007", "segment_id": "daa-lec030-c3-002", "video_id": "b2-vAkasvD0", "grade": 0, "why": "Kruskal algorithm", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
 {"qid": "dbms_007", "segment_id": "dbms-lec001-c3-011", "video_id": "sEaYXwmsLw0", "grade": 0, "why": "No mention of B+ tree index", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_008", "segment_id": "dbms-lec038-c3-011", "video_id": "IQ01axFqz6U", "grade": 2, "why": "Explains 2PL protocol and its effect", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_008", "segment_id": "dbms-lec036-c3-020", "video_id": "p4bA-gM8ulQ", "grade": 1, "why": "Mentions lock-based concurrency only", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_008", "segment_id": "dbms-lec041-c3-011", "video_id": "Gm4W6BNqDB4", "grade": 1, "why": "References strict 2PL without explanation", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_008", "segment_id": "dbms-lec037-c3-017", "video_id": "14GE2Z21Xgs", "grade": 0, "why": "About serializability, not 2PL", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_008", "segment_id": "os-lec033-c3-010", "video_id": "UczJ7misUEk", "grade": 0, "why": "Deadlocks unrelated", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_008", "segment_id": "os-lec026-c3-009", "video_id": "qKPCfuZAAEc", "grade": 0, "why": "Critical sections, not 2PL", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_008", "segment_id": "os-lec029-c3-002", "video_id": "_RJILvSGqYY", "grade": 0, "why": "Hardware locks, irrelevant", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_008", "segment_id": "os-lec034-c3-013", "video_id": "8ZS7xzWPo5A", "grade": 0, "why": "Deadlock prevention, not 2PL", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_008", "segment_id": "dbms-lec037-c3-007", "video_id": "14GE2Z21Xgs", "grade": 0, "why": "Need for concurrency, no 2PL detail", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_008", "segment_id": "dbms-lec040-c3-025", "video_id": "mxhNw8f0IaM", "grade": 0, "why": "Recoverability vs serializability, not 2PL", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_008", "segment_id": "os-lec029-c3-006", "video_id": "_RJILvSGqYY", "grade": 0, "why": "Only about test-and-set lock, not 2PL", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_008", "segment_id": "dbms-lec039-c3-001", "video_id": "kqO4nxPkjKw", "grade": 0, "why": "Mentions concurrency control generally, no explanation", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_008", "segment_id": "os-lec026-c3-010", "video_id": "qKPCfuZAAEc", "grade": 0, "why": "General locking, no two-phase concept", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_008", "segment_id": "dbms-lec003-c3-021", "video_id": "Co12LqzGpTA", "grade": 0, "why": "Architecture overview, no 2PL detail", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_008", "segment_id": "dbms-lec033-c3-013", "video_id": "y6Gj41xEQxM", "grade": 0, "why": "Discusses external sorting, unrelated", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_008", "segment_id": "dbms-lec038-c3-010", "video_id": "IQ01axFqz6U", "grade": 2, "why": "Direct explanation of two-phase locking protocol", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_008", "segment_id": "os-lec026-c3-008", "video_id": "qKPCfuZAAEc", "grade": 0, "why": "Basic lock/unlock, no two-phase", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_008", "segment_id": "os-lec030-c3-004", "video_id": "yxVeUSkGeao", "grade": 0, "why": "Mutex implementation, not 2PL", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_008", "segment_id": "coa-lec053-c3-018", "video_id": "d3fUBeS5QNk", "grade": 0, "why": "CPU register timing, irrelevant", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_008", "segment_id": "dbms-lec041-c3-006", "video_id": "Gm4W6BNqDB4", "grade": 0, "why": "Serializability discussion, no 2PL explanation", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_008", "segment_id": "ml-lec012-c3-009", "video_id": "PNglugooJUQ", "grade": 0, "why": "Irrelevant to locking", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_008", "segment_id": "dbms-lec034-c3-019", "video_id": "29ZGZ6l0kkg", "grade": 0, "why": "Irrelevant to locking", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_009", "segment_id": "dbms-lec039-c3-008", "video_id": "kqO4nxPkjKw", "grade": 1, "why": "Mentions logging and disk writes, relevant but not WAL details", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_009", "segment_id": "dbms-lec040-c3-009", "video_id": "mxhNw8f0IaM", "grade": 1, "why": "Discusses redo/undo recovery, touches WAL concept loosely", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_009", "segment_id": "dbms-lec036-c3-023", "video_id": "p4bA-gM8ulQ", "grade": 1, "why": "Describes system log role, generic to recovery", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_009", "segment_id": "dbms-lec039-c3-024", "video_id": "kqO4nxPkjKw", "grade": 0, "why": "Focuses on undo logging, not WAL", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_009", "segment_id": "dbms-lec040-c3-005", "video_id": "mxhNw8f0IaM", "grade": 2, "why": "States WAL redo rule, directly explains recovery", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_009", "segment_id": "dbms-lec039-c3-023", "video_id": "kqO4nxPkjKw", "grade": 0, "why": "Details undo log recovery, unrelated to WAL", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_009", "segment_id": "dbms-lec036-c3-024", "video_id": "p4bA-gM8ulQ", "grade": 1, "why": "General recovery overview, not specific WAL", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_010", "segment_id": "dbms-lec018-c3-018", "video_id": "PVE4e7_fU0U", "grade": 2, "why": "Explains HAVING with aggregates like COUNT", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_010", "segment_id": "dbms-lec017-c3-011", "video_id": "CPcAX8CsiGo", "grade": 0, "why": "About EXISTS, not GROUP BY/HAVING", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_010", "segment_id": "dbms-lec016-c3-023", "video_id": "9oAWVvUfa-E", "grade": 0, "why": "Discusses subqueries, not relevant", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_010", "segment_id": "dbms-lec033-c3-003", "video_id": "y6Gj41xEQxM", "grade": 0, "why": "Focuses on storage, unrelated", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_010", "segment_id": "dbms-lec019-c3-015", "video_id": "HHled4HwuGg", "grade": 1, "why": "Mentions GROUP BY and AVG only", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_010", "segment_id": "dbms-lec016-c3-009", "video_id": "9oAWVvUfa-E", "grade": 0, "why": "Covers duplicate rows, not GROUP BY/HAVING", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_010", "segment_id": "os-lec031-c3-011", "video_id": "I-xQpuZ_UFM", "grade": 0, "why": "Operating systems semaphores", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_010", "segment_id": "dbms-lec020-c3-024", "video_id": "jb-7jDate8w", "grade": 0, "why": "Dynamic SQL generation, no GROUP BY/HAVING", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_010", "segment_id": "ml-lec039-c3-016", "video_id": "nelJ3svz0_o", "grade": 0, "why": "Machine learning ensembles", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_010", "segment_id": "cv-lec004-c3-009", "video_id": "_xlPPLjbNBA", "grade": 0, "why": "Deep learning overview", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_010", "segment_id": "cn-lec054-c3-017", "video_id": "zVdyKTQyvVY", "grade": 0, "why": "Irrelevant networking content", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_010", "segment_id": "dbms-lec018-c3-003", "video_id": "PVE4e7_fU0U", "grade": 1, "why": "Mentions SQL aggregates but not GROUP BY/HAVING", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_010", "segment_id": "dbms-lec017-c3-001", "video_id": "CPcAX8CsiGo", "grade": 0, "why": "Irrelevant subquery content", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_010", "segment_id": "os-lec035-c3-003", "video_id": "qkMk3k15PPA", "grade": 0, "why": "Irrelevant threading content", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_010", "segment_id": "ml-lec032-c3-029", "video_id": "T6WLIbOnkvQ", "grade": 0, "why": "Irrelevant neural network content", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_010", "segment_id": "ml-lec033-c3-014", "video_id": "pLPr4nJad4A", "grade": 0, "why": "Irrelevant neural network content", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_011", "segment_id": "dbms-lec022-c3-019", "video_id": "Q5jbdZtnOjg", "grade": 1, "why": "Mentions Armstrong axioms, no FD definition", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_011", "segment_id": "dbms-lec021-c3-017", "video_id": "NfHGvgMi6rw", "grade": 1, "why": "Provides FD definition, no axioms", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_011", "segment_id": "dbms-lec023-c3-003", "video_id": "Zz43we9bTOM", "grade": 1, "why": "Discusses Armstrong axioms, no FD definition", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_011", "segment_id": "dbms-lec024-c3-004", "video_id": "2tPNtnCfGzo", "grade": 0, "why": "Only mentions FD in normal form context", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_011", "segment_id": "dbms-lec025-c3-014", "video_id": "7frdVKSgqek", "grade": 0, "why": "Focuses on decomposition, irrelevant", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_011", "segment_id": "dbms-lec023-c3-010", "video_id": "Zz43we9bTOM", "grade": 1, "why": "Covers Armstrong axioms usage, no FD definition", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_011", "segment_id": "dbms-lec022-c3-017", "video_id": "Q5jbdZtnOjg", "grade": 1, "why": "Lists Armstrong inference rules, no FD definition", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_011", "segment_id": "dbms-lec021-c3-016", "video_id": "NfHGvgMi6rw", "grade": 1, "why": "Defines functional dependency, no axioms", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_011", "segment_id": "dbms-lec024-c3-005", "video_id": "2tPNtnCfGzo", "grade": 1, "why": "Discusses FD concept, not axioms", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_011", "segment_id": "dbms-lec025-c3-016", "video_id": "7frdVKSgqek", "grade": 0, "why": "About decomposition, not FD or axioms", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_012", "segment_id": "dbms-lec012-c3-003", "video_id": "balW7pT7qP0", "grade": 2, "why": "Explains conversion steps", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_012", "segment_id": "dbms-lec004-c3-026", "video_id": "5TU7zH0Z8ps", "grade": 1, "why": "Describes ER notation only", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_012", "segment_id": "dbms-lec025-c3-002", "video_id": "7frdVKSgqek", "grade": 0, "why": "About decomposition, not conversion", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_012", "segment_id": "dbms-lec006-c3-019", "video_id": "IVyUx7HCls8", "grade": 0, "why": "Focuses on weak entities, not conversion", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_012", "segment_id": "dbms-lec013-c3-009", "video_id": "V2iBuOtX458", "grade": 0, "why": "Discusses relational calculus", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_012", "segment_id": "dbms-lec006-c3-009", "video_id": "IVyUx7HCls8", "grade": 1, "why": "Provides ER example, limited conversion help", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_012", "segment_id": "dbms-lec024-c3-017", "video_id": "2tPNtnCfGzo", "grade": 0, "why": "Normal forms unrelated", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_012", "segment_id": "dbms-lec002-c3-006", "video_id": "AAKUqHBuzk4", "grade": 1, "why": "Mentions ER vs relational model", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_012", "segment_id": "dbms-lec008-c3-014", "video_id": "eEIRQT6b4bo", "grade": 0, "why": "Relational algebra topic", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_012", "segment_id": "dbms-lec021-c3-007", "video_id": "NfHGvgMi6rw", "grade": 0, "why": "Normal forms, not conversion", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_012", "segment_id": "dbms-lec015-c3-002", "video_id": "QYd6ZjHpzBg", "grade": 0, "why": "Irrelevant to ER conversion", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_012", "segment_id": "dbms-lec025-c3-004", "video_id": "7frdVKSgqek", "grade": 0, "why": "Discusses decomposition, not ER conversion", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_012", "segment_id": "dbms-lec005-c3-003", "video_id": "9wPWupdoXGM", "grade": 1, "why": "Covers ER diagram basics, partly helpful", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_012", "segment_id": "dbms-lec003-c3-003", "video_id": "Co12LqzGpTA", "grade": 0, "why": "About RDBMS architecture, not conversion", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_012", "segment_id": "dbms-lec002-c3-028", "video_id": "AAKUqHBuzk4", "grade": 0, "why": "Mentions data model conversion generically", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_012", "segment_id": "dbms-lec015-c3-003", "video_id": "QYd6ZjHpzBg", "grade": 0, "why": "Focuses on SQL transactions", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_012", "segment_id": "dbms-lec026-c3-014", "video_id": "wsY9YX6vL2Y", "grade": 0, "why": "Normal forms, unrelated", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_012", "segment_id": "dbms-lec025-c3-017", "video_id": "7frdVKSgqek", "grade": 0, "why": "Dependency example, not ER conversion", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_012", "segment_id": "dbms-lec008-c3-015", "video_id": "eEIRQT6b4bo", "grade": 0, "why": "Relational algebra overview", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "dbms_012", "segment_id": "dbms-lec007-c3-003", "video_id": "Z2Zx2G02aI4", "grade": 0, "why": "History of relational model, not conversion", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_001", "segment_id": "dl-lec058-c3-012", "video_id": "Y0m136XU65o", "grade": 2, "why": "Directly explains bias‑variance tradeoff", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_001", "segment_id": "ml-lec005-c3-048", "video_id": "uFydF-g-AJs", "grade": 2, "why": "Defines bias and variance clearly", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_001", "segment_id": "dl-lec061-c3-007", "video_id": "y_tQBokE94s", "grade": 1, "why": "Mentions tradeoff but no explanation", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_001", "segment_id": "ml-lec039-c3-023", "video_id": "nelJ3svz0_o", "grade": 1, "why": "Brief bias mention, lacks detail", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_001", "segment_id": "ml-lec003-c3-074", "video_id": "dYMCwxgl3vk", "grade": 0, "why": "About inductive bias, not tradeoff", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_001", "segment_id": "ml-lec009-c3-049", "video_id": "y6SpA2Wuyt8", "grade": 1, "why": "Discusses complexity trade‑off, not bias‑variance", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_001", "segment_id": "ml-lec004-c3-037", "video_id": "nYCAH8b5AQ0", "grade": 1, "why": "Notes trade‑off between complex/simple models", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_001", "segment_id": "dl-lec060-c3-002", "video_id": "aVAs2YwiDoA", "grade": 2, "why": "States bias‑variance relationship clearly", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_001", "segment_id": "dl-lec059-c3-005", "video_id": "gyGMaNUaeic", "grade": 1, "why": "References bias region, minimal explanation", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_001", "segment_id": "ml-lec004-c3-026", "video_id": "nYCAH8b5AQ0", "grade": 1, "why": "Mentions bias and variance superficially", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_001", "segment_id": "ml-lec009-c3-046", "video_id": "y6SpA2Wuyt8", "grade": 1, "why": "mentions bias to avoid overfitting", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_001", "segment_id": "ml-lec036-c3-030", "video_id": "8hJ9V9-f2J8", "grade": 1, "why": "covers bias types, no variance detail", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_001", "segment_id": "ml-lec005-c3-003", "video_id": "uFydF-g-AJs", "grade": 1, "why": "only mentions bias‑variance term", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_001", "segment_id": "ml-lec039-c3-024", "video_id": "nelJ3svz0_o", "grade": 2, "why": "explains bias low/high and variance high", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_001", "segment_id": "ml-lec009-c3-050", "video_id": "y6SpA2Wuyt8", "grade": 0, "why": "focuses solely on overfitting", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_001", "segment_id": "ml-lec040-c3-010", "video_id": "MRD67WgWonA", "grade": 1, "why": "discusses variance, not tradeoff", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_001", "segment_id": "ml-lec003-c3-076", "video_id": "dYMCwxgl3vk", "grade": 2, "why": "defines bias and variance errors", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_001", "segment_id": "ml-lec003-c3-079", "video_id": "dYMCwxgl3vk", "grade": 1, "why": "relates bias/variance to under/overfitting", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_001", "segment_id": "dl-lec059-c3-003", "video_id": "gyGMaNUaeic", "grade": 2, "why": "gives bias^2+variance formula and intuition", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_002", "segment_id": "ml-lec024-c3-042", "video_id": "gidJbK1gXmA", "grade": 2, "why": "Explains margin and max‑margin classifier", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_002", "segment_id": "ml-lec026-c3-001", "video_id": "WLhvjpoCPiY", "grade": 1, "why": "Mentions SVM but focuses on noise handling", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_002", "segment_id": "ml-lec027-c3-037", "video_id": "GcCG0PPV6cg", "grade": 1, "why": "Discusses kernels, not core definition", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_002", "segment_id": "ml-lec024-c3-057", "video_id": "gidJbK1gXmA", "grade": 1, "why": "Covers optimization formulation only", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_002", "segment_id": "ml-lec025-c3-002", "video_id": "YOsrYl1JRrc", "grade": 1, "why": "Details dual formulation, not basic definition", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_002", "segment_id": "ml-lec026-c3-033", "video_id": "WLhvjpoCPiY", "grade": 1, "why": "Describes support vectors and dual solution", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_002", "segment_id": "ml-lec028-c3-017", "video_id": "Z0CtYBPR5sA", "grade": 0, "why": "Only algorithmic details, no definition", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_002", "segment_id": "ml-lec029-c3-015", "video_id": "w781X47Esj8", "grade": 0, "why": "About regression, unrelated", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_002", "segment_id": "ml-lec024-c3-018", "video_id": "gidJbK1gXmA", "grade": 2, "why": "Defines support vectors and margin maximisation", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_002", "segment_id": "ml-lec025-c3-015", "video_id": "YOsrYl1JRrc", "grade": 1, "why": "Focuses on parameters, not core SVM definition", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_002", "segment_id": "ml-lec029-c3-021", "video_id": "w781X47Esj8", "grade": 0, "why": "Doesn't explain SVM or margin", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_003", "segment_id": "dl-lec016-c3-006", "video_id": "vAOI9kTDVoo", "grade": 2, "why": "Explains existence of solution and proof outline", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_003", "segment_id": "dl-lec015-c3-008", "video_id": "VRcixOuG-TU", "grade": 2, "why": "Discusses angle change showing convergence", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_003", "segment_id": "ml-lec001-c3-023", "video_id": "T3PsRW6wZSY", "grade": 1, "why": "Mentions non‑convergence scenario", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_003", "segment_id": "ml-lec035-c3-008", "video_id": "b3Vm4zpGcJ4", "grade": 1, "why": "Describes learning rule, not convergence proof", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_003", "segment_id": "ml-lec032-c3-002", "video_id": "T6WLIbOnkvQ", "grade": 1, "why": "Talks about separability, indirectly related", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_003", "segment_id": "cv-lec008-c3-004", "video_id": "Gp5bVrqe9o4", "grade": 2, "why": "States convergence guarantee when separable", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_003", "segment_id": "ml-lec031-c3-001", "video_id": "hxpGzAb-pyc", "grade": 0, "why": "Focuses on limitations, not convergence", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_003", "segment_id": "dl-lec022-c3-016", "video_id": "giZD8yzXEZ4", "grade": 0, "why": "About gradient descent, unrelated", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_003", "segment_id": "dl-lec020-c3-003", "video_id": "uDcU3ZzH7hs", "grade": 0, "why": "Error surfaces, not convergence", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_003", "segment_id": "cv-lec007-c3-004", "video_id": "6TNDiHg5h-o", "grade": 0, "why": "Condition discussion, not convergence", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_003", "segment_id": "ml-lec035-c3-007", "video_id": "b3Vm4zpGcJ4", "grade": 1, "why": "Mentions learning rule but not convergence", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_003", "segment_id": "ml-lec032-c3-001", "video_id": "T6WLIbOnkvQ", "grade": 0, "why": "Only describes perceptron basics", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_003", "segment_id": "dl-lec019-c3-009", "video_id": "X4RmokyD3U8", "grade": 0, "why": "Describes decision boundary only", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_003", "segment_id": "dl-lec022-c3-026", "video_id": "giZD8yzXEZ4", "grade": 0, "why": "Talks about gradient descent, not convergence", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_003", "segment_id": "dl-lec013-c3-010", "video_id": "XKnBn1XZpQI", "grade": 0, "why": "Discusses functions, not learning convergence", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_003", "segment_id": "ml-lec001-c3-021", "video_id": "T3PsRW6wZSY", "grade": 2, "why": "States perceptron learning converges under conditions", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_003", "segment_id": "dl-lec019-c3-007", "video_id": "X4RmokyD3U8", "grade": 0, "why": "Focuses on threshold harshness", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_003", "segment_id": "cv-lec008-c3-002", "video_id": "Gp5bVrqe9o4", "grade": 0, "why": "Mentions algorithm existence, no convergence detail", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_003", "segment_id": "ml-lec001-c3-022", "video_id": "T3PsRW6wZSY", "grade": 2, "why": "Explains convergence when data linearly separable", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_003", "segment_id": "dl-lec011-c3-002", "video_id": "qQmMp8fL82w", "grade": 0, "why": "Lists topics, no convergence explanation", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_003", "segment_id": "ml-lec035-c3-006", "video_id": "b3Vm4zpGcJ4", "grade": 0, "why": "No convergence info", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_003", "segment_id": "cv-lec008-c3-001", "video_id": "Gp5bVrqe9o4", "grade": 1, "why": "Mentions PLA but no convergence details", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_003", "segment_id": "ml-lec031-c3-005", "video_id": "hxpGzAb-pyc", "grade": 0, "why": "Irrelevant multilayer content", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_004", "segment_id": "ml-lec019-c3-036", "video_id": "5WCkrDI7VCs", "grade": 1, "why": "Mentions conditional independence, not full explanation", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_004", "segment_id": "ml-lec021-c3-004", "video_id": "XkU09vE56Sg", "grade": 2, "why": "Directly states independence assumption and formula", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_004", "segment_id": "ml-lec020-c3-056", "video_id": "480a_2jRdK0", "grade": 2, "why": "Explains Naive Bayes and independence given class", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_004", "segment_id": "ml-lec022-c3-084", "video_id": "3m7UJKxU-T8", "grade": 1, "why": "Covers conditional independence in Bayesian nets only", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_004", "segment_id": "ml-lec018-c3-048", "video_id": "E3l26bTdtxI", "grade": 0, "why": "Discusses Bayes optimal, not Naive Bayes", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_004", "segment_id": "ml-lec021-c3-005", "video_id": "XkU09vE56Sg", "grade": 2, "why": "Describes Naive Bayes classifier and independence assumption", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_004", "segment_id": "ml-lec020-c3-050", "video_id": "480a_2jRdK0", "grade": 1, "why": "General Bayes net, not specific Naive Bayes", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_004", "segment_id": "ml-lec039-c3-062", "video_id": "nelJ3svz0_o", "grade": 0, "why": "Vague, no clear explanation", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_004", "segment_id": "ml-lec019-c3-032", "video_id": "5WCkrDI7VCs", "grade": 1, "why": "Notes independence assumption but not detailed", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_004", "segment_id": "ml-lec022-c3-050", "video_id": "3m7UJKxU-T8", "grade": 2, "why": "Clearly explains Naive Bayes independence assumption", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_004", "segment_id": "ml-lec016-c3-023", "video_id": "40B8D9OWUf0", "grade": 1, "why": "Only mentions Naive Bayes, no explanation", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_004", "segment_id": "ml-lec022-c3-059", "video_id": "3m7UJKxU-T8", "grade": 0, "why": "Irrelevant to Naive Bayes", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_004", "segment_id": "dl-lec068-c3-002", "video_id": "qlNDzNjR3eA", "grade": 1, "why": "Lists Naive Bayes, no details", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_005", "segment_id": "ml-lec012-c3-017", "video_id": "PNglugooJUQ", "grade": 1, "why": "Mentions basic kNN algorithm but lacks clear definition", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_005", "segment_id": "ml-lec016-c3-003", "video_id": "40B8D9OWUf0", "grade": 2, "why": "Explains kNN classification process directly", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_005", "segment_id": "ml-lec012-c3-024", "video_id": "PNglugooJUQ", "grade": 0, "why": "Discusses distance functions, not classification definition", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_005", "segment_id": "ml-lec042-c3-031", "video_id": "qg_M37WGKG8", "grade": 0, "why": "About K-means, unrelated", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_005", "segment_id": "ml-lec015-c3-027", "video_id": "RVJV8VGa1ZY", "grade": 0, "why": "Collaborative filtering, unrelated", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_005", "segment_id": "daa-lec021-c3-016", "video_id": "0n4UtSm5HtE", "grade": 0, "why": "DFS algorithm, unrelated", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_005", "segment_id": "dl-lec085-c3-005", "video_id": "b0M0AzjpPqc", "grade": 0, "why": "Word analogy, unrelated", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_005", "segment_id": "ml-lec008-c3-049", "video_id": "7SSAA1CE8Ng", "grade": 0, "why": "Decision tree issues, unrelated", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_005", "segment_id": "ml-lec012-c3-022", "video_id": "PNglugooJUQ", "grade": 2, "why": "Clear description of kNN classification", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_005", "segment_id": "ml-lec042-c3-030", "video_id": "qg_M37WGKG8", "grade": 0, "why": "K-means clustering, unrelated", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_005", "segment_id": "daa-lec021-c3-017", "video_id": "0n4UtSm5HtE", "grade": 0, "why": "Irrelevant to k-NN classification", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_006", "segment_id": "ml-lec008-c3-035", "video_id": "7SSAA1CE8Ng", "grade": 2, "why": "Explains entropy and info gain calculation", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_006", "segment_id": "ml-lec011-c3-052", "video_id": "M6HdKRu6Mrc", "grade": 1, "why": "Mentions entropy but lacks clear explanation", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_006", "segment_id": "ml-lec007-c3-044", "video_id": "FuJVLsZYkuE", "grade": 1, "why": "Describes tree steps, not entropy details", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_006", "segment_id": "ml-lec009-c3-019", "video_id": "y6SpA2Wuyt8", "grade": 1, "why": "References entropy measure in splits", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_006", "segment_id": "dl-lec034-c3-016", "video_id": "sbvv-uQmwVY", "grade": 0, "why": "Discusses info content, not decision trees", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_006", "segment_id": "ml-lec007-c3-033", "video_id": "FuJVLsZYkuE", "grade": 0, "why": "Focuses on tree search complexity", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_006", "segment_id": "ml-lec003-c3-028", "video_id": "dYMCwxgl3vk", "grade": 0, "why": "Defines decision tree only", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_006", "segment_id": "ml-lec008-c3-023", "video_id": "7SSAA1CE8Ng", "grade": 1, "why": "Defines entropy for decision trees", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_006", "segment_id": "ml-lec011-c3-053", "video_id": "M6HdKRu6Mrc", "grade": 2, "why": "Explains info gain and its role", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_006", "segment_id": "ml-lec007-c3-043", "video_id": "FuJVLsZYkuE", "grade": 1, "why": "Mentions choosing tests, not entropy", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_006", "segment_id": "dl-lec034-c3-017", "video_id": "sbvv-uQmwVY", "grade": 1, "why": "Mentions info gain but no clear explanation", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_006", "segment_id": "ml-lec010-c3-022", "video_id": "lIBPIhB02_8", "grade": 1, "why": "Describes decision trees only superficially", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_006", "segment_id": "ml-lec007-c3-002", "video_id": "FuJVLsZYkuE", "grade": 1, "why": "Intro to decision trees, lacks entropy detail", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_007", "segment_id": "ml-lec009-c3-054", "video_id": "y6SpA2Wuyt8", "grade": 1, "why": "mentions both concepts briefly", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_007", "segment_id": "ml-lec003-c3-079", "video_id": "dYMCwxgl3vk", "grade": 1, "why": "defines overfitting only", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_007", "segment_id": "ml-lec004-c3-033", "video_id": "nYCAH8b5AQ0", "grade": 1, "why": "explains K‑fold cross‑validation", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_007", "segment_id": "ml-lec032-c3-027", "video_id": "T6WLIbOnkvQ", "grade": 1, "why": "describes overfitting with validation error", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_007", "segment_id": "ml-lec010-c3-021", "video_id": "lIBPIhB02_8", "grade": 1, "why": "illustrates overfitting behavior", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_007", "segment_id": "ml-lec016-c3-011", "video_id": "40B8D9OWUf0", "grade": 0, "why": "only mentions tool, no explanation", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_007", "segment_id": "ml-lec008-c3-049", "video_id": "7SSAA1CE8Ng", "grade": 1, "why": "references overfitting", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_007", "segment_id": "ml-lec005-c3-060", "video_id": "uFydF-g-AJs", "grade": 1, "why": "covers train/validation split concept", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_007", "segment_id": "cv-lec017-c3-045", "video_id": "GHi9nOnaQdE", "grade": 1, "why": "discusses validation error and overfitting", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_007", "segment_id": "ml-lec004-c3-004", "video_id": "nYCAH8b5AQ0", "grade": 1, "why": "mentions cross‑validation and test set", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_007", "segment_id": "ml-lec010-c3-006", "video_id": "lIBPIhB02_8", "grade": 1, "why": "Mentions validation/generalization, related but no definition", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_008", "segment_id": "ml-lec023-c3-013", "video_id": "CE03E80wbRE", "grade": 1, "why": "mentions logistic regression gradient descent", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_008", "segment_id": "ml-lec006-c3-059", "video_id": "8PJ24SrQqy8", "grade": 0, "why": "linear regression only", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_008", "segment_id": "ml-lec001-c3-043", "video_id": "T3PsRW6wZSY", "grade": 1, "why": "sigmoid and gradient descent mentioned", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_008", "segment_id": "ml-lec010-c3-010", "video_id": "lIBPIhB02_8", "grade": 0, "why": "irrelevant content", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_008", "segment_id": "ml-lec035-c3-051", "video_id": "b3Vm4zpGcJ4", "grade": 0, "why": "general batch gradient descent", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_008", "segment_id": "ml-lec032-c3-024", "video_id": "T6WLIbOnkvQ", "grade": 0, "why": "general gradient descent types", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_008", "segment_id": "cv-lec016-c3-025", "video_id": "6H6y_H8wsB0", "grade": 0, "why": "generic optimization talk", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_008", "segment_id": "dl-lec022-c3-016", "video_id": "giZD8yzXEZ4", "grade": 0, "why": "generic gradient descent algorithm", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_008", "segment_id": "cv-lec012-c3-002", "video_id": "Fi7kv0s7JBo", "grade": 0, "why": "generic gradient descent overview", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_008", "segment_id": "ml-lec023-c3-011", "video_id": "CE03E80wbRE", "grade": 2, "why": "directly explains logistic regression gradient descent", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_008", "segment_id": "dl-lec068-c3-003", "video_id": "qlNDzNjR3eA", "grade": 0, "why": "Only bagging, no gradient descent", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_008", "segment_id": "ml-lec033-c3-004", "video_id": "pLPr4nJad4A", "grade": 0, "why": "Discusses gradient diffusion, not logistic regression", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_008", "segment_id": "ml-lec035-c3-010", "video_id": "b3Vm4zpGcJ4", "grade": 0, "why": "General gradient descent description", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_008", "segment_id": "cv-lec012-c3-003", "video_id": "Fi7kv0s7JBo", "grade": 0, "why": "Generic gradient descent example", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_008", "segment_id": "ml-lec001-c3-023", "video_id": "T3PsRW6wZSY", "grade": 0, "why": "Mentions gradient descent generally", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_008", "segment_id": "ml-lec032-c3-023", "video_id": "T6WLIbOnkvQ", "grade": 0, "why": "Neural net backprop, not logistic regression", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_008", "segment_id": "dl-lec022-c3-002", "video_id": "giZD8yzXEZ4", "grade": 0, "why": "General gradient descent intro", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_008", "segment_id": "ml-lec010-c3-011", "video_id": "lIBPIhB02_8", "grade": 1, "why": "Logistic regression mentioned, no gradient descent", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_008", "segment_id": "dl-lec022-c3-014", "video_id": "giZD8yzXEZ4", "grade": 0, "why": "Gradient descent update, no logistic regression", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_008", "segment_id": "dl-lec025-c3-007", "video_id": "4gm4sXPndUY", "grade": 0, "why": "Neural network gradient descent, not logistic regression", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_008", "segment_id": "dl-lec039-c3-004", "video_id": "Vc-jG_LdOLw", "grade": 1, "why": "Mentions gradient descent basics, not logistic regression", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_009", "segment_id": "ml-lec016-c3-007", "video_id": "40B8D9OWUf0", "grade": 2, "why": "Explains PCA purpose and curse of dimensionality", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_009", "segment_id": "ml-lec014-c3-026", "video_id": "FwbXHY8KCUw", "grade": 1, "why": "Mentions PCA but focuses on classification use", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_009", "segment_id": "dl-lec047-c3-021", "video_id": "5eEPs8XS5AQ", "grade": 2, "why": "Describes PCA basis, variance, eigenvectors", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_009", "segment_id": "dl-lec046-c3-002", "video_id": "mdZVysybPrk", "grade": 1, "why": "References eigen decomposition, not PCA details", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_009", "segment_id": "dl-lec033-c3-005", "video_id": "mvljKZtGTj4", "grade": 2, "why": "Summarizes PCA variance and covariance properties", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_009", "segment_id": "cv-lec010-c3-027", "video_id": "mmBOZCvX7wo", "grade": 0, "why": "Irrelevant to PCA", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_009", "segment_id": "dl-lec050-c3-003", "video_id": "wHHxkWcqokY", "grade": 1, "why": "Briefly mentions using PCA for reduction", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_009", "segment_id": "dl-lec048-c3-027", "video_id": "_EwqeZcZ9KY", "grade": 2, "why": "Explains keeping top eigenvectors, error minimization", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_009", "segment_id": "dl-lec053-c3-003", "video_id": "0ZQxPIwuA4o", "grade": 1, "why": "Discusses data centering, not core PCA explanation", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_009", "segment_id": "cv-lec044-c3-008", "video_id": "v7xM0CkJBvs", "grade": 2, "why": "Describes decorrelation via covariance and eigenvectors", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_009", "segment_id": "dl-lec053-c3-021", "video_id": "0ZQxPIwuA4o", "grade": 2, "why": "Explains eigenvectors and covariance for PCA", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_009", "segment_id": "cv-lec010-c3-024", "video_id": "mmBOZCvX7wo", "grade": 0, "why": "Irrelevant content about information theory", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_009", "segment_id": "dl-lec044-c3-002", "video_id": "BTzz3BuYuM8", "grade": 1, "why": "Mentions PCA but no explanation", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_009", "segment_id": "ml-lec027-c3-037", "video_id": "GcCG0PPV6cg", "grade": 0, "why": "About SVM kernels, not PCA", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_009", "segment_id": "dl-lec048-c3-029", "video_id": "_EwqeZcZ9KY", "grade": 2, "why": "Detailed PCA eigenvector and reduction explanation", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_009", "segment_id": "cv-lec004-c3-003", "video_id": "_xlPPLjbNBA", "grade": 0, "why": "Unrelated audio/vision content", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_009", "segment_id": "dl-lec047-c3-002", "video_id": "5eEPs8XS5AQ", "grade": 0, "why": "Only brief intro, no PCA detail", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_009", "segment_id": "dl-lec053-c3-004", "video_id": "0ZQxPIwuA4o", "grade": 2, "why": "Covers zero‑mean normalization and covariance matrix", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_009", "segment_id": "dl-lec050-c3-005", "video_id": "wHHxkWcqokY", "grade": 2, "why": "Describes eigenfaces and top eigenvectors for reduction", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_009", "segment_id": "cv-lec027-c3-034", "video_id": "6XES9CenjZ0", "grade": 0, "why": "Discusses bottleneck layers, not PCA", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_009", "segment_id": "cv-lec004-c3-005", "video_id": "_xlPPLjbNBA", "grade": 0, "why": "Discusses autoencoders, not PCA", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_010", "segment_id": "ml-lec042-c3-038", "video_id": "qg_M37WGKG8", "grade": 2, "why": "Explains EM steps for clustering", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_010", "segment_id": "cv-lec084-c3-022", "video_id": "XaavgfFP-O4", "grade": 1, "why": "Mentions EM but no clear explanation", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_010", "segment_id": "ml-lec041-c3-018", "video_id": "CwjLMV52tzI", "grade": 0, "why": "Discusses clustering types only", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_010", "segment_id": "ml-lec005-c3-016", "video_id": "uFydF-g-AJs", "grade": 0, "why": "Irrelevant clustering description", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_010", "segment_id": "ml-lec044-c3-009", "video_id": "qs7vES46Rq8", "grade": 0, "why": "Focuses on kmeans results", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_010", "segment_id": "ml-lec043-c3-008", "video_id": "NCsHRMkDRE4", "grade": 0, "why": "Describes hierarchical clustering", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_010", "segment_id": "ml-lec043-c3-003", "video_id": "NCsHRMkDRE4", "grade": 0, "why": "About agglomerative clustering", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_010", "segment_id": "cv-lec084-c3-047", "video_id": "XaavgfFP-O4", "grade": 0, "why": "Mentions GMM, not EM details", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_010", "segment_id": "ml-lec044-c3-030", "video_id": "qs7vES46Rq8", "grade": 0, "why": "Discusses linkage methods", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_010", "segment_id": "cv-lec085-c3-001", "video_id": "-fEQT9K6D_M", "grade": 0, "why": "Mean shift clustering, no EM", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_011", "segment_id": "ml-lec039-c3-079", "video_id": "nelJ3svz0_o", "grade": 1, "why": "Mentions random forest basics, no boosting", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_011", "segment_id": "ml-lec040-c3-018", "video_id": "MRD67WgWonA", "grade": 2, "why": "Explains boosting process", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_011", "segment_id": "dl-lec068-c3-003", "video_id": "qlNDzNjR3eA", "grade": 1, "why": "Describes bagging ensemble method", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_011", "segment_id": "ml-lec039-c3-082", "video_id": "nelJ3svz0_o", "grade": 1, "why": "Briefly mentions random forest performance", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_011", "segment_id": "ml-lec040-c3-002", "video_id": "MRD67WgWonA", "grade": 1, "why": "Covers bagging and boosting overview", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_011", "segment_id": "dl-lec069-c3-002", "video_id": "qfsacbIe9AI", "grade": 1, "why": "Discusses bagging in neural nets, no forest/boosting", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_011", "segment_id": "cv-lec090-c3-017", "video_id": "jV1vlRxAXis", "grade": 0, "why": "Irrelevant vision captioning content", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_012", "segment_id": "ml-lec042-c3-018", "video_id": "qg_M37WGKG8", "grade": 2, "why": "Explains steps clearly", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_012", "segment_id": "cv-lec084-c3-044", "video_id": "XaavgfFP-O4", "grade": 1, "why": "Mentions k-means pros/cons only", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_012", "segment_id": "ml-lec044-c3-011", "video_id": "qs7vES46Rq8", "grade": 1, "why": "Shows clustering but not algorithm details", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_012", "segment_id": "ml-lec041-c3-019", "video_id": "CwjLMV52tzI", "grade": 1, "why": "Describes partitioning concept, not process", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_012", "segment_id": "ml-lec042-c3-019", "video_id": "qg_M37WGKG8", "grade": 2, "why": "Details full k-means iteration steps", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_012", "segment_id": "cv-lec084-c3-047", "video_id": "XaavgfFP-O4", "grade": 0, "why": "Irrelevant GMM content", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_012", "segment_id": "ml-lec044-c3-003", "video_id": "qs7vES46Rq8", "grade": 2, "why": "Describes k-means workflow and initialization", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_012", "segment_id": "cv-lec083-c3-009", "video_id": "0tWRngdBes4", "grade": 0, "why": "Only mentions k-means name", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_012", "segment_id": "ml-lec043-c3-003", "video_id": "NCsHRMkDRE4", "grade": 1, "why": "References k-means use in hierarchy only", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_012", "segment_id": "ml-lec005-c3-009", "video_id": "uFydF-g-AJs", "grade": 0, "why": "General clustering, no k-means specifics", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_012", "segment_id": "ml-lec042-c3-047", "video_id": "qg_M37WGKG8", "grade": 2, "why": "Explains E-step and M-step of k-means", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_012", "segment_id": "ml-lec044-c3-002", "video_id": "qs7vES46Rq8", "grade": 1, "why": "Shows code usage, partly illustrates algorithm", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_012", "segment_id": "cv-lec084-c3-009", "video_id": "XaavgfFP-O4", "grade": 1, "why": "Mentions k-means pros/cons, related but not core", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_012", "segment_id": "ml-lec043-c3-008", "video_id": "NCsHRMkDRE4", "grade": 0, "why": "Discusses hierarchical clustering only", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_012", "segment_id": "cv-lec083-c3-051", "video_id": "0tWRngdBes4", "grade": 1, "why": "Lists k-means pros/cons, limited explanation", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "ml_012", "segment_id": "ml-lec043-c3-002", "video_id": "NCsHRMkDRE4", "grade": 0, "why": "Only references k-means without detail", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_001", "segment_id": "cn-lec005-c3-010", "video_id": "8BK70UDgyrc", "grade": 2, "why": "Lists all seven OSI layers", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_001", "segment_id": "cn-lec047-c3-002", "video_id": "rGWPOm3ectk", "grade": 2, "why": "Describes OSI stack and layer functions", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_001", "segment_id": "cn-lec056-c3-004", "video_id": "_HoeO1jw1Lo", "grade": 1, "why": "Mentions OSI but only physical layer", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_001", "segment_id": "cn-lec003-c3-016", "video_id": "29Qdz0FmvmQ", "grade": 2, "why": "Enumerates all OSI layers", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_001", "segment_id": "cn-lec061-c3-004", "video_id": "gyCj3Psau-g", "grade": 1, "why": "Focuses on TCP/IP, not full OSI list", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_001", "segment_id": "os-lec002-c3-002", "video_id": "a2B69vCtjOU", "grade": 0, "why": "About operating systems, irrelevant", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_001", "segment_id": "cn-lec048-c3-002", "video_id": "jMvA9mSIwtk", "grade": 1, "why": "Only data link layer discussed", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_001", "segment_id": "cn-lec049-c3-002", "video_id": "WXiGbQa-5F4", "grade": 1, "why": "Only layer 2 details given", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_001", "segment_id": "cn-lec006-c3-014", "video_id": "5AHp0f0489E", "grade": 1, "why": "Mentions application layer only", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_001", "segment_id": "cn-lec012-c3-001", "video_id": "8-3CSAkscYU", "grade": 1, "why": "Discusses TCP/IP layers, not OSI", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_001", "segment_id": "cn-lec003-c3-017", "video_id": "29Qdz0FmvmQ", "grade": 2, "why": "Lists all seven OSI layers", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_001", "segment_id": "cn-lec048-c3-004", "video_id": "jMvA9mSIwtk", "grade": 1, "why": "Mentions OSI model but no layer details", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_001", "segment_id": "ml-lec034-c3-025", "video_id": "kTbY20xlrbA", "grade": 0, "why": "Irrelevant neural network content", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_001", "segment_id": "cn-lec050-c3-029", "video_id": "GmrbL1-7qyU", "grade": 0, "why": "Only mentions OSI briefly", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_001", "segment_id": "daa-lec021-c3-011", "video_id": "0n4UtSm5HtE", "grade": 0, "why": "Unrelated algorithm topic", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_001", "segment_id": "cn-lec024-c3-013", "video_id": "f1y25BfOH9I", "grade": 0, "why": "Discusses UDP/IP, not OSI layers", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_001", "segment_id": "cn-lec009-c3-003", "video_id": "qZlMS4yJM-E", "grade": 0, "why": "Focuses on application protocols", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_001", "segment_id": "os-lec004-c3-015", "video_id": "jENkpxUOoXM", "grade": 0, "why": "Operating systems, not OSI", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_001", "segment_id": "cv-lec040-c3-007", "video_id": "iJU5TSH5-QE", "grade": 0, "why": "Deep learning architecture", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_001", "segment_id": "dl-lec027-c3-010", "video_id": "DSqgn2lAN1M", "grade": 0, "why": "Backpropagation, unrelated", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_002", "segment_id": "cn-lec021-c3-021", "video_id": "xS202cWCc2Q", "grade": 1, "why": "Mentions SYN/SYN+ACK step of handshake", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_002", "segment_id": "cn-lec014-c3-014", "video_id": "c8Wv3b7f9XY", "grade": 1, "why": "References three-way handshake briefly", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_002", "segment_id": "cn-lec013-c3-004", "video_id": "fBPDLGwfSUM", "grade": 1, "why": "Describes client request and server ack only", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_002", "segment_id": "cn-lec008-c3-016", "video_id": "6uzEsZNUfmk", "grade": 0, "why": "About FTP, not handshake", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_002", "segment_id": "cn-lec022-c3-017", "video_id": "8NxJGHXDOGc", "grade": 0, "why": "Focuses on ACKs, not handshake", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_002", "segment_id": "cn-lec025-c3-009", "video_id": "x7obJLN7FcQ", "grade": 2, "why": "Explains full three-way handshake steps", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_002", "segment_id": "cn-lec020-c3-004", "video_id": "5ex1s4lURto", "grade": 0, "why": "General TCP intro, no handshake detail", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_002", "segment_id": "cn-lec009-c3-008", "video_id": "qZlMS4yJM-E", "grade": 0, "why": "HTTP discussion, irrelevant", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_002", "segment_id": "cn-lec023-c3-022", "video_id": "SHO9eeWxPxY", "grade": 0, "why": "Congestion control, not handshake", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_002", "segment_id": "cn-lec061-c3-012", "video_id": "gyCj3Psau-g", "grade": 0, "why": "SSL protocols, unrelated", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_002", "segment_id": "cn-lec021-c3-016", "video_id": "xS202cWCc2Q", "grade": 1, "why": "Mentions SYN and ACK steps, partial explanation", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_002", "segment_id": "cn-lec023-c3-021", "video_id": "SHO9eeWxPxY", "grade": 0, "why": "About congestion, not handshake", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_002", "segment_id": "cn-lec024-c3-021", "video_id": "f1y25BfOH9I", "grade": 0, "why": "Discusses QUIC, not TCP handshake", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_002", "segment_id": "cn-lec020-c3-008", "video_id": "5ex1s4lURto", "grade": 0, "why": "General TCP basics, no handshake detail", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_002", "segment_id": "coa-lec040-c3-009", "video_id": "HZXQUIadnlY", "grade": 0, "why": "Irrelevant to networking", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_002", "segment_id": "cn-lec021-c3-020", "video_id": "xS202cWCc2Q", "grade": 1, "why": "References handshake steps, but minimal", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_002", "segment_id": "cn-lec025-c3-008", "video_id": "x7obJLN7FcQ", "grade": 0, "why": "Socket API, not handshake process", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_002", "segment_id": "cn-lec024-c3-019", "video_id": "f1y25BfOH9I", "grade": 1, "why": "Notes need for 3‑way handshake, no details", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_002", "segment_id": "coa-lec051-c3-020", "video_id": "NDlT7crkgaE", "grade": 0, "why": "Bus protocols, unrelated", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_003", "segment_id": "cn-lec029-c3-003", "video_id": "H-R3KUPX1v4", "grade": 2, "why": "Explains CIDR bits and subnet mask", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_003", "segment_id": "cn-lec028-c3-024", "video_id": "5vbPS-KnhvI", "grade": 2, "why": "Describes slash notation and subnet bits", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_003", "segment_id": "cn-lec037-c3-013", "video_id": "IfzGf4kI2a8", "grade": 2, "why": "Shows CIDR mask example and bit division", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_003", "segment_id": "cn-lec053-c3-006", "video_id": "8LeqAH_ppsA", "grade": 0, "why": "Focuses on DHCP/RARP, not CIDR", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_003", "segment_id": "cn-lec053-c3-005", "video_id": "8LeqAH_ppsA", "grade": 0, "why": "Discusses RARP, unrelated to IP/CIDR", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_003", "segment_id": "cn-lec030-c3-002", "video_id": "_MZbwHyE0Ck", "grade": 0, "why": "About NAT, not addressing explanation", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_003", "segment_id": "cn-lec031-c3-006", "video_id": "FkaFr3cpg6U", "grade": 0, "why": "IPv6 overview, not CIDR basics", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_003", "segment_id": "cn-lec041-c3-026", "video_id": "J0KNWNm_m7U", "grade": 1, "why": "Mentions CIDR in BGP context only", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_003", "segment_id": "cn-lec029-c3-022", "video_id": "H-R3KUPX1v4", "grade": 1, "why": "Brief variable mask mention, limited detail", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_003", "segment_id": "cn-lec038-c3-025", "video_id": "n9VmkVnc0rI", "grade": 1, "why": "Applies mask in routing, not full explanation", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_003", "segment_id": "cn-lec031-c3-005", "video_id": "FkaFr3cpg6U", "grade": 0, "why": "Only mentions CIDR, no explanation", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_003", "segment_id": "cn-lec027-c3-022", "video_id": "aP346youQOk", "grade": 1, "why": "Describes network/host concept, not masks", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_004", "segment_id": "cn-lec019-c3-020", "video_id": "EqzDTO9tdqs", "grade": 2, "why": "Defines reduction of rate when congestion detected", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_004", "segment_id": "cn-lec022-c3-016", "video_id": "8NxJGHXDOGc", "grade": 0, "why": "Only mentions consequence, no definition", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_004", "segment_id": "cn-lec032-c3-005", "video_id": "WM1OXVMetkE", "grade": 1, "why": "Discusses TCP congestion control impact, not definition", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_004", "segment_id": "cn-lec023-c3-001", "video_id": "SHO9eeWxPxY", "grade": 0, "why": "Introductory, no content on congestion control", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_004", "segment_id": "cn-lec035-c3-020", "video_id": "fbZTrHN2oXQ", "grade": 2, "why": "States TCP detects congestion and reduces sending rate", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_004", "segment_id": "cn-lec018-c3-018", "video_id": "b-nCA0tZU-0", "grade": 0, "why": "Focuses on network-level, not TCP", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_004", "segment_id": "cn-lec024-c3-003", "video_id": "f1y25BfOH9I", "grade": 1, "why": "Mentions slow start as part of TCP congestion control", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_004", "segment_id": "cn-lec020-c3-020", "video_id": "5ex1s4lURto", "grade": 1, "why": "Describes window increase via congestion control", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_004", "segment_id": "cn-lec015-c3-011", "video_id": "qclg6FY-FGM", "grade": 0, "why": "Irrelevant to congestion control", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_004", "segment_id": "cn-lec014-c3-013", "video_id": "c8Wv3b7f9XY", "grade": 0, "why": "About flow control, not congestion control", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_004", "segment_id": "cn-lec022-c3-017", "video_id": "8NxJGHXDOGc", "grade": 1, "why": "Mentions trigger but not definition", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_004", "segment_id": "cn-lec023-c3-022", "video_id": "SHO9eeWxPxY", "grade": 1, "why": "Describes triggers, not full explanation", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_004", "segment_id": "cn-lec005-c3-020", "video_id": "8BK70UDgyrc", "grade": 1, "why": "Lists congestion control as TCP feature only", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_004", "segment_id": "cn-lec023-c3-005", "video_id": "SHO9eeWxPxY", "grade": 2, "why": "Explains congestion control algorithm role", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_004", "segment_id": "cn-lec035-c3-019", "video_id": "fbZTrHN2oXQ", "grade": 1, "why": "Talks about avoidance, not definition", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_004", "segment_id": "cn-lec020-c3-005", "video_id": "5ex1s4lURto", "grade": 0, "why": "No congestion control content", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_004", "segment_id": "cn-lec032-c3-011", "video_id": "WM1OXVMetkE", "grade": 0, "why": "Irrelevant to TCP congestion control", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_004", "segment_id": "cn-lec018-c3-019", "video_id": "b-nCA0tZU-0", "grade": 1, "why": "General discussion, not definition", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_004", "segment_id": "cn-lec016-c3-030", "video_id": "VUdfS70puWI", "grade": 0, "why": "Unrelated content", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_004", "segment_id": "cn-lec020-c3-006", "video_id": "5ex1s4lURto", "grade": 0, "why": "Unrelated content", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_005", "segment_id": "cn-lec039-c3-008", "video_id": "yQBuCHG5co0", "grade": 0, "why": "focuses on path vector, not distance vector", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_005", "segment_id": "cn-lec040-c3-017", "video_id": "U7Stg2reaLg", "grade": 0, "why": "discusses path vector, not distance vector", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_005", "segment_id": "cn-lec038-c3-031", "video_id": "n9VmkVnc0rI", "grade": 2, "why": "explains distance vector basics and properties", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_005", "segment_id": "dsa-lec038-c3-009", "video_id": "5WVWzsI7qA0", "grade": 0, "why": "unrelated shortest‑path algorithm", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_005", "segment_id": "cn-lec044-c3-003", "video_id": "CaukSKg_sI0", "grade": 1, "why": "mentions distance vector limitation only", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_005", "segment_id": "cn-lec041-c3-023", "video_id": "J0KNWNm_m7U", "grade": 0, "why": "about path vector/BGP only", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_005", "segment_id": "cn-lec027-c3-009", "video_id": "aP346youQOk", "grade": 0, "why": "general routing intro, no DV details", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_005", "segment_id": "cn-lec042-c3-011", "video_id": "9HgkQN7u7-8", "grade": 1, "why": "lists DV as example, no explanation", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_005", "segment_id": "cn-lec043-c3-004", "video_id": "Bc-qdRPqY_o", "grade": 1, "why": "mentions DV among protocols, no detail", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_005", "segment_id": "cn-lec039-c3-007", "video_id": "yQBuCHG5co0", "grade": 2, "why": "defines distance vector protocol operation", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_005", "segment_id": "cn-lec038-c3-033", "video_id": "n9VmkVnc0rI", "grade": 2, "why": "Explains how nodes share tables periodically", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_005", "segment_id": "cn-lec040-c3-016", "video_id": "U7Stg2reaLg", "grade": 1, "why": "Mentions distance vector but not core explanation", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_005", "segment_id": "dsa-lec038-c3-008", "video_id": "5WVWzsI7qA0", "grade": 0, "why": "Irrelevant shortest‑path discussion", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_006", "segment_id": "cn-lec052-c3-003", "video_id": "JkqgkN_j6Lo", "grade": 1, "why": "Mentions ARP maps IP to MAC address", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_006", "segment_id": "cn-lec037-c3-033", "video_id": "IfzGf4kI2a8", "grade": 1, "why": "States ARP resolves IP to MAC for packet delivery", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_006", "segment_id": "cn-lec053-c3-003", "video_id": "8LeqAH_ppsA", "grade": 1, "why": "Describes need for ARP to map IP to MAC", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_006", "segment_id": "cn-lec038-c3-025", "video_id": "n9VmkVnc0rI", "grade": 0, "why": "Only mentions address resolution generally", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_006", "segment_id": "cn-lec031-c3-018", "video_id": "FkaFr3cpg6U", "grade": 0, "why": "Discusses IPv6 neighbor discovery, not ARP", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_006", "segment_id": "cn-lec029-c3-003", "video_id": "H-R3KUPX1v4", "grade": 0, "why": "About CIDR subnetting, unrelated", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_006", "segment_id": "cn-lec028-c3-024", "video_id": "5vbPS-KnhvI", "grade": 0, "why": "About classful/CIDR addressing, irrelevant", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_006", "segment_id": "cn-lec052-c3-025", "video_id": "JkqgkN_j6Lo", "grade": 0, "why": "Focuses on ARP cache, not resolution process", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_006", "segment_id": "cn-lec054-c3-027", "video_id": "zVdyKTQyvVY", "grade": 0, "why": "VLAN discussion, no ARP details", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_006", "segment_id": "cn-lec031-c3-019", "video_id": "FkaFr3cpg6U", "grade": 0, "why": "IPv6 neighbor discovery, not ARP", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_006", "segment_id": "cn-lec029-c3-028", "video_id": "H-R3KUPX1v4", "grade": 0, "why": "Irrelevant content", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_006", "segment_id": "cn-lec038-c3-020", "video_id": "n9VmkVnc0rI", "grade": 0, "why": "Irrelevant", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_006", "segment_id": "cn-lec028-c3-026", "video_id": "5vbPS-KnhvI", "grade": 0, "why": "Irrelevant", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_006", "segment_id": "cn-lec030-c3-008", "video_id": "_MZbwHyE0Ck", "grade": 0, "why": "Irrelevant", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_006", "segment_id": "cn-lec047-c3-005", "video_id": "rGWPOm3ectk", "grade": 1, "why": "Mentions ARP but no explanation", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_006", "segment_id": "cn-lec031-c3-020", "video_id": "FkaFr3cpg6U", "grade": 0, "why": "IPv6 neighbor discovery, not ARP", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_006", "segment_id": "cn-lec029-c3-005", "video_id": "H-R3KUPX1v4", "grade": 0, "why": "Irrelevant", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_006", "segment_id": "cn-lec048-c3-024", "video_id": "jMvA9mSIwtk", "grade": 0, "why": "Discusses MAC, not ARP process", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_006", "segment_id": "cn-lec030-c3-004", "video_id": "_MZbwHyE0Ck", "grade": 0, "why": "Irrelevant", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_007", "segment_id": "cn-lec024-c3-003", "video_id": "f1y25BfOH9I", "grade": 1, "why": "mentions UDP vs TCP but no clear diff", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_007", "segment_id": "cn-lec005-c3-020", "video_id": "8BK70UDgyrc", "grade": 2, "why": "explicitly contrasts reliability and connectionless nature", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_007", "segment_id": "cn-lec026-c3-002", "video_id": "JExfKvUgrtI", "grade": 1, "why": "shows both protocols used, no direct comparison", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_007", "segment_id": "cn-lec008-c3-010", "video_id": "6uzEsZNUfmk", "grade": 2, "why": "states connection-oriented vs connectionless distinction", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_007", "segment_id": "cn-lec012-c3-016", "video_id": "8-3CSAkscYU", "grade": 0, "why": "focuses on loss tolerance, not protocol differences", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_007", "segment_id": "cn-lec006-c3-016", "video_id": "5AHp0f0489E", "grade": 2, "why": "explains when to use TCP vs UDP", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_007", "segment_id": "cn-lec020-c3-003", "video_id": "5ex1s4lURto", "grade": 1, "why": "describes TCP reliability, lacks UDP contrast", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_007", "segment_id": "cn-lec019-c3-020", "video_id": "EqzDTO9tdqs", "grade": 0, "why": "covers flow control, unrelated to TCP/UDP diff", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_007", "segment_id": "cn-lec047-c3-005", "video_id": "rGWPOm3ectk", "grade": 0, "why": "about data link layer, irrelevant", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_007", "segment_id": "cn-lec022-c3-017", "video_id": "8NxJGHXDOGc", "grade": 0, "why": "details TCP mechanisms only", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_007", "segment_id": "cn-lec006-c3-023", "video_id": "5AHp0f0489E", "grade": 2, "why": "Explains TCP reliability vs UDP connectionless", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_007", "segment_id": "cn-lec025-c3-010", "video_id": "x7obJLN7FcQ", "grade": 2, "why": "Contrasts TCP reliability with UDP unreliability", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_007", "segment_id": "cn-lec003-c3-021", "video_id": "29Qdz0FmvmQ", "grade": 0, "why": "Only stack overview", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_007", "segment_id": "cn-lec002-c3-020", "video_id": "lnU-Zw3NEEQ", "grade": 0, "why": "Lists protocols without comparison", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_007", "segment_id": "cn-lec024-c3-006", "video_id": "f1y25BfOH9I", "grade": 1, "why": "Describes UDP unreliability, no TCP detail", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_007", "segment_id": "cn-lec010-c3-021", "video_id": "rNhTsdxHeXI", "grade": 0, "why": "Focuses on Telnet over TCP only", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_007", "segment_id": "cn-lec024-c3-016", "video_id": "f1y25BfOH9I", "grade": 1, "why": "Mentions UDP specifics, minimal TCP contrast", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_007", "segment_id": "cn-lec003-c3-018", "video_id": "29Qdz0FmvmQ", "grade": 0, "why": "General TCP/IP info, no difference", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_007", "segment_id": "cn-lec061-c3-014", "video_id": "gyCj3Psau-g", "grade": 0, "why": "Security context, no TCP/UDP contrast", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_007", "segment_id": "cn-lec009-c3-003", "video_id": "qZlMS4yJM-E", "grade": 0, "why": "Mentions UDP type, no comparison", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_007", "segment_id": "cn-lec039-c3-005", "video_id": "yQBuCHG5co0", "grade": 0, "why": "Discusses routing, not TCP/UDP", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_008", "segment_id": "cn-lec055-c3-028", "video_id": "6SWBxiPeSqk", "grade": 2, "why": "Explains RTS/CTS and CSMA/CA in WLAN", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_008", "segment_id": "cn-lec049-c3-023", "video_id": "WXiGbQa-5F4", "grade": 0, "why": "Focuses on Ethernet CSMA/CD", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_008", "segment_id": "cn-lec047-c3-012", "video_id": "rGWPOm3ectk", "grade": 1, "why": "Mentions 802.11 uses CSMA CA only briefly", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_008", "segment_id": "cn-lec048-c3-012", "video_id": "jMvA9mSIwtk", "grade": 0, "why": "General CSMA/CD, not wireless", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_008", "segment_id": "cn-lec050-c3-003", "video_id": "GmrbL1-7qyU", "grade": 0, "why": "Ethernet background only", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_008", "segment_id": "cn-lec054-c3-010", "video_id": "zVdyKTQyvVY", "grade": 0, "why": "About bridges, unrelated", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_008", "segment_id": "cn-lec023-c3-011", "video_id": "SHO9eeWxPxY", "grade": 0, "why": "TCP congestion control unrelated", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_008", "segment_id": "cn-lec055-c3-021", "video_id": "6SWBxiPeSqk", "grade": 2, "why": "Describes WLAN MACA, ACKs, CSMA, RTS/CTS", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_008", "segment_id": "cn-lec049-c3-012", "video_id": "WXiGbQa-5F4", "grade": 0, "why": "Ethernet CSMA/CD details", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_008", "segment_id": "cn-lec055-c3-015", "video_id": "6SWBxiPeSqk", "grade": 2, "why": "Covers 802.11 hidden/exposed problems and DCF", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_008", "segment_id": "cn-lec048-c3-013", "video_id": "jMvA9mSIwtk", "grade": 1, "why": "Mentions CSMA concept but not wireless 802.11", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_009", "segment_id": "cn-lec030-c3-023", "video_id": "_MZbwHyE0Ck", "grade": 2, "why": "Explains IP change via NAT", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_009", "segment_id": "cn-lec060-c3-024", "video_id": "Mfwu4ZwAvos", "grade": 1, "why": "Mentions NAT purpose briefly", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_009", "segment_id": "cn-lec052-c3-008", "video_id": "JkqgkN_j6Lo", "grade": 0, "why": "About ARP, not NAT", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_009", "segment_id": "cn-lec037-c3-021", "video_id": "IfzGf4kI2a8", "grade": 2, "why": "Describes NAT translating private to public", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_009", "segment_id": "cn-lec038-c3-025", "video_id": "n9VmkVnc0rI", "grade": 0, "why": "Focuses on routing, no NAT", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_009", "segment_id": "cn-lec043-c3-018", "video_id": "Bc-qdRPqY_o", "grade": 0, "why": "Interface details, no NAT", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_009", "segment_id": "cn-lec060-c3-027", "video_id": "Mfwu4ZwAvos", "grade": 2, "why": "Details NAT mapping and table", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_009", "segment_id": "cn-lec030-c3-008", "video_id": "_MZbwHyE0Ck", "grade": 2, "why": "Defines NAT function and translation", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_009", "segment_id": "cn-lec031-c3-026", "video_id": "FkaFr3cpg6U", "grade": 0, "why": "IPv6 address translation, not NAT", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_009", "segment_id": "cn-lec029-c3-028", "video_id": "H-R3KUPX1v4", "grade": 0, "why": "CIDR subnetting, unrelated", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_009", "segment_id": "cn-lec050-c3-019", "video_id": "GmrbL1-7qyU", "grade": 0, "why": "Discusses NICs, not NAT", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_009", "segment_id": "cn-lec028-c3-017", "video_id": "5vbPS-KnhvI", "grade": 0, "why": "About network vs broadcast address", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_009", "segment_id": "cn-lec030-c3-002", "video_id": "_MZbwHyE0Ck", "grade": 2, "why": "Explains NAT concept directly", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_009", "segment_id": "cn-lec006-c3-020", "video_id": "5AHp0f0489E", "grade": 0, "why": "Describes DNS name resolution", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_009", "segment_id": "cn-lec029-c3-006", "video_id": "H-R3KUPX1v4", "grade": 0, "why": "Covers subnet zero/one issues", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_010", "segment_id": "cn-lec006-c3-022", "video_id": "5AHp0f0489E", "grade": 2, "why": "Explains domain name system translation", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_010", "segment_id": "cn-lec029-c3-003", "video_id": "H-R3KUPX1v4", "grade": 0, "why": "About CIDR, not DNS", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_010", "segment_id": "cn-lec038-c3-025", "video_id": "n9VmkVnc0rI", "grade": 0, "why": "Focuses on routing, not DNS", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_010", "segment_id": "cn-lec037-c3-013", "video_id": "IfzGf4kI2a8", "grade": 0, "why": "CIDR details unrelated", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_010", "segment_id": "cn-lec030-c3-024", "video_id": "_MZbwHyE0Ck", "grade": 2, "why": "Describes DNS mapping of names to IPs", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_010", "segment_id": "cn-lec028-c3-024", "video_id": "5vbPS-KnhvI", "grade": 0, "why": "Classful addressing topic", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_010", "segment_id": "cn-lec031-c3-017", "video_id": "FkaFr3cpg6U", "grade": 0, "why": "IPv6 addressing, not DNS", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_010", "segment_id": "cn-lec043-c3-018", "video_id": "Bc-qdRPqY_o", "grade": 0, "why": "IP link info, irrelevant", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_010", "segment_id": "cn-lec036-c3-031", "video_id": "utvwelCCfas", "grade": 0, "why": "QoS, unrelated", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_010", "segment_id": "cn-lec040-c3-019", "video_id": "U7Stg2reaLg", "grade": 0, "why": "Inter‑domain routing, not DNS", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_010", "segment_id": "cn-lec006-c3-020", "video_id": "5AHp0f0489E", "grade": 2, "why": "Explains DNS query and IP resolution", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_010", "segment_id": "cn-lec037-c3-033", "video_id": "IfzGf4kI2a8", "grade": 0, "why": "About ARP, not DNS", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_010", "segment_id": "cn-lec024-c3-004", "video_id": "f1y25BfOH9I", "grade": 0, "why": "Discusses UDP, not DNS", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_010", "segment_id": "cn-lec028-c3-025", "video_id": "5vbPS-KnhvI", "grade": 0, "why": "Subnet masks unrelated", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_010", "segment_id": "cn-lec053-c3-005", "video_id": "8LeqAH_ppsA", "grade": 0, "why": "RARP/boot, not DNS", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_010", "segment_id": "cn-lec003-c3-007", "video_id": "29Qdz0FmvmQ", "grade": 0, "why": "Historical overview, no resolution detail", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_010", "segment_id": "cn-lec053-c3-003", "video_id": "8LeqAH_ppsA", "grade": 0, "why": "ARP focus", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_010", "segment_id": "cn-lec029-c3-008", "video_id": "H-R3KUPX1v4", "grade": 0, "why": "CIDR subnetting", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_010", "segment_id": "cn-lec028-c3-017", "video_id": "5vbPS-KnhvI", "grade": 0, "why": "Network/broadcast addresses", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_010", "segment_id": "cn-lec031-c3-003", "video_id": "FkaFr3cpg6U", "grade": 0, "why": "IPv6 address growth", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_010", "segment_id": "cn-lec024-c3-016", "video_id": "f1y25BfOH9I", "grade": 1, "why": "Mentions DNS but no resolution details", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_010", "segment_id": "cv-lec050-c3-010", "video_id": "UUK4zlQNXZo", "grade": 0, "why": "Irrelevant content", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_010", "segment_id": "dbms-lec007-c3-006", "video_id": "Z2Zx2G02aI4", "grade": 0, "why": "Irrelevant content", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
+{"qid": "cn_010", "segment_id": "cv-lec087-c3-009", "video_id": "aEe3sxojlY4", "grade": 0, "why": "Irrelevant content", "judge": "openai/gpt-oss-120b", "prompt": "v1"}
